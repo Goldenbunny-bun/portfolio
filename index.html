@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BunnyDream ✨ Pastel Rainbow & Fluffy Bunnies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #ffb7d5;
+      --pink-dark: #ff85b3;
+      --peach: #ffd6a5;
+      --yellow: #fff3b0;
+      --mint: #caffbf;
+      --sky: #bde0fe;
+      --lavender: #e0c3fc;
+      --text-main: #5e4b6b;
+      --text-soft: #857194;
+      --white-glass: rgba(255, 255, 255, 0.78);
+      --shadow-soft: 0 14px 35px rgba(179, 146, 204, 0.22);
+      --shadow-hover: 0 20px 42px rgba(255, 133, 179, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: linear-gradient(
+        135deg,
+        #ffe3ee 0%,
+        #fff1d6 22%,
+        #fffbe0 44%,
+        #e2fce6 66%,
+        #dff1ff 84%,
+        #f2e3ff 100%
+      );
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    h1, h2, h3, .logo, .btn {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Floating Background Stars */
+    .starfield {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-star {
+      position: absolute;
+      animation: twinkle var(--dur, 3.5s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      opacity: 0.75;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        transform: scale(0.85) rotate(0deg);
+        opacity: 0.45;
+      }
+      50% {
+        transform: scale(1.2) rotate(12deg);
+        opacity: 1;
+      }
+    }
+
+    @keyframes floatSlow {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes earWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-6deg); }
+      75% { transform: rotate(6deg); }
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Navbar */
+    header {
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-pill {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 2px solid #ffffff;
+      border-radius: 999px;
+      padding: 12px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.45rem;
+      font-weight: 700;
+      text-decoration: none;
+      background: linear-gradient(90deg, #ff7eb3, #ffb36b, #7bdff2, #b28dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.98rem;
+      transition: color 0.25s ease, transform 0.25s ease;
+      display: inline-block;
+    }
+
+    .nav-links a:hover {
+      color: var(--pink-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: 999px;
+      font-size: 1.02rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .btn-rainbow {
+      color: #5e4b6b;
+      background: linear-gradient(
+        120deg,
+        #ffc2dc 0%,
+        #ffe0b5 28%,
+        #fff6b3 52%,
+        #c9f9d4 76%,
+        #d8c7ff 100%
+      );
+      box-shadow: 0 10px 24px rgba(255, 166, 201, 0.35);
+    }
+
+    .btn-white {
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text-main);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-sm {
+      padding: 9px 20px;
+      font-size: 0.92rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 46px 0 76px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 2px solid #ffe0ee;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #d96b9a;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 16px rgba(255, 183, 213, 0.25);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 4.6vw, 3.65rem);
+      line-height: 1.14;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #564266;
+    }
+
+    .rainbow-text {
+      background: linear-gradient(90deg, #ff7eb3, #ffa96b, #6cd4a0, #70c4ff, #b388ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text-soft);
+      margin-bottom: 30px;
+      max-width: 520px;
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .hero-mascot-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: floatSlow 4.5s ease-in-out infinite;
+    }
+
+    .hero-card-glow {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 214, 232, 0.55) 55%,
+        rgba(224, 195, 252, 0) 75%
+      );
+      z-index: -1;
+    }
+
+    .bunny-svg-main {
+      width: 100%;
+      max-width: 410px;
+      height: auto;
+      cursor: pointer;
+      filter: drop-shadow(0 18px 28px rgba(169, 134, 196, 0.25));
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .bunny-svg-main:hover {
+      transform: scale(1.04);
+    }
+
+    .bunny-svg-main:hover .ear-left,
+    .bunny-svg-main.wiggle .ear-left {
+      transform-origin: 165px 155px;
+      animation: earWiggle 0.6s ease-in-out 2;
+    }
+
+    .bunny-svg-main:hover .ear-right,
+    .bunny-svg-main.wiggle .ear-right {
+      transform-origin: 235px 155px;
+      animation: earWiggle 0.6s ease-in-out 2;
+    }
+
+    .pet-hint {
+      margin-top: 8px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #9e7bb5;
+      border: 1.5px dashed #f5b8d5;
+    }
+
+    /* Section Headings */
+    .section {
+      padding: 64px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto 46px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.9rem, 3.5vw, 2.55rem);
+      margin-bottom: 12px;
+      color: #564266;
+    }
+
+    .section-header p {
+      font-size: 1.08rem;
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    /* Feature Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+
+    .pastel-card {
+      background: var(--white-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2.5px solid #ffffff;
+      border-radius: 32px;
+      padding: 32px 26px;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pastel-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-ribbon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+    }
+
+    .ribbon-pink { background: linear-gradient(90deg, #ffb7d5, #ffd6a5); }
+    .ribbon-mint { background: linear-gradient(90deg, #fff3b0, #caffbf); }
+    .ribbon-lavender { background: linear-gradient(90deg, #bde0fe, #e0c3fc); }
+
+    .card-icon-circle {
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #ffffff;
+      box-shadow: 0 8px 20px rgba(186, 156, 212, 0.2);
+    }
+
+    .bg-soft-pink { background: #ffe5f0; }
+    .bg-soft-mint { background: #e8fce8; }
+    .bg-soft-lavender { background: #efe5ff; }
+
+    .pastel-card h3 {
+      font-size: 1.38rem;
+      margin-bottom: 10px;
+      color: #564266;
+    }
+
+    .pastel-card p {
+      font-size: 0.98rem;
+      line-height: 1.65;
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    /* Interactive Star Wish Jar */
+    .wish-box {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.88),
+        rgba(255, 240, 248, 0.88)
+      );
+      border: 3px solid #ffffff;
+      border-radius: 38px;
+      padding: 44px 32px;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wish-counter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff9db;
+      border: 2px solid #ffe885;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      color: #7d6238;
+      margin: 18px 0 24px;
+      box-shadow: 0 6px 16px rgba(255, 224, 102, 0.28);
+    }
+
+    .wish-message {
+      min-height: 28px;
+      margin-top: 16px;
+      font-weight: 700;
+      color: #d46a98;
+      font-size: 1.02rem;
+    }
+
+    /* Sweet Notes / Testimonials */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .note-card {
+      background: rgba(255, 255, 255, 0.84);
+      border: 2.5px dashed #f5c2dc;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .note-stars {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      letter-spacing: 3px;
+    }
+
+    .note-card p {
+      font-size: 1.02rem;
+      line-height: 1.65;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .note-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      color: #7d6391;
+    }
+
+    .avatar-dot {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      border: 2px solid #fff;
+    }
+
+    /* Newsletter CTA */
+    .cta-banner {
+      background: linear-gradient(
+        120deg,
+        #ffd6e7 0%,
+        #ffebc2 33%,
+        #d9fbd8 66%,
+        #e2d4ff 100%
+      );
+      border: 3px solid #ffffff;
+      border-radius: 38px;
+      padding: 48px 32px;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+      margin-bottom: 10px;
+    }
+
+    .cta-banner p {
+      max-width: 520px;
+      margin: 0 auto 26px;
+      font-weight: 600;
+      color: #675375;
+    }
+
+    .subscribe-form {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .subscribe-form input {
+      flex: 1;
+      min-width: 230px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 2.5px solid #ffffff;
+      background: rgba(255, 255, 255, 0.92);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .subscribe-form input:focus {
+      border-color: #ff9ec7;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 56px;
+      padding: 36px 0 44px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.55);
+      border-top: 2px solid rgba(255, 255, 255, 0.85);
+    }
+
+    footer p {
+      font-weight: 700;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+    }
+
+    /* Click Sparkle Particles */
+    .click-sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 1.3rem;
+      animation: popFloat 1s ease-out forwards;
+    }
+
+    @keyframes popFloat {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% - 75px)) scale(1.35) rotate(35deg);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 28px;
+      }
+      .hero p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Twinkling Pastel Stars Layer -->
+  <div class="starfield" id="starfield" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+      <nav class="nav-pill">
+        <a href="#" class="logo">
+          <span>🐰</span> BunnyDream
+        </a>
+        <ul class="nav-links">
+          <li><a href="#features">Fluffy Perks</a></li>
+          <li><a href="#wishes">Star Wishes</a></li>
+          <li><a href="#notes">Bunny Mail</a></li>
+        </ul>
+        <a href="#join" class="btn btn-rainbow btn-sm">Hop In ✨</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="container hero">
+      <div>
+        <div class="badge">🌈 Soft Pastel Magic &amp; Cozy Vibes</div>
+        <h1>
+          Where <span class="rainbow-text">Pastel Rainbows</span> &amp; Fluffy Bunnies Meet
+        </h1>
+        <p>
+          Welcome to your sweetest corner of the clouds! Discover dreamy creations, starlit stationery, and cloud-soft companions crafted to brighten every single day.
+        </p>
+        <div class="hero-actions">
+          <a href="#features" class="btn btn-rainbow">Explore the Clouds ☁️</a>
+          <a href="#wishes" class="btn btn-white">Make a Star Wish ⭐</a>
+        </div>
+      </div>
+
+      <!-- Custom SVG Fluffy Bunny + Rainbow + Stars -->
+      <div class="hero-mascot-wrap">
+        <div class="hero-card-glow"></div>
+        <svg
+          id="heroBunny"
+          class="bunny-svg-main"
+          viewBox="0 0 400 380"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label="Fluffy white bunny sitting on a cloud in front of a pastel rainbow and stars"
+        >
+          <!-- Pastel Rainbow Arc -->
+          <path d="M45 265 C45 140, 355 140, 355 265" stroke="#FFB7D5" stroke-width="16" stroke-linecap="round" opacity="0.85"/>
+          <path d="M61 265 C61 158, 339 158, 339 265" stroke="#FFD6A5" stroke-width="16" stroke-linecap="round" opacity="0.85"/>
+          <path d="M77 265 C77 176, 323 176, 323 265" stroke="#FFF3B0" stroke-width="16" stroke-linecap="round" opacity="0.9"/>
+          <path d="M93 265 C93 194, 307 194, 307 265" stroke="#CAFFBF" stroke-width="16" stroke-linecap="round" opacity="0.85"/>
+          <path d="M109 265 C109 212, 291 212, 291 265" stroke="#BDE0FE" stroke-width="16" stroke-linecap="round" opacity="0.85"/>
+          <path d="M125 265 C125 230, 275 230, 275 265" stroke="#E0C3FC" stroke-width="16" stroke-linecap="round" opacity="0.85"/>
+
+          <!-- Floating Cute Stars -->
+          <path d="M68 95 L73 107 L86 108 L76 116 L79 129 L68 122 L57 129 L60 116 L50 108 L63 107 Z" fill="#FFE680" stroke="#FFF" stroke-width="2"/>
+          <path d="M332 82 L336 92 L347 93 L339 100 L341 111 L332 105 L323 111 L325 100 L317 93 L328 92 Z" fill="#FFB7D5" stroke="#FFF" stroke-width="2"/>
+          <path d="M348 168 L351 175 L359 176 L353 181 L355 189 L348 185 L341 189 L343 181 L337 176 L345 175 Z" fill="#BDE0FE" stroke="#FFF" stroke-width="2"/>
+          <circle cx="96" cy="158" r="5" fill="#E0C3FC"/>
+          <circle cx="305" cy="135" r="6" fill="#CAFFBF"/>
+
+          <!-- Bunny Left Ear -->
+          <g class="ear-left">
+            <ellipse cx="164" cy="108" rx="24" ry="62" transform="rotate(-10 164 108)" fill="#FFFFFF" stroke="#F3E5F5" stroke-width="4"/>
+            <ellipse cx="165" cy="112" rx="12" ry="44" transform="rotate(-10 165 112)" fill="#FFD1E6"/>
+          </g>
+
+          <!-- Bunny Right Ear -->
+          <g class="ear-right">
+            <ellipse cx="236" cy="108" rx="24" ry="62" transform="rotate(10 236 108)" fill="#FFFFFF" stroke="#F3E5F5" stroke-width="4"/>
+            <ellipse cx="235" cy="112" rx="12" ry="44" transform="rotate(10 235 112)" fill="#FFD1E6"/>
+          </g>
+
+          <!-- Fluffy Bunny Body -->
+          <ellipse cx="200" cy="252" rx="68" ry="56" fill="#FFFFFF" stroke="#F3E5F5" stroke-width="4"/>
+          <!-- Fluffy Tail -->
+          <circle cx="268" cy="266" r="20" fill="#FFFFFF" stroke="#F3E5F5" stroke-width="3"/>
+
+          <!-- Fluffy Bunny Head -->
+          <ellipse cx="200" cy="182" rx="74" ry="60" fill="#FFFFFF" stroke="#F3E5F5" stroke-width="4"/>
+          <!-- Fluffy Head Tuft -->
+          <circle cx="194" cy="124" r="11" fill="#FFFFFF"/>
+          <circle cx="206" cy="126" r="9" fill="#FFFFFF"/>
+
+          <!-- Rosy Cheeks -->
+          <ellipse cx="155" cy="194" rx="14" ry="9" fill="#FFB7D5" opacity="0.7"/>
+          <ellipse cx="245" cy="194" rx="14" ry="9" fill="#FFB7D5" opacity="0.7"/>
+
+          <!-- Cute Sparkly Eyes -->
+          <circle cx="172" cy="178" r="9.5" fill="#564266"/>
+          <circle cx="169" cy="174" r="3.5" fill="#FFFFFF"/>
+          <circle cx="175" cy="181" r="1.8" fill="#FFFFFF"/>
+
+          <circle cx="228" cy="178" r="9.5" fill="#564266"/>
+          <circle cx="225" cy="174" r="3.5" fill="#FFFFFF"/>
+          <circle cx="231" cy="181" r="1.8" fill="#FFFFFF"/>
+
+          <!-- Little Pink Nose & Smile -->
+          <ellipse cx="200" cy="189" rx="6.5" ry="4.5" fill="#FF8FB8"/>
+          <path d="M191 196 Q195.5 203 200 196 Q204.5 203 209 196" stroke="#564266" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+          <!-- Bunny Holding a Glowing Pastel Star -->
+          <path
+            d="M200 222 L209 240 L229 243 L214 257 L218 277 L200 267 L182 277 L186 257 L171 243 L191 240 Z"
+            fill="#FFF099"
+            stroke="#FFD166"
+            stroke-width="3"
+            stroke-linejoin="round"
+          />
+          <!-- Little Paws -->
+          <ellipse cx="174" cy="248" rx="15" ry="11" transform="rotate(-18 174 248)" fill="#FFFFFF" stroke="#F3E5F5" stroke-width="3"/>
+          <ellipse cx="226" cy="248" rx="15" ry="11" transform="rotate(18 226 248)" fill="#FFFFFF" stroke="#F3E5F5" stroke-width="3"/>
+
+          <!-- Fluffy Cloud Base -->
+          <g>
+            <circle cx="112" cy="304" r="34" fill="#FFFFFF"/>
+            <circle cx="155" cy="296" r="42" fill="#FFFFFF"/>
+            <circle cx="205" cy="298" r="45" fill="#FFFFFF"/>
+            <circle cx="255" cy="296" r="40" fill="#FFFFFF"/>
+            <circle cx="294" cy="306" r="32" fill="#FFFFFF"/>
+            <rect x="108" y="298" width="190" height="40" rx="20" fill="#FFFFFF"/>
+          </g>
+        </svg>
+        <div class="pet-hint">✨ Tip: Click the bunny (or anywhere) for star sparkles!</div>
+      </div>
+    </section>
+
+    <!-- Fluffy Perks / Features -->
+    <section id="features" class="section container">
+      <div class="section-header">
+        <h2>Sprinkled With <span class="rainbow-text">Pure Cutie Magic</span></h2>
+        <p>Every detail is wrapped in soft pastel gradients, gentle animations, and bunny-approved charm.</p>
+      </div>
+
+      <div class="cards-grid">
+        <!-- Card 1 -->
+        <article class="pastel-card">
+          <div class="card-ribbon ribbon-pink"></div>
+          <div class="card-icon-circle bg-soft-pink">
+            <svg width="54" height="54" viewBox="0 0 64 64" fill="none">
+              <ellipse cx="24" cy="18" rx="6" ry="15" fill="#fff" stroke="#ffb7d5" stroke-width="2.5"/>
+              <ellipse cx="40" cy="18" rx="6" ry="15" fill="#fff" stroke="#ffb7d5" stroke-width="2.5"/>
+              <circle cx="32" cy="38" r="18" fill="#fff" stroke="#ffb7d5" stroke-width="2.5"/>
+              <circle cx="26" cy="36" r="2.5" fill="#564266"/>
+              <circle cx="38" cy="36" r="2.5" fill="#564266"/>
+              <ellipse cx="32" cy="40" rx="3" ry="2" fill="#ff8fb8"/>
+            </svg>
+          </div>
+          <h3>Cloud-Soft Plushies</h3>
+          <p>Ultra-fluffy bunny companions stitched from pastel dreams, ready for cozy desk naps and warm hugs.</p>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="pastel-card">
+          <div class="card-ribbon ribbon-mint"></div>
+          <div class="card-icon-circle bg-soft-mint">
+            <svg width="54" height="54" viewBox="0 0 64 64" fill="none">
+              <path d="M32 10 L38 24 L53 26 L42 36 L45 51 L32 44 L19 51 L22 36 L11 26 L26 24 Z" fill="#FFF099" stroke="#FFD166" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="28" cy="31" r="2" fill="#564266"/>
+              <circle cx="36" cy="31" r="2" fill="#564266"/>
+              <path d="M29 35 Q32 38 35 35" stroke="#564266" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Starlight Stationery</h3>
+          <p>Holographic star stickers, pastel memo pads, and rainbow washi tapes to make journaling pure joy.</p>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="pastel-card">
+          <div class="card-ribbon ribbon-lavender"></div>
+          <div class="card-icon-circle bg-soft-lavender">
+            <svg width="54" height="54" viewBox="0 0 64 64" fill="none">
+              <path d="M12 44 C12 24, 52 24, 52 44" stroke="#FFB7D5" stroke-width="5" stroke-linecap="round"/>
+              <path d="M18 44 C18 30, 46 30, 46 44" stroke="#FFF3B0" stroke-width="5" stroke-linecap="round"/>
+              <path d="M24 44 C24 36, 40 36, 40 44" stroke="#BDE0FE" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="15" cy="46" r="7" fill="#fff"/>
+              <circle cx="49" cy="46" r="7" fill="#fff"/>
+            </svg>
+          </div>
+          <h3>Pastel Rainbow Drops</h3>
+          <p>Limited monthly surprise boxes filled with sweet charms, bunny pins, and dreamy pastel treats.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Interactive Star Wish Section -->
+    <section id="wishes" class="section container">
+      <div class="wish-box">
+        <h2>Send a <span class="rainbow-text">Pastel Star Wish</span> 🌟</h2>
+        <p style="max-width: 520px; margin: 10px auto 0; color: var(--text-soft); font-weight: 600;">
+          Tap the button below to toss a glowing star into the bunny cloud jar and unlock a sweet affirmation!
+        </p>
+
+        <div class="wish-counter-pill">
+          <span>⭐ Stars Collected:</span>
+          <strong id="starCount">128</strong>
+        </div>
+        <br />
+        <button id="wishBtn" class="btn btn-rainbow">Toss a Star ✨</button>
+        <div id="wishMessage" class="wish-message"></div>
+      </div>
+    </section>
+
+    <!-- Sweet Notes -->
+    <section id="notes" class="section container">
+      <div class="section-header">
+        <h2>Love Letters From <span class="rainbow-text">Bunny Mail</span> 💌</h2>
+        <p>Little notes from fellow pastel lovers around the world.</p>
+      </div>
+
+      <div class="notes-grid">
+        <div class="note-card">
+          <div class="note-stars">⭐⭐⭐⭐⭐</div>
+          <p>“Opening my pastel bunny parcel felt like unwrapping a literal cloud! The star stickers shimmer like real magic.”</p>
+          <div class="note-author">
+            <div class="avatar-dot" style="background: #ffd6e7;">🐰</div>
+            <span>Mimi Cloudberry</span>
+          </div>
+        </div>
+
+        <div class="note-card">
+          <div class="note-stars">⭐⭐⭐⭐⭐</div>
+          <p>“The softest rainbow colors and the sweetest little bunny mascot. Everything on my desk is ten times cuter now!”</p>
+          <div class="note-author">
+            <div class="avatar-dot" style="background: #dff1ff;">⭐</div>
+            <span>Luna Starling</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter CTA -->
+    <section id="join" class="section container">
+      <div class="cta-banner">
+        <h2>Join the Fluffy Bunny Club 🌈</h2>
+        <p>Get cute wallpapers, early access to pastel drops, and starry surprises delivered straight to your inbox.</p>
+        <form class="subscribe-form" id="subscribeForm">
+          <input type="email" id="emailInput" placeholder="yourname@stardust.com" required />
+          <button type="submit" class="btn btn-white">Subscribe 🐰</button>
+        </form>
+        <div id="formFeedback" style="margin-top: 14px; font-weight: 700; color: #564266;"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>Made with 🐰 fluffy bunnies, 🌈 pastel rainbows &amp; ⭐ starlight • BunnyDream © 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    // 1. Populate Twinkling Pastel Stars in the Background
+    const starfield = document.getElementById('starfield');
+    const starColors = ['#FFB7D5', '#FFD6A5', '#FFE875', '#B8F2E6', '#BDE0FE', '#E0C3FC', '#FFFFFF'];
+
+    for (let i = 0; i < 34; i++) {
+      const star = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      const size = Math.floor(Math.random() * 16) + 12;
+      star.setAttribute('width', size);
+      star.setAttribute('height', size);
+      star.setAttribute('viewBox', '0 0 24 24');
+      star.classList.add('bg-star');
+      star.style.left = Math.random() * 98 + '%';
+      star.style.top = Math.random() * 96 + '%';
+      star.style.setProperty('--dur', (Math.random() * 2.5 + 2.2).toFixed(1) + 's');
+      star.style.setProperty('--delay', (Math.random() * 3).toFixed(1) + 's');
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      // 4-point cute sparkle star
+      path.setAttribute('d', 'M12 1 L14.8 9.2 L23 12 L14.8 14.8 L12 23 L9.2 14.8 L1 12 L9.2 9.2 Z');
+      path.setAttribute('fill', starColors[i % starColors.length]);
+      star.appendChild(path);
+      starfield.appendChild(star);
+    }
+
+    // 2. Spawn Cute Star/Bunny Sparkles on Click Anywhere
+    const sparkles = ['⭐', '✨', '🌟', '💖', '🐰', '🌈', '☁️'];
+    function burstSparkles(x, y, count = 5) {
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('span');
+        el.className = 'click-sparkle';
+        el.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.style.setProperty('--dx', (Math.random() * 90 - 45) + 'px');
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1000);
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      burstSparkles(e.clientX, e.clientY, 4);
+    });
+
+    // 3. Hero Bunny Wiggle Interaction
+    const heroBunny = document.getElementById('heroBunny');
+    heroBunny.addEventListener('click', (e) => {
+      heroBunny.classList.remove('wiggle');
+      void heroBunny.offsetWidth; // trigger reflow
+      heroBunny.classList.add('wiggle');
+      burstSparkles(e.clientX, e.clientY, 9);
+    });
+
+    // 4. Interactive Star Wish Counter
+    const wishBtn = document.getElementById('wishBtn');
+    const starCountEl = document.getElementById('starCount');
+    const wishMessageEl = document.getElementById('wishMessage');
+    let starCount = 128;
+
+    const sweetAffirmations = [
+      '🌈 Your wish drifted up to the pastel rainbow clouds!',
+      '🐰 A fluffy bunny caught your star and sent back good luck!',
+      '✨ Sprinkle of starlight activated—today is going to be sweet!',
+      '☁️ Soft clouds and bright rainbows are headed your way!',
+      '⭐ Wish stored safely in the moonbeam jar!'
+    ];
+
+    wishBtn.addEventListener('click', (e) => {
+      starCount++;
+      starCountEl.textContent = starCount;
+      const msg = sweetAffirmations[starCount % sweetAffirmations.length];
+      wishMessageEl.textContent = msg;
+      burstSparkles(e.clientX, e.clientY, 10);
+    });
+
+    // 5. Cute Newsletter Form Confirmation
+    const subscribeForm = document.getElementById('subscribeForm');
+    const emailInput = document.getElementById('emailInput');
+    const formFeedback = document.getElementById('formFeedback');
+
+    subscribeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (emailInput.value.trim()) {
+        formFeedback.textContent = `🐰 Yay! Welcome to the Bunny Club, ${emailInput.value.trim()}! ✨`;
+        emailInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
