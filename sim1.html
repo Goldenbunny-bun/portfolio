@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BunBun's Cozy Brownie Bakery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(180deg, #FFF5F8 0%, #F7F2FF 52%, #EFFAF5 100%);
+      color: #5C4B45;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .font-display {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Cozy pastel scrollbar for the panoramic kitchen */
+    .kitchen-scroll-area {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #F4B6C7 #FFF2F6;
+    }
+
+    .kitchen-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .kitchen-scroll-area::-webkit-scrollbar-track {
+      background: #FFF2F6;
+      border-radius: 999px;
+    }
+
+    .kitchen-scroll-area::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, #F7B8C8, #DCD3F8);
+      border-radius: 999px;
+      border: 2px solid #FFF2F6;
+    }
+
+    /* Gentle floating animations for clouds, bunny, and sparkles */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+    }
+
+    @keyframes floatCloud {
+      0%, 100% { transform: translateX(0px); }
+      50% { transform: translateX(12px); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 4px rgba(247, 184, 200, 0.5)); }
+      50% { filter: drop-shadow(0 0 12px rgba(247, 184, 200, 0.95)); }
+    }
+
+    @keyframes sparklePop {
+      0% { transform: scale(0.3) translateY(0); opacity: 1; }
+      100% { transform: scale(1.25) translateY(-28px); opacity: 0; }
+    }
+
+    @keyframes steamRise {
+      0% { transform: translateY(0) scale(0.8); opacity: 0; }
+      40% { opacity: 0.75; }
+      100% { transform: translateY(-26px) scale(1.2); opacity: 0; }
+    }
+
+    .animate-float {
+      animation: floatSlow 3.2s ease-in-out infinite;
+    }
+
+    .animate-cloud {
+      animation: floatCloud 6s ease-in-out infinite;
+    }
+
+    .animate-pulse-glow {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    .sparkle-particle {
+      animation: sparklePop 0.85s ease-out forwards;
+      pointer-events: none;
+    }
+
+    .steam-puff {
+      animation: steamRise 2.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Smooth transitions for interactive SVG parts */
+    .cabinet-door-left {
+      transform-origin: 0px 0px;
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cabinet-door-right {
+      transform-origin: 184px 0px;
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cabinet-open .cabinet-door-left {
+      transform: scaleX(0.18) skewY(8deg);
+    }
+
+    .cabinet-open .cabinet-door-right {
+      transform: scaleX(0.18) skewY(-8deg);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-pink-200 selection:text-stone-800">
+
+  <!-- TOP PASTEL HEADER -->
+  <header class="w-full max-w-6xl mx-auto px-3 sm:px-6 pt-3 pb-2">
+    <div class="bg-white/85 backdrop-blur-md border-2 border-pink-200/80 rounded-3xl px-4 py-2.5 shadow-sm flex flex-wrap items-center justify-between gap-2">
+      <!-- Brand + Bunny Icon -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-pink-100 via-purple-100 to-emerald-100 border-2 border-pink-200 flex items-center justify-center shadow-inner">
+          <!-- Cute Mini Bunny SVG Icon -->
+          <svg viewBox="0 0 64 64" class="w-8 h-8">
+            <ellipse cx="23" cy="18" rx="5.5" ry="14" transform="rotate(-10 23 18)" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="2.5" />
+            <ellipse cx="23" cy="18" rx="2.5" ry="9" transform="rotate(-10 23 18)" fill="#FAD2DF" />
+            <ellipse cx="41" cy="18" rx="5.5" ry="14" transform="rotate(10 41 18)" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="2.5" />
+            <ellipse cx="41" cy="18" rx="2.5" ry="9" transform="rotate(10 41 18)" fill="#FAD2DF" />
+            <circle cx="32" cy="39" r="17" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="2.5" />
+            <circle cx="26" cy="37" r="2.2" fill="#5C4B45" />
+            <circle cx="38" cy="37" r="2.2" fill="#5C4B45" />
+            <ellipse cx="22" cy="41" rx="3" ry="1.8" fill="#F9B8C9" opacity="0.7" />
+            <ellipse cx="42" cy="41" rx="3" ry="1.8" fill="#F9B8C9" opacity="0.7" />
+            <path d="M30 41 Q32 43.5 34 41" fill="none" stroke="#E07A96" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-bold text-stone-700 leading-tight">BunBun’s Cozy Brownie Bakery</h1>
+          <p class="text-xs text-stone-500 font-medium">From-Scratch Pastel Baking Simulator</p>
+        </div>
+      </div>
+
+      <!-- Status Pills & Cloud Help Button -->
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- Oven Temp Pill -->
+        <div id="headerOvenPill" class="px-3 py-1.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm font-bold text-emerald-700 flex items-center gap-1.5">
+          <span>🔥 Oven:</span>
+          <span id="headerTempText">72°F (Off)</span>
+        </div>
+
+        <!-- Step Pill -->
+        <div class="px-3 py-1.5 rounded-2xl bg-purple-50 border border-purple-200 text-xs sm:text-sm font-bold text-purple-700">
+          Step <span id="stepNumberText">1</span>/7
+        </div>
+
+        <!-- Ask BunBun on a Cloud Button -->
+        <button onclick="toggleCloudAssistant(true)" class="px-3.5 py-1.5 rounded-2xl bg-gradient-to-r from-pink-200 via-purple-200 to-sky-200 hover:from-pink-300 hover:to-sky-300 border border-pink-300/80 text-stone-700 text-xs sm:text-sm font-bold shadow-sm transition transform active:scale-95 flex items-center gap-1.5 cursor-pointer">
+          <span>☁️🐰</span>
+          <span>Ask BunBun</span>
+        </button>
+
+        <!-- Sound Toggle -->
+        <button id="soundToggleBtn" onclick="toggleSound()" title="Toggle Cozy Sound Effects" class="p-2 rounded-2xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-stone-600 text-xs font-bold transition cursor-pointer">
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN INTERACTIVE KITCHEN VIEWPORT -->
+  <main class="w-full max-w-6xl mx-auto px-3 sm:px-6 flex-1 flex flex-col gap-2.5">
+
+    <!-- Kitchen Scroll Navigation Bar -->
+    <div class="bg-white/80 backdrop-blur-sm border border-purple-200/80 rounded-2xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 shadow-xs">
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button id="scrollLeftOvenBtn" onclick="scrollToStation('oven')" class="px-3 py-1.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-emerald-800 text-xs sm:text-sm font-bold transition transform active:scale-95 cursor-pointer flex items-center gap-1">
+          <span>←</span>
+          <span>Scroll Left: Oven</span>
+        </button>
+        <button id="scrollRightCounterBtn" onclick="scrollToStation('counter')" class="px-3 py-1.5 rounded-xl bg-pink-100 hover:bg-pink-200 border border-pink-300 text-pink-800 text-xs sm:text-sm font-bold transition transform active:scale-95 cursor-pointer flex items-center gap-1">
+          <span>🥣</span>
+          <span>Baking Counter</span>
+        </button>
+        <button id="scrollSinkBtn" onclick="scrollToStation('sink')" class="px-3 py-1.5 rounded-xl bg-sky-100 hover:bg-sky-200 border border-sky-300 text-sky-800 text-xs sm:text-sm font-bold transition transform active:scale-95 cursor-pointer flex items-center gap-1">
+          <span>🫧</span>
+          <span>Sink →</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs font-bold text-stone-500">
+        <span id="currentZoneBadge" class="px-2.5 py-1 rounded-xl bg-amber-50 border border-amber-200 text-stone-600">
+          🥣 Viewing: Baking Counter
+        </span>
+        <span class="hidden md:inline text-stone-400">Tip: Drag or scroll horizontally!</span>
+      </div>
+    </div>
+
+    <!-- PANORAMIC SCROLLABLE COZY KITCHEN -->
+    <div class="relative bg-gradient-to-b from-amber-50/90 via-rose-50/70 to-amber-100/60 border-2 border-pink-200/90 rounded-3xl p-2 sm:p-3 shadow-md overflow-hidden">
+
+      <!-- FLOATING CLOUD BUNNY ASSISTANT OVERLAY (Pops up from a cloud when player needs help!) -->
+      <div id="cloudAssistantModal" class="hidden absolute inset-0 z-30 bg-stone-800/20 backdrop-blur-[2px] flex items-center justify-center p-4">
+        <div class="bg-white/95 border-2 border-sky-200 rounded-3xl max-w-md w-full p-5 shadow-xl relative animate-float">
+          <!-- Close Button -->
+          <button onclick="toggleCloudAssistant(false)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-pink-100 hover:bg-pink-200 text-pink-700 font-bold text-sm flex items-center justify-center cursor-pointer">
+            ✕
+          </button>
+
+          <!-- Bunny Popping Out of a Fluffy Pastel Cloud SVG -->
+          <div class="flex justify-center -mt-2 mb-2">
+            <svg viewBox="0 0 220 135" class="w-48 h-28 overflow-visible">
+              <!-- Back Cloud Puffs -->
+              <circle cx="72" cy="95" r="24" fill="#E0F2FE" />
+              <circle cx="148" cy="95" r="24" fill="#E0F2FE" />
+              <!-- Bunny Ears -->
+              <ellipse cx="94" cy="34" rx="9" ry="26" transform="rotate(-12 94 34)" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="3" />
+              <ellipse cx="94" cy="34" rx="4" ry="17" transform="rotate(-12 94 34)" fill="#FAD2DF" />
+              <ellipse cx="126" cy="34" rx="9" ry="26" transform="rotate(12 126 34)" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="3" />
+              <ellipse cx="126" cy="34" rx="4" ry="17" transform="rotate(12 126 34)" fill="#FAD2DF" />
+              <!-- Chef Hat -->
+              <path d="M98 22 C94 10 126 10 122 22 Z" fill="#FFFFFF" stroke="#DCD3F8" stroke-width="2.5" />
+              <!-- Bunny Head -->
+              <circle cx="110" cy="66" r="26" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="3" />
+              <circle cx="101" cy="63" r="3" fill="#5C4B45" />
+              <circle cx="119" cy="63" r="3" fill="#5C4B45" />
+              <circle cx="102" cy="62" r="1" fill="#FFFFFF" />
+              <circle cx="120" cy="62" r="1" fill="#FFFFFF" />
+              <ellipse cx="94" cy="69" rx="4.5" ry="2.5" fill="#F9B8C9" opacity="0.75" />
+              <ellipse cx="126" cy="69" rx="4.5" ry="2.5" fill="#F9B8C9" opacity="0.75" />
+              <path d="M107 69 Q110 73 113 69" fill="none" stroke="#E07A96" stroke-width="2.5" stroke-linecap="round" />
+              <!-- Bunny Paws on Cloud -->
+              <ellipse cx="88" cy="86" rx="9" ry="6" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="2.5" />
+              <ellipse cx="132" cy="86" rx="9" ry="6" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="2.5" />
+              <!-- Front Fluffy Cloud -->
+              <path d="M48 112 C32 112 24 98 34 86 C36 70 58 66 68 78 C80 68 102 72 110 82 C118 72 140 68 152 78 C162 66 184 70 186 86 C196 98 188 112 172 112 Z" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="3" />
+              <!-- Sparkles -->
+              <text x="34" y="52" font-size="16">✨</text>
+              <text x="172" y="54" font-size="16">🌸</text>
+            </svg>
+          </div>
+
+          <h3 class="font-display text-lg font-bold text-center text-stone-700 mb-1">BunBun’s Cloud Kitchen Help</h3>
+          <p id="cloudHelpBody" class="text-sm text-stone-600 text-center leading-relaxed bg-sky-50/80 border border-sky-100 rounded-2xl p-3 mb-3">
+            Hi friend! First, scroll left to our pastel mint oven and preheat it to 350°F so it’s warm and ready for our brownie batter!
+          </p>
+
+          <!-- Mini Ingredient Checklist inside Cloud Popup -->
+          <div class="bg-pink-50/70 border border-pink-100 rounded-2xl p-3 mb-3">
+            <div class="text-xs font-bold text-pink-700 mb-1.5">🍫 From-Scratch Brownie Checklist:</div>
+            <ul id="cloudChecklist" class="grid grid-cols-2 gap-1 text-xs text-stone-600 font-medium">
+              <li>⬜ ½ cup Melted Butter</li>
+              <li>⬜ 1 cup Sugar</li>
+              <li>⬜ Large Egg #1</li>
+              <li>⬜ Large Egg #2</li>
+              <li>⬜ ½ cup Flour</li>
+              <li>⬜ ⅓ cup Cocoa & Vanilla</li>
+            </ul>
+          </div>
+
+          <button onclick="toggleCloudAssistant(false)" class="w-full py-2.5 rounded-2xl bg-gradient-to-r from-pink-300 to-purple-300 hover:from-pink-400 hover:to-purple-400 text-stone-800 font-bold text-sm shadow-xs transition cursor-pointer">
+            Got it, thank you BunBun! 🐰💕
+          </button>
+        </div>
+      </div>
+
+      <!-- Horizontally Scrollable Kitchen Viewport -->
+      <div id="kitchenScrollContainer" class="kitchen-scroll-area w-full rounded-2xl pb-1">
+        <svg id="kitchenSvg" viewBox="0 0 1840 445" class="min-w-[1440px] sm:min-w-[1680px] w-[1840px] h-[350px] sm:h-[405px] overflow-visible block select-none">
+          <defs>
+            <!-- Soft Pastel Gradients -->
+            <linearGradient id="windowSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#DFF2FE" />
+              <stop offset="100%" stop-color="#FFF5F9" />
+            </linearGradient>
+            <linearGradient id="ovenMintGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#DDF6E8" />
+              <stop offset="100%" stop-color="#BBE8D0" />
+            </linearGradient>
+            <linearGradient id="ovenGlassCold" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4A444B" />
+              <stop offset="100%" stop-color="#332E34" />
+            </linearGradient>
+            <linearGradient id="ovenGlassWarm" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FF9E7D" />
+              <stop offset="50%" stop-color="#FF7B54" />
+              <stop offset="100%" stop-color="#D94E34" />
+            </linearGradient>
+            <linearGradient id="cabinetLavenderGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#EFEAFF" />
+              <stop offset="100%" stop-color="#DDD2FC" />
+            </linearGradient>
+            <linearGradient id="counterSlabGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFFDF9" />
+              <stop offset="100%" stop-color="#F7E6D4" />
+            </linearGradient>
+            <linearGradient id="counterCabinetGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FDECEF" />
+              <stop offset="100%" stop-color="#F6D5DF" />
+            </linearGradient>
+            <linearGradient id="sinkWaterGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E3F4FE" />
+              <stop offset="100%" stop-color="#BCE3FA" />
+            </linearGradient>
+            <linearGradient id="bowlPastelPink" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFDCE6" />
+              <stop offset="100%" stop-color="#F5AFC4" />
+            </linearGradient>
+            <filter id="softShadow" x="-15%" y="-15%" width="130%" height="130%">
+              <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#8A6E63" flood-opacity="0.16" />
+            </filter>
+          </defs>
+
+          <!-- COZY PASTEL WALLPAPER & WAINSCOTING BACKGROUND -->
+          <rect x="0" y="0" width="1840" height="445" rx="22" fill="#FFF9F3" />
+          <!-- Subtle Pastel Polka Dots on Wall -->
+          <g fill="#F8D8E3" opacity="0.45">
+            <circle cx="80" cy="45" r="4" /><circle cx="220" cy="70" r="4" /><circle cx="380" cy="40" r="4" />
+            <circle cx="540" cy="75" r="4" /><circle cx="710" cy="42" r="4" /><circle cx="880" cy="68" r="4" />
+            <circle cx="1050" cy="40" r="4" /><circle cx="1220" cy="72" r="4" /><circle cx="1390" cy="44" r="4" />
+            <circle cx="1560" cy="68" r="4" /><circle cx="1730" cy="45" r="4" />
+          </g>
+          <!-- Warm Pastel Wooden Floor Strip -->
+          <rect x="0" y="405" width="1840" height="40" fill="#F2DEC9" />
+          <line x1="0" y1="405" x2="1840" y2="405" stroke="#DFC2A6" stroke-width="3" />
+
+          <!-- =================================================
+               LEFT ZONE (x: 25 - 535): COZY PASTEL OVEN & WINDOW
+               ================================================= -->
+
+          <!-- Pastel Kitchen Window with Drifting Clouds -->
+          <g transform="translate(365, 34)">
+            <rect x="0" y="0" width="150" height="145" rx="18" fill="url(#windowSky)" stroke="#F3C6D4" stroke-width="6" filter="url(#softShadow)" />
+            <!-- Drifting Clouds inside Window -->
+            <g class="animate-cloud">
+              <ellipse cx="48" cy="45" rx="22" ry="11" fill="#FFFFFF" opacity="0.9" />
+              <circle cx="40" cy="39" r="10" fill="#FFFFFF" opacity="0.9" />
+              <circle cx="55" cy="40" r="9" fill="#FFFFFF" opacity="0.9" />
+            </g>
+            <ellipse cx="108" cy="88" rx="18" ry="9" fill="#FFFFFF" opacity="0.85" />
+            <circle cx="104" cy="83" r="8" fill="#FFFFFF" opacity="0.85" />
+            <!-- Window Panes -->
+            <line x1="75" y1="0" x2="75" y2="145" stroke="#F3C6D4" stroke-width="5" />
+            <line x1="0" y1="72" x2="150" y2="72" stroke="#F3C6D4" stroke-width="5" />
+            <!-- Cute Window Sill & Bunny Flower Pot -->
+            <rect x="-8" y="142" width="166" height="14" rx="7" fill="#FFFDF9" stroke="#E8C7D2" stroke-width="2.5" />
+            <rect x="102" y="120" width="24" height="22" rx="5" fill="#F7B8C8" stroke="#E0829B" stroke-width="2" />
+            <circle cx="109" cy="113" r="7" fill="#A7E3C3" />
+            <circle cx="119" cy="112" r="7" fill="#8FD6B1" />
+            <circle cx="114" cy="107" r="6" fill="#FFD1DF" />
+          </g>
+
+          <!-- Range Hood & Spice Shelf above Oven -->
+          <g transform="translate(55, 22)">
+            <path d="M55 0 L205 0 L235 64 L25 64 Z" fill="#FFFDF9" stroke="#CBEEDB" stroke-width="4" filter="url(#softShadow)" />
+            <rect x="20" y="60" width="220" height="14" rx="7" fill="#CBEEDB" stroke="#98D8B6" stroke-width="2.5" />
+            <!-- Little Bunny Emblem on Hood -->
+            <circle cx="130" cy="34" r="14" fill="#FDECEF" stroke="#F4B6C7" stroke-width="2" />
+            <ellipse cx="126" cy="24" rx="2.5" ry="6" fill="#FFFDF9" stroke="#E893A9" stroke-width="1.5" />
+            <ellipse cx="134" cy="24" rx="2.5" ry="6" fill="#FFFDF9" stroke="#E893A9" stroke-width="1.5" />
+            <circle cx="130" cy="36" r="6" fill="#FFFDF9" />
+          </g>
+
+          <!-- COZY RETRO MINT OVEN (Left side of kitchen) -->
+          <g id="ovenStation" transform="translate(50, 145)">
+            <!-- Oven Body -->
+            <rect x="0" y="0" width="270" height="278" rx="24" fill="url(#ovenMintGrad)" stroke="#98D8B6" stroke-width="4" filter="url(#softShadow)" />
+            <!-- Stovetop Burners -->
+            <rect x="24" y="-8" width="76" height="10" rx="5" fill="#7D7278" />
+            <rect x="170" y="-8" width="76" height="10" rx="5" fill="#7D7278" />
+
+            <!-- Oven Control Panel -->
+            <rect x="18" y="16" width="234" height="54" rx="14" fill="#FFFDF9" stroke="#B7E4CC" stroke-width="2.5" />
+
+            <!-- Digital Temperature & Timer Display -->
+            <rect x="86" y="24" width="98" height="38" rx="10" fill="#463D42" />
+            <text id="ovenDigitalTemp" x="135" y="41" text-anchor="middle" fill="#A7F3D0" font-family="Fredoka, sans-serif" font-size="14" font-weight="700">72°F</text>
+            <text id="ovenDigitalSub" x="135" y="55" text-anchor="middle" fill="#FBCFE8" font-family="Quicksand, sans-serif" font-size="10" font-weight="700">OFF</text>
+
+            <!-- Interactive Preheat Button / Dial -->
+            <g id="preheatDialGroup" class="cursor-pointer" onclick="startPreheat()">
+              <circle cx="48" cy="43" r="18" fill="#FDECEF" stroke="#F49CB5" stroke-width="3" />
+              <line id="preheatDialNeedle" x1="48" y1="43" x2="48" y2="29" stroke="#D96B8A" stroke-width="3" stroke-linecap="round" style="transition: transform 0.6s ease; transform-origin: 48px 43px;" />
+              <text x="48" y="67" text-anchor="middle" fill="#6D5A54" font-size="8.5" font-weight="700">PREHEAT</text>
+            </g>
+
+            <!-- Right Decorative Knob -->
+            <circle cx="222" cy="43" r="16" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="3" />
+            <line x1="222" y1="43" x2="232" y2="35" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round" />
+
+            <!-- Oven Door & Handle -->
+            <rect x="20" y="84" width="230" height="168" rx="18" fill="#EBF9F1" stroke="#98D8B6" stroke-width="3" />
+            <rect x="48" y="94" width="174" height="10" rx="5" fill="#FFFDF9" stroke="#C4B5FD" stroke-width="2" />
+
+            <!-- Oven Viewing Window -->
+            <rect id="ovenWindowGlass" x="36" y="114" width="198" height="122" rx="14" fill="url(#ovenGlassCold)" stroke="#86C9A6" stroke-width="3" />
+
+            <!-- Oven Rack Lines -->
+            <line x1="46" y1="196" x2="224" y2="196" stroke="#CBD5E1" stroke-width="3" stroke-dasharray="6 4" opacity="0.7" />
+
+            <!-- Baking Tray Inside Oven (Hidden until placed in oven!) -->
+            <g id="ovenTrayGroup" opacity="0" transform="translate(68, 168)" style="transition: opacity 0.6s ease;">
+              <!-- Pan Base -->
+              <rect x="0" y="12" width="134" height="16" rx="5" fill="#CBD5E1" stroke="#94A3B8" stroke-width="2" />
+              <!-- Brownie Batter / Rising Baked Brownies -->
+              <rect id="ovenBrownieLayer" x="6" y="6" width="122" height="10" rx="4" fill="#5A301A" style="transition: all 0.8s ease;" />
+              <!-- Rising Steam Puffs while baking -->
+              <g id="ovenSteamGroup" opacity="0">
+                <circle cx="35" cy="-4" r="6" fill="#FFFFFF" class="steam-puff" />
+                <circle cx="68" cy="-8" r="7" fill="#FFFFFF" class="steam-puff" style="animation-delay: 0.7s;" />
+                <circle cx="100" cy="-4" r="6" fill="#FFFFFF" class="steam-puff" style="animation-delay: 1.4s;" />
+              </g>
+            </g>
+
+            <!-- Oven Feet -->
+            <rect x="24" y="276" width="26" height="10" rx="5" fill="#98D8B6" />
+            <rect x="220" y="276" width="26" height="10" rx="5" fill="#98D8B6" />
+          </g>
+
+          <!-- =================================================
+               WALL DECOR & HANGING CABINET ABOVE COUNTER
+               ================================================= -->
+
+          <!-- Cute Hanging Pastel Utensils -->
+          <g transform="translate(615, 58)">
+            <line x1="0" y1="0" x2="170" y2="0" stroke="#DFBA98" stroke-width="5" stroke-linecap="round" />
+            <!-- Pastel Pink Spatula -->
+            <g transform="translate(30, 0)">
+              <line x1="0" y1="0" x2="0" y2="34" stroke="#E8C7D2" stroke-width="4" />
+              <rect x="-10" y="34" width="20" height="26" rx="6" fill="#F7B8C8" stroke="#E0829B" stroke-width="2" />
+            </g>
+            <!-- Pastel Mint Whisk -->
+            <g transform="translate(85, 0)">
+              <line x1="0" y1="0" x2="0" y2="28" stroke="#A7E3C3" stroke-width="4" />
+              <ellipse cx="0" cy="44" rx="10" ry="16" fill="none" stroke="#8FD6B1" stroke-width="2.5" />
+              <ellipse cx="0" cy="44" rx="5" ry="16" fill="none" stroke="#8FD6B1" stroke-width="2" />
+            </g>
+            <!-- Pastel Oven Mitt -->
+            <g transform="translate(140, 2)">
+              <path d="M-8 6 L8 6 L10 38 C10 46 -10 46 -10 38 Z" fill="#DCD3F8" stroke="#B6A4EC" stroke-width="2" />
+              <ellipse cx="-11" cy="24" rx="5" ry="7" fill="#DCD3F8" stroke="#B6A4EC" stroke-width="2" />
+            </g>
+          </g>
+
+          <!-- HANGING PASTEL LAVENDER WALL CABINET (Holds Baking Tray & Cooking Spray!) -->
+          <g id="wallCabinetGroup" transform="translate(1165, 28)" class="cursor-pointer" onclick="handleCabinetClick()">
+            <!-- Cabinet Outer Frame -->
+            <rect x="0" y="0" width="184" height="142" rx="18" fill="url(#cabinetLavenderGrad)" stroke="#C4B5FD" stroke-width="3.5" filter="url(#softShadow)" />
+            <!-- Cabinet Interior Shelf -->
+            <rect x="10" y="10" width="164" height="122" rx="12" fill="#F7F4FF" stroke="#DDD6FE" stroke-width="2" />
+            <line x1="12" y1="74" x2="172" y2="74" stroke="#DDD6FE" stroke-width="4" />
+
+            <!-- Items Inside Cabinet -->
+            <!-- Top Shelf: Cute Bunny Cookie Jar & Vanilla -->
+            <rect x="30" y="28" width="34" height="42" rx="10" fill="#FDECEF" stroke="#F4B6C7" stroke-width="2" />
+            <ellipse cx="42" cy="22" rx="3" ry="8" fill="#FFFDF9" stroke="#F4B6C7" stroke-width="1.5" />
+            <ellipse cx="52" cy="22" rx="3" ry="8" fill="#FFFDF9" stroke="#F4B6C7" stroke-width="1.5" />
+            <rect x="112" y="36" width="26" height="34" rx="6" fill="#FEF3C7" stroke="#FCD34D" stroke-width="2" />
+
+            <!-- Bottom Shelf: 8x8 Baking Tray & Cooking Spray Can -->
+            <g id="cabinetSuppliesGroup" style="transition: opacity 0.4s ease;">
+              <!-- 8x8 Baking Pan -->
+              <rect x="24" y="108" width="84" height="16" rx="5" fill="#E2E8F0" stroke="#94A3B8" stroke-width="2" />
+              <text x="66" y="102" text-anchor="middle" fill="#64748B" font-size="9" font-weight="700">8x8 PAN</text>
+              <!-- Pastel Cooking Spray Can -->
+              <rect x="128" y="86" width="22" height="38" rx="6" fill="#CBEEDB" stroke="#8FD6B1" stroke-width="2" />
+              <rect x="134" y="79" width="10" height="7" rx="2" fill="#FFFDF9" stroke="#94A3B8" stroke-width="1.5" />
+            </g>
+
+            <!-- Left Cabinet Door -->
+            <g class="cabinet-door-left">
+              <rect x="6" y="6" width="85" height="130" rx="12" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="2.5" />
+              <rect x="16" y="16" width="65" height="110" rx="8" fill="none" stroke="#FFFFFF" stroke-width="2" />
+              <circle cx="80" cy="72" r="4.5" fill="#F49CB5" />
+            </g>
+
+            <!-- Right Cabinet Door -->
+            <g class="cabinet-door-right">
+              <rect x="93" y="6" width="85" height="130" rx="12" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="2.5" />
+              <rect x="103" y="16" width="65" height="110" rx="8" fill="none" stroke="#FFFFFF" stroke-width="2" />
+              <circle cx="104" cy="72" r="4.5" fill="#F49CB5" />
+            </g>
+          </g>
+
+          <!-- =================================================
+               CENTER-RIGHT ZONE (x: 550 - 1810): MAIN BAKING COUNTER + CONNECTED SINK
+               ================================================= -->
+
+          <!-- MAIN COZY KITCHEN COUNTER (Holds the Mixing Bowl, Baking Pan & Connected Sink!) -->
+          <g id="mainBakingCounter" transform="translate(550, 290)">
+            <!-- Lower Pastel Cabinetry Base (Extended seamlessly to x=1800 to include Sink) -->
+            <rect x="10" y="16" width="1240" height="118" rx="18" fill="url(#counterCabinetGrad)" stroke="#EBC1CE" stroke-width="3.5" filter="url(#softShadow)" />
+
+            <!-- Left Cabinet Section -->
+            <rect x="32" y="30" width="250" height="26" rx="8" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="157" cy="43" r="4.5" fill="#E893A9" />
+            <rect x="32" y="64" width="118" height="58" rx="10" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="136" cy="93" r="4.5" fill="#E893A9" />
+            <rect x="164" y="64" width="118" height="58" rx="10" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="178" cy="93" r="4.5" fill="#E893A9" />
+
+            <!-- Center Counter Section (Beneath Big Mixing Bowl) -->
+            <rect x="306" y="30" width="318" height="26" rx="8" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="465" cy="43" r="4.5" fill="#E893A9" />
+            <rect x="306" y="64" width="152" height="58" rx="10" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="444" cy="93" r="4.5" fill="#E893A9" />
+            <rect x="472" y="64" width="152" height="58" rx="10" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="486" cy="93" r="4.5" fill="#E893A9" />
+
+            <!-- Right Counter Section (Beneath Baking Tray Prep Spot) -->
+            <rect x="648" y="30" width="248" height="26" rx="8" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="772" cy="43" r="4.5" fill="#E893A9" />
+            <rect x="648" y="64" width="118" height="58" rx="10" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="752" cy="93" r="4.5" fill="#E893A9" />
+            <rect x="778" y="64" width="118" height="58" rx="10" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="792" cy="93" r="4.5" fill="#E893A9" />
+
+            <!-- Under-Sink Cabinet Doors (Right End of Counter) -->
+            <rect x="926" y="64" width="144" height="58" rx="10" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="1056" cy="93" r="4.5" fill="#E893A9" />
+            <rect x="1084" y="64" width="144" height="58" rx="10" fill="#FFF8FA" stroke="#F4C2D2" stroke-width="2" />
+            <circle cx="1098" cy="93" r="4.5" fill="#E893A9" />
+
+            <!-- Thick Creamy Countertop Surface (Left/Center prep stretch up to sink) -->
+            <rect x="0" y="0" width="935" height="22" rx="11" fill="url(#counterSlabGrad)" stroke="#DFBA98" stroke-width="3" />
+            <line x1="14" y1="5" x2="925" y2="5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.85" />
+
+            <!-- Right Countertop Edge Cap beside Sink -->
+            <rect x="1220" y="0" width="40" height="22" rx="10" fill="url(#counterSlabGrad)" stroke="#DFBA98" stroke-width="3" />
+            <line x1="1226" y1="5" x2="1252" y2="5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.85" />
+          </g>
+
+          <!-- CONNECTED COZY PASTEL SINK (Back Layer: Faucet, Soap & Basin Interior) -->
+          <g id="kitchenSinkBack" transform="translate(1635, 290)" class="cursor-pointer" onclick="handleSinkClick()">
+            <!-- Gooseneck Pastel Chrome Faucet -->
+            <path d="M0 4 L0 -54 C0 -82 42 -82 42 -56 L42 -42" fill="none" stroke="#CBD5E1" stroke-width="9" stroke-linecap="round" />
+            <path d="M-2 4 L-2 -54 C-2 -78 38 -78 38 -56" fill="none" stroke="#F8FAFC" stroke-width="3" stroke-linecap="round" />
+            <!-- Faucet Base & Pastel Hot/Cold Knobs -->
+            <rect x="-12" y="-4" width="24" height="10" rx="5" fill="#94A3B8" />
+            <circle cx="-26" cy="-4" r="7" fill="#F7B8C8" stroke="#E0829B" stroke-width="2" />
+            <circle cx="26" cy="-4" r="7" fill="#CBEEDB" stroke="#8ED1AE" stroke-width="2" />
+
+            <!-- Cute Dish Soap Bottle & Pastel Sponge on Sink Ledge -->
+            <g transform="translate(-88, -32)">
+              <rect x="-11" y="4" width="22" height="30" rx="7" fill="#DCD3F8" stroke="#B6A4EC" stroke-width="2" />
+              <rect x="-4" y="-4" width="8" height="8" rx="2" fill="#FFFDF9" />
+              <path d="M0 -4 L10 -7" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" />
+            </g>
+            <g transform="translate(86, -10)">
+              <rect x="-16" y="0" width="32" height="12" rx="5" fill="#FFF0B8" stroke="#E5C86B" stroke-width="2" />
+              <rect x="-16" y="8" width="32" height="5" rx="2" fill="#F7B8C8" />
+            </g>
+
+            <!-- Sink Basin Back Rim & Interior -->
+            <rect x="-148" y="2" width="296" height="52" rx="12" fill="#E3F4FE" stroke="#E8C7D2" stroke-width="3" />
+            <ellipse cx="0" cy="22" rx="134" ry="18" fill="url(#sinkWaterGrad)" />
+          </g>
+
+          <!-- DECORATIVE INGREDIENT JARS ON LEFT SIDE OF COUNTER -->
+          <g transform="translate(660, 232)">
+            <!-- Pastel Flour Canister -->
+            <rect x="-26" y="6" width="52" height="52" rx="12" fill="#FFFDF9" stroke="#E8C7D2" stroke-width="2.5" />
+            <rect x="-22" y="-2" width="44" height="10" rx="5" fill="#F7B8C8" />
+            <text x="0" y="38" text-anchor="middle" fill="#8A6E63" font-size="10" font-weight="700">FLOUR</text>
+
+            <!-- Pastel Sugar Jar -->
+            <rect x="42" y="14" width="44" height="44" rx="12" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="2.5" />
+            <rect x="46" y="6" width="36" height="9" rx="4.5" fill="#C4B5FD" />
+            <text x="64" y="41" text-anchor="middle" fill="#6D5A54" font-size="9.5" font-weight="700">SUGAR</text>
+          </g>
+
+          <!-- BIG MIXING BOWL RESTING ON THE COUNTERTOP -->
+          <g id="mixingStation" transform="translate(895, 214)">
+            <!-- Bowl Shadow resting on countertop -->
+            <ellipse id="bowlCounterShadow" cx="0" cy="86" rx="115" ry="15" fill="#D4B094" opacity="0.6" style="transition: opacity 0.4s;" />
+
+            <!-- Main Mixing Bowl Group (Tilts when pouring, then glides to the sink!) -->
+            <g id="bigBowlGroup" style="transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: 95px 30px;" class="cursor-pointer" onclick="handleBowlClick()">
+              <!-- Bowl Back Rim -->
+              <ellipse cx="0" cy="-12" rx="112" ry="26" fill="#E8B8C8" stroke="#D99BB0" stroke-width="3" />
+              <!-- Bowl Interior Cavity -->
+              <ellipse cx="0" cy="-9" rx="102" ry="21" fill="#FFF8FA" />
+
+              <!-- INGREDIENT LAYERS INSIDE BOWL -->
+              <!-- 1. Melted Butter Layer -->
+              <ellipse id="layerButter" cx="0" cy="-4" rx="84" ry="15" fill="#FDE08D" opacity="0" style="transition: opacity 0.5s;" />
+              <!-- 2. Sugar Mound Layer -->
+              <ellipse id="layerSugar" cx="-10" cy="-6" rx="64" ry="12" fill="#FFFDF9" stroke="#F3E8D2" stroke-width="1.5" opacity="0" style="transition: opacity 0.5s;" />
+              <!-- 3. Egg 1 Yolk & White -->
+              <g id="layerEgg1" opacity="0" style="transition: opacity 0.4s;">
+                <ellipse cx="-28" cy="-6" rx="22" ry="8" fill="#FEF9C3" opacity="0.85" />
+                <circle cx="-28" cy="-7" r="9" fill="#FBBF24" />
+                <circle cx="-30" cy="-9" r="2.5" fill="#FEF3C7" />
+              </g>
+              <!-- 4. Egg 2 Yolk & White -->
+              <g id="layerEgg2" opacity="0" style="transition: opacity 0.4s;">
+                <ellipse cx="26" cy="-5" rx="22" ry="8" fill="#FEF9C3" opacity="0.85" />
+                <circle cx="26" cy="-6" r="9" fill="#FBBF24" />
+                <circle cx="24" cy="-8" r="2.5" fill="#FEF3C7" />
+              </g>
+              <!-- 5. Flour Cloud Layer -->
+              <ellipse id="layerFlour" cx="12" cy="-8" rx="68" ry="13" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="1.5" opacity="0" style="transition: opacity 0.5s;" />
+              <!-- 6. Cocoa, Vanilla & Leaveners Layer -->
+              <g id="layerCocoa" opacity="0" style="transition: opacity 0.5s;">
+                <ellipse cx="-4" cy="-9" rx="54" ry="11" fill="#6F3E26" />
+                <circle cx="22" cy="-7" r="6" fill="#451A03" />
+              </g>
+              <!-- 7. Smooth Mixed Chocolate Brownie Batter -->
+              <g id="layerMixedBatter" opacity="0" style="transition: opacity 0.5s;">
+                <ellipse cx="0" cy="-6" rx="94" ry="17" fill="#522B17" />
+                <path d="M-45 -6 Q-15 -14 15 -6 T65 -6" fill="none" stroke="#7A472B" stroke-width="3.5" stroke-linecap="round" />
+              </g>
+
+              <!-- Bowl Front Exterior Body -->
+              <path d="M-112 -12 C-112 52 -68 82 0 82 C68 82 112 52 112 -12 C82 8 -82 8 -112 -12 Z" fill="url(#bowlPastelPink)" stroke="#D99BB0" stroke-width="3" />
+              <!-- Cute Pastel Heart Decal on Bowl -->
+              <path d="M0 32 C-6 24 -16 26 -16 35 C-16 44 0 53 0 53 C0 53 16 44 16 35 C16 26 6 24 0 32 Z" fill="#FFFDF9" opacity="0.85" />
+
+              <!-- Interactive Whisk Tool (Appears during STIR phase) -->
+              <g id="whiskTool" opacity="0" transform="translate(0, -45)" style="transition: transform 0.25s ease, opacity 0.3s;">
+                <rect x="-5" y="-58" width="10" height="44" rx="5" fill="#DCD3F8" stroke="#A78BFA" stroke-width="2" />
+                <ellipse cx="0" cy="4" rx="18" ry="26" fill="none" stroke="#CBD5E1" stroke-width="3" />
+                <ellipse cx="0" cy="4" rx="9" ry="26" fill="none" stroke="#94A3B8" stroke-width="2.5" />
+              </g>
+            </g>
+
+            <!-- ANIMATION STAGE OVERLAY (Pouring cups, cracking eggs, flour puffs, batter streams) -->
+            <g id="activePourLayer"></g>
+          </g>
+
+          <!-- CONNECTED COZY PASTEL SINK (Front Farmhouse Apron so Bowl Sits Inside!) -->
+          <g id="kitchenSinkFront" transform="translate(1635, 290)" class="cursor-pointer" onclick="handleSinkClick()">
+            <!-- Porcelain Farmhouse Sink Front Apron -->
+            <rect x="-152" y="14" width="304" height="44" rx="12" fill="#FFFDF9" stroke="#E8C7D2" stroke-width="3.5" filter="url(#softShadow)" />
+            <rect x="-140" y="22" width="280" height="28" rx="8" fill="none" stroke="#FCE4EC" stroke-width="2" />
+            <!-- Cute Pastel Heart Emblem on Sink Front -->
+            <path d="M0 31 C-4 26 -11 27 -11 33 C-11 39 0 45 0 45 C0 45 11 39 11 33 C11 27 4 26 0 31 Z" fill="#F7B8C8" opacity="0.85" />
+            <!-- Soap Bubbles Layer (Appears when the used bowl lands in the sink!) -->
+            <g id="sinkBubblesLayer" opacity="0" style="transition: opacity 0.5s;">
+              <circle cx="-65" cy="6" r="9" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="2" opacity="0.9" />
+              <circle cx="-48" cy="-4" r="12" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="2" opacity="0.9" />
+              <circle cx="-25" cy="4" r="8" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="2" opacity="0.9" />
+              <circle cx="45" cy="2" r="11" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="2" opacity="0.9" />
+              <circle cx="66" cy="-5" r="8" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="2" opacity="0.9" />
+              <circle cx="80" cy="7" r="10" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="2" opacity="0.9" />
+            </g>
+          </g>
+
+          <!-- BAKING PAN & SPRAY STAGE ON THE COUNTERTOP -->
+          <g id="counterPanStage" transform="translate(1255, 276)" opacity="0" style="transition: opacity 0.5s ease;" class="cursor-pointer" onclick="handleCounterPanClick()">
+            <!-- Pan Shadow -->
+            <ellipse cx="0" cy="22" rx="95" ry="10" fill="#D4B094" opacity="0.55" />
+            <!-- 8x8 Baking Pan Rim & Base -->
+            <path d="M-86 -4 L86 -4 L76 20 L-76 20 Z" fill="#CBD5E1" stroke="#94A3B8" stroke-width="2.5" />
+            <ellipse cx="0" cy="-4" rx="86" ry="12" fill="#E2E8F0" stroke="#94A3B8" stroke-width="2.5" />
+            <ellipse cx="0" cy="-3" rx="76" ry="9" fill="#94A3B8" opacity="0.35" />
+            <!-- Cooking Spray Gloss Sheen -->
+            <ellipse id="panSpraySheen" cx="0" cy="-3" rx="74" ry="8" fill="#FEF08A" opacity="0" style="transition: opacity 0.5s;" />
+            <!-- Filled Chocolate Batter Inside Pan -->
+            <ellipse id="panFilledBatter" cx="0" cy="-4" rx="78" ry="10" fill="#522B17" opacity="0" style="transition: opacity 0.5s;" />
+            <!-- Spray Can Animation Overlay -->
+            <g id="panSprayAnimLayer"></g>
+          </g>
+
+          <!-- SPARKLE EFFECTS LAYER -->
+          <g id="sparkleLayer"></g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- BOTTOM BUNBUN GUIDE BAR & INTERACTIVE ACTION CONTROLS -->
+    <div class="bg-white/90 backdrop-blur-md border-2 border-pink-200/90 rounded-3xl p-3.5 sm:p-4 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3.5">
+
+      <!-- BunBun Mascot Speech Bubble -->
+      <div class="flex items-start sm:items-center gap-3 flex-1">
+        <!-- Cute Animated BunBun Avatar -->
+        <div onclick="toggleCloudAssistant(true)" title="Click BunBun for Cloud Help!" class="shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-3xl bg-gradient-to-b from-sky-100 via-pink-50 to-purple-100 border-2 border-pink-200 flex items-center justify-center shadow-xs cursor-pointer animate-float">
+          <svg viewBox="0 0 80 80" class="w-12 h-12 sm:w-14 sm:h-14">
+            <!-- Ears -->
+            <ellipse cx="30" cy="20" rx="6.5" ry="17" transform="rotate(-10 30 20)" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="2.5" />
+            <ellipse cx="30" cy="20" rx="3" ry="11" transform="rotate(-10 30 20)" fill="#FAD2DF" />
+            <ellipse cx="50" cy="20" rx="6.5" ry="17" transform="rotate(10 50 20)" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="2.5" />
+            <ellipse cx="50" cy="20" rx="3" ry="11" transform="rotate(10 50 20)" fill="#FAD2DF" />
+            <!-- Head -->
+            <circle cx="40" cy="44" r="19" fill="#FFFDF9" stroke="#E8A5B8" stroke-width="2.5" />
+            <circle cx="33" cy="42" r="2.4" fill="#5C4B45" />
+            <circle cx="47" cy="42" r="2.4" fill="#5C4B45" />
+            <ellipse cx="28" cy="46" rx="3.5" ry="2" fill="#F9B8C9" opacity="0.75" />
+            <ellipse cx="52" cy="46" rx="3.5" ry="2" fill="#F9B8C9" opacity="0.75" />
+            <path d="M38 46 Q40 49 42 46" fill="none" stroke="#E07A96" stroke-width="2.2" stroke-linecap="round" />
+            <!-- Fluffy Mini Cloud Base -->
+            <path d="M16 68 C10 68 8 60 14 56 C16 49 26 48 31 53 C36 49 44 49 49 53 C54 48 64 49 66 56 C72 60 70 68 64 68 Z" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="2.2" />
+          </svg>
+        </div>
+
+        <!-- Dynamic Speech Bubble -->
+        <div class="bg-pink-50/75 border border-pink-200/80 rounded-2xl px-3.5 py-2.5 flex-1">
+          <div class="flex items-center justify-between gap-2 mb-0.5">
+            <span class="font-display text-xs sm:text-sm font-bold text-pink-700">BunBun says:</span>
+            <span id="phaseBadge" class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white text-purple-700 border border-purple-200">
+              Step 1: Preheat Oven
+            </span>
+          </div>
+          <p id="bunnySpeechText" class="text-xs sm:text-sm text-stone-700 leading-relaxed font-medium">
+            Welcome to our cozy pastel kitchen! Before we touch any ingredients, <strong>scroll left</strong> to the mint oven and <strong>preheat it to 350°F</strong>!
+          </p>
+        </div>
+      </div>
+
+      <!-- Dynamic Action Buttons Tray -->
+      <div id="actionControlsArea" class="flex flex-wrap items-center justify-center lg:justify-end gap-2 shrink-0">
+        <!-- Populated dynamically per baking phase -->
+      </div>
+    </div>
+
+    <!-- TRAY MATERIAL TUTORIAL CARD (Revealed at the end of baking!) -->
+    <div id="trayLessonCard" class="hidden bg-gradient-to-r from-pink-50 via-purple-50 to-emerald-50 border-2 border-purple-200 rounded-3xl p-4 sm:p-5 shadow-md">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="space-y-1.5 max-w-2xl">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-pink-200 text-xs font-bold text-pink-700">
+            <span>🐰☁️ BunBun’s Baker Secret</span>
+          </div>
+          <h2 class="font-display text-lg sm:text-xl font-bold text-stone-700">
+            Why Your Baking Tray Material Changes Baking Time!
+          </h2>
+          <p id="trayLessonDetail" class="text-xs sm:text-sm text-stone-600 leading-relaxed">
+            <strong>Light Shiny Aluminum Pan (Our 24-Minute Standard):</strong> Reflects heat gently so your brownies bake evenly all the way through without burning the edges!
+          </p>
+        </div>
+
+        <!-- Interactive Pan Type Selector -->
+        <div class="flex flex-wrap gap-2">
+          <button onclick="selectTrayLesson('aluminum')" id="btnTrayAluminum" class="px-3 py-2 rounded-2xl bg-pink-200 border-2 border-pink-400 text-stone-800 text-xs font-bold shadow-xs cursor-pointer transition">
+            ✨ Light Aluminum (24m)
+          </button>
+          <button onclick="selectTrayLesson('dark')" id="btnTrayDark" class="px-3 py-2 rounded-2xl bg-white hover:bg-purple-100 border border-purple-200 text-stone-700 text-xs font-bold cursor-pointer transition">
+            🖤 Dark Non-Stick (19-21m)
+          </button>
+          <button onclick="selectTrayLesson('glass')" id="btnTrayGlass" class="px-3 py-2 rounded-2xl bg-white hover:bg-emerald-100 border border-emerald-200 text-stone-700 text-xs font-bold cursor-pointer transition">
+            🧊 Glass / Ceramic (27-29m)
+          </button>
+          <button onclick="resetBakery()" class="px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-200 to-teal-200 hover:from-emerald-300 hover:to-teal-300 border border-emerald-400 text-stone-800 text-xs font-bold shadow-xs cursor-pointer transition">
+            🔄 Bake Another Batch
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="w-full max-w-6xl mx-auto px-4 py-2 text-center text-[11px] text-stone-400 font-medium">
+    Made with pastel love & bunny magic 🐰☁️🍫
+  </footer>
+
+  <script>
+    // =========================================================
+    // SOUND ENGINE (Gentle Pastel Web Audio Synths - No External URLs)
+    // =========================================================
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundToggleBtn').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'boop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(520, now);
+          osc.frequency.exponentialRampToValueAtTime(780, now + 0.12);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+          osc.start(now);
+          osc.stop(now + 0.15);
+        } else if (type === 'pour') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(280, now);
+          osc.frequency.linearRampToValueAtTime(360, now + 0.35);
+          gain.gain.setValueAtTime(0.09, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+          osc.start(now);
+          osc.stop(now + 0.42);
+        } else if (type === 'crack') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(640, now);
+          osc.frequency.exponentialRampToValueAtTime(190, now + 0.09);
+          gain.gain.setValueAtTime(0.11, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'stir') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(340, now);
+          osc.frequency.exponentialRampToValueAtTime(480, now + 0.18);
+          gain.gain.setValueAtTime(0.09, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } else if (type === 'spray') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(950, now);
+          osc.frequency.linearRampToValueAtTime(1250, now + 0.25);
+          gain.gain.setValueAtTime(0.04, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        } else if (type === 'ding') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, now);
+          osc.frequency.setValueAtTime(1174.66, now + 0.15);
+          gain.gain.setValueAtTime(0.16, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+          osc.start(now);
+          osc.stop(now + 0.78);
+        }
+      } catch (e) {
+        // Ignore audio errors if blocked by browser autoplay policy
+      }
+    }
+
+    // =========================================================
+    // GAME STATE
+    // =========================================================
+    const state = {
+      phase: 'PREHEAT', // PREHEAT -> INGREDIENTS -> STIR -> CABINET -> SPRAY -> POUR -> BAKE -> DONE
+      ovenTemp: 72,
+      ovenPreheating: false,
+      ovenReady: false,
+      ingredients: {
+        butter: false,
+        sugar: false,
+        egg1: false,
+        egg2: false,
+        flour: false,
+        cocoa: false
+      },
+      pendingEggCrack: null, // 'egg1' or 'egg2' when hovering above bowl waiting to be cracked
+      isAnimating: false,
+      stirCount: 0,
+      cabinetOpened: false,
+      panPlaced: false,
+      panSprayed: false,
+      batterPoured: false,
+      inOven: false,
+      bakeMinutesLeft: 24
+    };
+
+    let preheatInterval = null;
+    let bakeInterval = null;
+    const kitchenScrollContainer = document.getElementById('kitchenScrollContainer');
+
+    // =========================================================
+    // INITIALIZATION & SCROLL HANDLING
+    // =========================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      // Start centered on the main baking counter so scrolling left leads to the oven!
+      const maxScroll = kitchenScrollContainer.scrollWidth - kitchenScrollContainer.clientWidth;
+      kitchenScrollContainer.scrollLeft = Math.min(maxScroll, 540);
+      updateScrollIndicator();
+
+      kitchenScrollContainer.addEventListener('scroll', updateScrollIndicator);
+      enableDragScroll(kitchenScrollContainer);
+      renderControls();
+    });
+
+    function enableDragScroll(el) {
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+
+      el.addEventListener('mousedown', (e) => {
+        if (e.target.closest('button') || e.target.closest('.cursor-pointer')) return;
+        isDown = true;
+        startX = e.pageX - el.offsetLeft;
+        scrollLeft = el.scrollLeft;
+      });
+      el.addEventListener('mouseleave', () => { isDown = false; });
+      el.addEventListener('mouseup', () => { isDown = false; });
+      el.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - el.offsetLeft;
+        const walk = (x - startX) * 1.4;
+        el.scrollLeft = scrollLeft - walk;
+      });
+    }
+
+    function scrollToStation(station) {
+      if (!kitchenScrollContainer) return;
+      if (station === 'oven') {
+        kitchenScrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
+      } else if (station === 'sink') {
+        const maxScroll = kitchenScrollContainer.scrollWidth - kitchenScrollContainer.clientWidth;
+        kitchenScrollContainer.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      } else {
+        const maxScroll = kitchenScrollContainer.scrollWidth - kitchenScrollContainer.clientWidth;
+        kitchenScrollContainer.scrollTo({ left: Math.min(maxScroll, 540), behavior: 'smooth' });
+      }
+    }
+
+    function updateScrollIndicator() {
+      if (!kitchenScrollContainer) return;
+      const scrollLeft = kitchenScrollContainer.scrollLeft;
+      const zoneBadge = document.getElementById('currentZoneBadge');
+
+      if (scrollLeft < 260) {
+        zoneBadge.textContent = '🔥 Viewing: Oven Station';
+      } else if (scrollLeft > 740) {
+        zoneBadge.textContent = '🫧 Viewing: Counter & Sink';
+      } else {
+        zoneBadge.textContent = '🥣 Viewing: Baking Counter';
+      }
+    }
+
+    // =========================================================
+    // UI HELPERS (Messages, Sparkles, Cloud Bunny Assistant)
+    // =========================================================
+    function setBunnyMessage(htmlText) {
+      document.getElementById('bunnySpeechText').innerHTML = htmlText;
+    }
+
+    function updateStepBadge(stepNum, labelText) {
+      document.getElementById('stepNumberText').textContent = stepNum;
+      document.getElementById('phaseBadge').textContent = labelText;
+    }
+
+    function spawnSparkles(x, y, count = 6, color = '#F7B8C8') {
+      const layer = document.getElementById('sparkleLayer');
+      for (let i = 0; i < count; i++) {
+        const dx = (Math.random() - 0.5) * 90;
+        const dy = (Math.random() - 0.5) * 60;
+        const star = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        star.setAttribute('x', x + dx);
+        star.setAttribute('y', y + dy);
+        star.setAttribute('fill', color);
+        star.setAttribute('font-size', '18');
+        star.setAttribute('class', 'sparkle-particle');
+        star.textContent = i % 2 === 0 ? '✨' : '🌸';
+        layer.appendChild(star);
+        setTimeout(() => star.remove(), 900);
+      }
+    }
+
+    function toggleCloudAssistant(show) {
+      const modal = document.getElementById('cloudAssistantModal');
+      if (show) {
+        playSound('boop');
+        updateCloudHelpContent();
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function updateCloudHelpContent() {
+      const helpBody = document.getElementById('cloudHelpBody');
+      const checklist = document.getElementById('cloudChecklist');
+      const ing = state.ingredients;
+
+      checklist.innerHTML = `
+        <li>${ing.butter ? '✅' : '⬜'} ½ cup Melted Butter</li>
+        <li>${ing.sugar ? '✅' : '⬜'} 1 cup Sugar</li>
+        <li>${ing.egg1 ? '✅' : '⬜'} Large Egg #1 (Crack!)</li>
+        <li>${ing.egg2 ? '✅' : '⬜'} Large Egg #2 (Crack!)</li>
+        <li>${ing.flour ? '✅' : '⬜'} ½ cup All-Purpose Flour</li>
+        <li>${ing.cocoa ? '✅' : '⬜'} ⅓ cup Cocoa & Vanilla</li>
+      `;
+
+      const tips = {
+        PREHEAT: "Always preheat your oven to <strong>350°F</strong> first! Scroll left to the pastel mint oven and click the Preheat dial.",
+        INGREDIENTS: "Tap each ingredient button on the bottom bar to pour it into our counter bowl! For the eggs, tap to hold an egg over the bowl and click it to crack the shell open!",
+        STIR: "Click the big pink mixing bowl (or the Whisk button) 4 times to stir all the dry and wet ingredients into glossy brownie batter!",
+        CABINET: "Click the lavender wall cabinet above the counter to swing its doors open and take out the 8x8 baking pan!",
+        SPRAY: "Click the cooking spray button to mist the 8x8 pan so our fudgy brownies lift out cleanly after baking.",
+        POUR: "Click the mixing bowl to pour the brownie batter into the tray! Once poured, we'll slide the bowl right into the sink on the right.",
+        BAKE: "Our mixing bowl is soaking in the sink! Scroll left to the preheated 350°F oven and slide your tray inside for 24 minutes.",
+        DONE: "Your brownies are baked! Check BunBun’s tray guide below to learn how shiny aluminum, dark metal, and glass pans change baking times."
+      };
+      helpBody.innerHTML = tips[state.phase] || tips.INGREDIENTS;
+    }
+
+    // =========================================================
+    // STEP 1: PREHEAT OVEN
+    // =========================================================
+    function startPreheat() {
+      if (state.ovenPreheating || state.ovenReady) return;
+      state.ovenPreheating = true;
+      playSound('boop');
+
+      // Scroll left to show the oven heating up if user isn't looking at it
+      scrollToStation('oven');
+
+      document.getElementById('preheatDialNeedle').style.transform = 'rotate(115deg)';
+      document.getElementById('ovenWindowGlass').setAttribute('fill', 'url(#ovenGlassWarm)');
+      document.getElementById('ovenDigitalSub').textContent = 'HEATING...';
+      spawnSparkles(185, 240, 7, '#FDBA74');
+
+      // Unlock ingredients right away while oven preheats in background!
+      state.phase = 'INGREDIENTS';
+      updateStepBadge(2, 'Step 2: Add Ingredients');
+      setBunnyMessage(
+        "Yay! The oven is warming up to <strong>350°F</strong>! Now <strong>scroll right</strong> back to the baking counter and add each ingredient into the mixing bowl!"
+      );
+      renderControls();
+
+      setTimeout(() => {
+        if (state.phase === 'INGREDIENTS') {
+          scrollToStation('counter');
+        }
+      }, 1250);
+
+      preheatInterval = setInterval(() => {
+        if (state.ovenTemp < 350) {
+          state.ovenTemp += 14;
+          if (state.ovenTemp >= 350) {
+            state.ovenTemp = 350;
+            state.ovenReady = true;
+            state.ovenPreheating = false;
+            clearInterval(preheatInterval);
+            playSound('ding');
+            document.getElementById('ovenDigitalTemp').textContent = '350°F';
+            document.getElementById('ovenDigitalSub').textContent = 'READY!';
+            document.getElementById('headerTempText').textContent = '350°F (Ready!)';
+            document.getElementById('headerOvenPill').className =
+              'px-3 py-1.5 rounded-2xl bg-amber-100 border border-amber-300 text-xs sm:text-sm font-bold text-amber-800 flex items-center gap-1.5';
+          } else {
+            document.getElementById('ovenDigitalTemp').textContent = `${state.ovenTemp}°F`;
+            document.getElementById('headerTempText').textContent = `${state.ovenTemp}°F (Heating)`;
+          }
+        }
+      }, 450);
+    }
+
+    // =========================================================
+    // STEP 2: ANIMATED INGREDIENTS (POURING & EGG CRACKING)
+    // =========================================================
+    function addIngredient(key) {
+      if (state.phase !== 'INGREDIENTS' || state.isAnimating || state.ingredients[key]) return;
+      scrollToStation('counter');
+
+      const pourLayer = document.getElementById('activePourLayer');
+
+      // Handle Interactive Egg Cracking!
+      if (key === 'egg1' || key === 'egg2') {
+        if (state.pendingEggCrack === key) {
+          crackHoveredEgg(key);
+          return;
+        }
+        state.pendingEggCrack = key;
+        playSound('boop');
+        const eggX = key === 'egg1' ? -30 : 28;
+        pourLayer.innerHTML = `
+          <g id="hoverEggGroup" transform="translate(${eggX}, -76)" class="cursor-pointer animate-float" onclick="crackHoveredEgg('${key}')">
+            <ellipse cx="0" cy="0" rx="18" ry="23" fill="#FFF7ED" stroke="#E7C8A9" stroke-width="2.5" />
+            <path d="M-12 -2 L-4 3 L3 -3 L11 2" fill="none" stroke="#D6B28D" stroke-width="2" stroke-linecap="round" />
+            <rect x="-46" y="-44" width="92" height="20" rx="10" fill="#FDECEF" stroke="#F49CB5" stroke-width="1.5" />
+            <text x="0" y="-31" text-anchor="middle" fill="#BE185D" font-size="10" font-weight="700">Click Egg to Crack!</text>
+          </g>
+        `;
+        setBunnyMessage("Ooh! <strong>Click the egg</strong> hovering over the bowl to crack its shell open and drop the yolk in! 🥚✨");
+        renderControls();
+        return;
+      }
+
+      // Clear any uncracked egg if player clicked a different ingredient
+      state.pendingEggCrack = null;
+      state.isAnimating = true;
+      renderControls();
+
+      if (key === 'butter') {
+        playSound('pour');
+        pourLayer.innerHTML = `
+          <g transform="translate(-75, -78) rotate(42)">
+            <rect x="-18" y="-14" width="36" height="32" rx="8" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="2.5" />
+            <rect x="-14" y="0" width="28" height="14" rx="4" fill="#FDE047" />
+          </g>
+          <path d="M-54 -56 Q-34 -32 -22 -6" fill="none" stroke="#FACC15" stroke-width="9" stroke-linecap="round" />
+        `;
+        setTimeout(() => {
+          document.getElementById('layerButter').setAttribute('opacity', '1');
+          spawnSparkles(895, 205, 5, '#FDE047');
+        }, 380);
+        setTimeout(() => finishIngredientStep('butter', "Silky melted butter poured in! 🧈"), 820);
+
+      } else if (key === 'sugar') {
+        playSound('pour');
+        pourLayer.innerHTML = `
+          <g transform="translate(78, -82) rotate(-42)">
+            <rect x="-18" y="-16" width="36" height="34" rx="8" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="2.5" />
+          </g>
+          <line x1="56" y1="-60" x2="18" y2="-8" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="4 5" stroke-linecap="round" />
+          <line x1="62" y1="-58" x2="26" y2="-6" stroke="#FDE68A" stroke-width="4" stroke-dasharray="3 6" stroke-linecap="round" />
+        `;
+        setTimeout(() => {
+          document.getElementById('layerSugar').setAttribute('opacity', '1');
+          spawnSparkles(895, 205, 5, '#DDD6FE');
+        }, 380);
+        setTimeout(() => finishIngredientStep('sugar', "Sweet sugar crystals added! ✨"), 820);
+
+      } else if (key === 'flour') {
+        playSound('pour');
+        pourLayer.innerHTML = `
+          <g transform="translate(-78, -84) rotate(44)">
+            <rect x="-20" y="-18" width="40" height="38" rx="9" fill="#FDECEF" stroke="#F49CB5" stroke-width="2.5" />
+            <text x="0" y="5" text-anchor="middle" fill="#BE185D" font-size="8" font-weight="700">FLOUR</text>
+          </g>
+          <path d="M-54 -60 Q-25 -35 -6 -8" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" opacity="0.95" />
+          <circle cx="-12" cy="-12" r="14" fill="#FFFFFF" opacity="0.85" />
+          <circle cx="14" cy="-10" r="12" fill="#FFFFFF" opacity="0.8" />
+        `;
+        setTimeout(() => {
+          document.getElementById('layerFlour').setAttribute('opacity', '1');
+          spawnSparkles(895, 202, 6, '#FFFFFF');
+        }, 400);
+        setTimeout(() => finishIngredientStep('flour', "Poof! Soft flour poured cleanly into the bowl! ☁️"), 860);
+
+      } else if (key === 'cocoa') {
+        playSound('pour');
+        pourLayer.innerHTML = `
+          <g transform="translate(80, -82) rotate(-42)">
+            <rect x="-18" y="-16" width="36" height="34" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2.5" />
+            <text x="0" y="5" text-anchor="middle" fill="#78350F" font-size="7.5" font-weight="700">COCOA</text>
+          </g>
+          <path d="M56 -60 Q28 -35 8 -8" fill="none" stroke="#6F3E26" stroke-width="11" stroke-linecap="round" />
+          <circle cx="10" cy="-10" r="10" fill="#7C472C" opacity="0.7" />
+        `;
+        setTimeout(() => {
+          document.getElementById('layerCocoa').setAttribute('opacity', '1');
+          spawnSparkles(895, 205, 6, '#D97706');
+        }, 400);
+        setTimeout(() => finishIngredientStep('cocoa', "Rich cocoa powder & vanilla added! That smells heavenly! 🍫"), 850);
+      }
+    }
+
+    function crackHoveredEgg(key) {
+      if (state.isAnimating || state.ingredients[key]) return;
+      state.isAnimating = true;
+      state.pendingEggCrack = null;
+      playSound('crack');
+      renderControls();
+
+      const pourLayer = document.getElementById('activePourLayer');
+      const eggX = key === 'egg1' ? -30 : 28;
+
+      // Animate Egg Shell Splitting Open & Yolk Dropping In!
+      pourLayer.innerHTML = `
+        <g transform="translate(${eggX}, -66)">
+          <!-- Left Split Shell Half -->
+          <path d="M-24 -6 C-28 -20 -12 -26 -6 -16 L-10 -6 L-4 2 L-14 10 C-22 8 -24 0 -24 -6 Z" fill="#FFF7ED" stroke="#D6B28D" stroke-width="2.5" />
+          <!-- Right Split Shell Half -->
+          <path d="M24 -6 C28 -20 12 -26 6 -16 L10 -6 L4 2 L14 10 C22 8 24 0 24 -6 Z" fill="#FFF7ED" stroke="#D6B28D" stroke-width="2.5" />
+          <!-- Falling Golden Yolk -->
+          <circle cx="0" cy="28" r="9" fill="#FBBF24" />
+          <ellipse cx="0" cy="24" rx="7" ry="14" fill="#FEF9C3" opacity="0.8" />
+        </g>
+      `;
+
+      setTimeout(() => {
+        document.getElementById(key === 'egg1' ? 'layerEgg1' : 'layerEgg2').setAttribute('opacity', '1');
+        spawnSparkles(895 + eggX, 206, 5, '#FBBF24');
+      }, 340);
+
+      setTimeout(() => {
+        finishIngredientStep(key, `Crack! ${key === 'egg1' ? 'First' : 'Second'} fresh egg added right into the bowl! 🥚`);
+      }, 780);
+    }
+
+    function finishIngredientStep(key, message) {
+      document.getElementById('activePourLayer').innerHTML = '';
+      state.ingredients[key] = true;
+      state.isAnimating = false;
+
+      const allDone = Object.values(state.ingredients).every(Boolean);
+      if (allDone) {
+        state.phase = 'STIR';
+        document.getElementById('whiskTool').setAttribute('opacity', '1');
+        updateStepBadge(3, 'Step 3: Stir Batter');
+        setBunnyMessage(
+          "Every ingredient is in the bowl! Now <strong>click the mixing bowl</strong> (or press <strong>Whisk Batter</strong>) to stir everything together! 🥣"
+        );
+      } else {
+        setBunnyMessage(message + " Keep adding the remaining ingredients!");
+      }
+      renderControls();
+    }
+
+    // =========================================================
+    // STEP 3: STIRRING ANIMATION
+    // =========================================================
+    function stirBatter() {
+      if (state.phase !== 'STIR' || state.isAnimating) return;
+      state.isAnimating = true;
+      state.stirCount += 1;
+      playSound('stir');
+
+      const whisk = document.getElementById('whiskTool');
+      const offsets = [-34, 34, -26, 26];
+      const dx = offsets[(state.stirCount - 1) % offsets.length];
+      whisk.style.transform = `translate(${dx}px, -42px) rotate(${dx * 0.45}deg)`;
+      spawnSparkles(895 + dx, 200, 4, '#C4B5FD');
+
+      setTimeout(() => {
+        whisk.style.transform = 'translate(0px, -45px) rotate(0deg)';
+        state.isAnimating = false;
+
+        if (state.stirCount === 2) {
+          // Partially blended
+          ['layerButter', 'layerSugar', 'layerFlour', 'layerCocoa'].forEach((id) => {
+            document.getElementById(id).setAttribute('opacity', '0.45');
+          });
+          document.getElementById('layerMixedBatter').setAttribute('opacity', '0.55');
+        }
+
+        if (state.stirCount >= 4) {
+          // Fully mixed glossy brownie batter!
+          ['layerButter', 'layerSugar', 'layerEgg1', 'layerEgg2', 'layerFlour', 'layerCocoa'].forEach((id) => {
+            document.getElementById(id).setAttribute('opacity', '0');
+          });
+          document.getElementById('layerMixedBatter').setAttribute('opacity', '1');
+          whisk.setAttribute('opacity', '0');
+
+          state.phase = 'CABINET';
+          updateStepBadge(4, 'Step 4: Open Cabinet');
+          playSound('ding');
+          spawnSparkles(895, 195, 8, '#F7B8C8');
+          setBunnyMessage(
+            "Look how glossy and fudgy that brownie batter is! Next, <strong>click the lavender wall cabinet</strong> above the counter to grab our 8x8 baking pan! 🗄️"
+          );
+        } else {
+          setBunnyMessage(`Nice swirling! Stir ${4 - state.stirCount} more time${4 - state.stirCount > 1 ? 's' : ''} until the batter is smooth! (${state.stirCount}/4)`);
+        }
+        renderControls();
+      }, 320);
+    }
+
+    // =========================================================
+    // STEP 4: OPEN CABINET & TAKE OUT BAKING TRAY
+    // =========================================================
+    function handleCabinetClick() {
+      if (state.phase === 'CABINET') {
+        if (!state.cabinetOpened) {
+          state.cabinetOpened = true;
+          playSound('boop');
+          document.getElementById('wallCabinetGroup').classList.add('cabinet-open');
+          spawnSparkles(1255, 95, 6, '#C4B5FD');
+          setBunnyMessage("Cabinet doors opened! Now <strong>click the cabinet again</strong> (or click <strong>Take Out Pan</strong>) to place the 8x8 pan on the counter!");
+          renderControls();
+        } else if (!state.panPlaced) {
+          takePanFromCabinet();
+        }
+      } else {
+        playSound('boop');
+        setBunnyMessage("That’s our pastel lavender wall cabinet! We’ll open it right after mixing our brownie batter.");
+      }
+    }
+
+    function takePanFromCabinet() {
+      if (state.panPlaced) return;
+      state.panPlaced = true;
+      playSound('boop');
+      document.getElementById('cabinetSuppliesGroup').setAttribute('opacity', '0.2');
+      document.getElementById('counterPanStage').setAttribute('opacity', '1');
+      spawnSparkles(1255, 265, 7, '#BAE6FD');
+
+      state.phase = 'SPRAY';
+      updateStepBadge(5, 'Step 5: Spray Tray');
+      setBunnyMessage(
+        "Great! Now let’s coat the 8x8 baking pan with non-stick cooking spray so our brownies won’t stick! Click <strong>Spray Baking Tray</strong>! ✨"
+      );
+      renderControls();
+    }
+
+    // =========================================================
+    // STEP 5: SPRAY THE BAKING TRAY
+    // =========================================================
+    function sprayBakingTray() {
+      if (state.phase !== 'SPRAY' || state.panSprayed) return;
+      state.panSprayed = true;
+      playSound('spray');
+
+      const sprayLayer = document.getElementById('panSprayAnimLayer');
+      sprayLayer.innerHTML = `
+        <g transform="translate(46, -54) rotate(-38)">
+          <rect x="-12" y="-18" width="24" height="42" rx="7" fill="#CBEEDB" stroke="#8FD6B1" stroke-width="2.5" />
+          <rect x="-5" y="-25" width="10" height="7" rx="2" fill="#FFFDF9" />
+        </g>
+        <path d="M22 -36 L-36 -8 L16 -4 Z" fill="#FEF9C3" opacity="0.65" />
+      `;
+
+      setTimeout(() => {
+        document.getElementById('panSpraySheen').setAttribute('opacity', '0.85');
+        spawnSparkles(1255, 265, 6, '#FEF08A');
+      }, 300);
+
+      setTimeout(() => {
+        sprayLayer.innerHTML = '';
+        state.phase = 'POUR';
+        updateStepBadge(6, 'Step 6: Pour Batter');
+        setBunnyMessage(
+          "The tray is nicely greased! Now <strong>click the mixing bowl</strong> (or press <strong>Pour Batter</strong>) to pour the batter into the tray and send the used bowl to the sink! 🥣➡️🫧"
+        );
+        renderControls();
+      }, 750);
+    }
+
+    // =========================================================
+    // STEP 6: POUR BATTER INTO TRAY & GLIDE BOWL INTO SINK
+    // =========================================================
+    function pourBatterIntoTray() {
+      if (state.phase !== 'POUR' || state.batterPoured) return;
+      state.batterPoured = true;
+      playSound('pour');
+
+      // Fade out counter shadow while the bowl lifts to pour & moves to the sink
+      const bowlShadow = document.getElementById('bowlCounterShadow');
+      if (bowlShadow) bowlShadow.setAttribute('opacity', '0');
+
+      // Move & tilt the mixing bowl on the counter right next to the baking pan!
+      const bowl = document.getElementById('bigBowlGroup');
+      bowl.style.transform = 'translate(215px, -48px) rotate(48deg)';
+
+      // Draw thick chocolate batter ribbon pouring into the pan
+      const pourLayer = document.getElementById('activePourLayer');
+      setTimeout(() => {
+        pourLayer.innerHTML = `
+          <path d="M290 18 Q325 36 345 64" fill="none" stroke="#522B17" stroke-width="18" stroke-linecap="round" />
+          <path d="M292 18 Q325 36 345 64" fill="none" stroke="#7A472B" stroke-width="6" stroke-linecap="round" />
+        `;
+        document.getElementById('panFilledBatter').setAttribute('opacity', '1');
+        document.getElementById('layerMixedBatter').setAttribute('opacity', '0.25');
+        spawnSparkles(1245, 265, 6, '#D7A88E');
+      }, 320);
+
+      // Glide the used mixing bowl over into the connected sink on the right of the counter!
+      setTimeout(() => {
+        pourLayer.innerHTML = '';
+        bowl.style.transform = 'translate(740px, 24px) rotate(-6deg)';
+        document.getElementById('sinkBubblesLayer').setAttribute('opacity', '1');
+        playSound('boop');
+        spawnSparkles(1635, 275, 7, '#BAE6FD');
+        prepareBakePhase();
+      }, 1150);
+    }
+
+    function handleBowlClick() {
+      if (state.phase === 'STIR') {
+        stirBatter();
+      } else if (state.phase === 'POUR' && !state.batterPoured) {
+        pourBatterIntoTray();
+      } else if (state.batterPoured) {
+        playSound('boop');
+        spawnSparkles(1635, 270, 6, '#BAE6FD');
+        setBunnyMessage("Our mixing bowl is soaking in bubbly water in the sink on the right so cleanup is super easy! 🫧🐰");
+      } else {
+        playSound('boop');
+      }
+    }
+
+    function handleSinkClick() {
+      playSound('boop');
+      spawnSparkles(1635, 270, 6, '#BAE6FD');
+      if (state.batterPoured) {
+        setBunnyMessage("The used mixing bowl is resting nicely in the sink! Don’t forget to <strong>scroll left</strong> to check on our brownies in the oven! 🫧✨");
+      } else {
+        setBunnyMessage("That’s our cozy pastel sink connected to the right end of the counter—once we pour our batter into the pan, we’ll pop the bowl right in there to soak! 🫧");
+      }
+    }
+
+    function handleCounterPanClick() {
+      if (state.phase === 'SPRAY') {
+        sprayBakingTray();
+      } else if (state.phase === 'POUR') {
+        pourBatterIntoTray();
+      } else if (state.phase === 'BAKE' && !state.inOven) {
+        putTrayInOven();
+      }
+    }
+
+    // =========================================================
+    // STEP 7: PUT TRAY IN PREHEATED OVEN & BAKE FOR 24 MINUTES
+    // =========================================================
+    function prepareBakePhase() {
+      // Ensure oven has reached 350°F
+      if (!state.ovenReady) {
+        clearInterval(preheatInterval);
+        state.ovenTemp = 350;
+        state.ovenReady = true;
+        state.ovenPreheating = false;
+        document.getElementById('ovenDigitalTemp').textContent = '350°F';
+        document.getElementById('ovenDigitalSub').textContent = 'READY!';
+        document.getElementById('headerTempText').textContent = '350°F (Ready!)';
+        document.getElementById('headerOvenPill').className =
+          'px-3 py-1.5 rounded-2xl bg-amber-100 border border-amber-300 text-xs sm:text-sm font-bold text-amber-800 flex items-center gap-1.5';
+      }
+
+      state.phase = 'BAKE';
+      updateStepBadge(7, 'Step 7: Bake 24 Mins');
+      playSound('ding');
+      setBunnyMessage(
+        "<em>Ding!</em> The oven is ready at <strong>350°F</strong>, and our mixing bowl is soaking in the sink! <strong>Scroll left</strong> to the oven and slide your tray inside for <strong>24 minutes</strong>!"
+      );
+      renderControls();
+    }
+
+    function putTrayInOven() {
+      if (state.phase !== 'BAKE' || state.inOven) return;
+      state.inOven = true;
+      playSound('boop');
+
+      // Hide tray from counter & show inside oven!
+      document.getElementById('counterPanStage').setAttribute('opacity', '0');
+      document.getElementById('ovenTrayGroup').setAttribute('opacity', '1');
+      document.getElementById('ovenSteamGroup').setAttribute('opacity', '1');
+
+      // Scroll left to watch the brownies bake in the oven!
+      scrollToStation('oven');
+      spawnSparkles(185, 320, 8, '#FDBA74');
+      renderControls();
+
+      setBunnyMessage(
+        "The brownie tray is inside the <strong>350°F</strong> oven! Baking for <strong>24 minutes</strong>—watch them rise and turn rich and fudgy! 🍫⏳"
+      );
+
+      state.bakeMinutesLeft = 24;
+      document.getElementById('ovenDigitalSub').textContent = '24:00 LEFT';
+
+      bakeInterval = setInterval(() => {
+        state.bakeMinutesLeft -= 1;
+        const minsFormatted = String(Math.max(0, state.bakeMinutesLeft)).padStart(2, '0');
+        document.getElementById('ovenDigitalSub').textContent = `${minsFormatted}:00 LEFT`;
+
+        // Gradually puff up and darken the brownies inside the oven
+        if (state.bakeMinutesLeft === 14) {
+          const brownieLayer = document.getElementById('ovenBrownieLayer');
+          brownieLayer.setAttribute('y', '3');
+          brownieLayer.setAttribute('height', '13');
+          brownieLayer.setAttribute('fill', '#4A2511');
+        } else if (state.bakeMinutesLeft === 6) {
+          const brownieLayer = document.getElementById('ovenBrownieLayer');
+          brownieLayer.setAttribute('y', '0');
+          brownieLayer.setAttribute('height', '16');
+          brownieLayer.setAttribute('fill', '#3E1E0E');
+        }
+
+        if (state.bakeMinutesLeft <= 0) {
+          clearInterval(bakeInterval);
+          completeBaking();
+        }
+      }, 520); // ~12.5 seconds total cozy bake time representing 24 minutes
+    }
+
+    // =========================================================
+    // STEP 8: BAKING COMPLETE & TRAY MATERIAL TUTORIAL
+    // =========================================================
+    function completeBaking() {
+      state.phase = 'DONE';
+      playSound('ding');
+      document.getElementById('ovenDigitalSub').textContent = 'DONE! ✨';
+      document.getElementById('ovenSteamGroup').setAttribute('opacity', '0');
+      updateStepBadge(7, 'Complete! 🎉');
+      spawnSparkles(185, 300, 12, '#F7B8C8');
+
+      setBunnyMessage(
+        "<em>Ding-dong!</em> Our 24-minute from-scratch brownies are baked to perfection! 🍫🎉 Remember: <strong>the baking tray you use matters for baking time!</strong> Check out my guide below!"
+      );
+
+      document.getElementById('trayLessonCard').classList.remove('hidden');
+      selectTrayLesson('aluminum');
+      renderControls();
+    }
+
+    function selectTrayLesson(type) {
+      playSound('boop');
+      const detail = document.getElementById('trayLessonDetail');
+      const btnAlum = document.getElementById('btnTrayAluminum');
+      const btnDark = document.getElementById('btnTrayDark');
+      const btnGlass = document.getElementById('btnTrayGlass');
+
+      const inactiveClass = 'px-3 py-2 rounded-2xl bg-white hover:bg-pink-50 border border-purple-200 text-stone-700 text-xs font-bold cursor-pointer transition';
+      btnAlum.className = inactiveClass;
+      btnDark.className = inactiveClass;
+      btnGlass.className = inactiveClass;
+
+      if (type === 'aluminum') {
+        btnAlum.className = 'px-3 py-2 rounded-2xl bg-pink-200 border-2 border-pink-400 text-stone-800 text-xs font-bold shadow-xs cursor-pointer transition';
+        detail.innerHTML =
+          '<strong>✨ Light Shiny Aluminum Pan (24 Minutes):</strong> Reflects heat evenly across the batter so your brownies bake right on time with soft, chewy edges and a fudgy center!';
+      } else if (type === 'dark') {
+        btnDark.className = 'px-3 py-2 rounded-2xl bg-purple-200 border-2 border-purple-400 text-stone-800 text-xs font-bold shadow-xs cursor-pointer transition';
+        detail.innerHTML =
+          '<strong>🖤 Dark Non-Stick Metal Pan (19–21 Minutes):</strong> Dark surfaces absorb heat much faster! Your brownies will bake <strong>3–5 minutes faster</strong> and get crispier edges—check early or lower the oven by 25°F.';
+      } else if (type === 'glass') {
+        btnGlass.className = 'px-3 py-2 rounded-2xl bg-emerald-200 border-2 border-emerald-400 text-stone-800 text-xs font-bold shadow-xs cursor-pointer transition';
+        detail.innerHTML =
+          '<strong>🧊 Glass or Ceramic Baking Dish (27–29 Minutes):</strong> Glass heats up slowly but holds onto heat longer, so brownies take <strong>3–5 minutes longer</strong> to bake through the middle!';
+      }
+    }
+
+    // =========================================================
+    // DYNAMIC BOTTOM CONTROLS RENDERER
+    // =========================================================
+    function renderControls() {
+      const area = document.getElementById('actionControlsArea');
+      const p = state.phase;
+
+      if (p === 'PREHEAT') {
+        area.innerHTML = `
+          <button onclick="scrollToStation('oven')" class="px-3.5 py-2.5 rounded-2xl bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-emerald-900 text-xs sm:text-sm font-bold cursor-pointer transition">
+            ← Scroll Left to Oven
+          </button>
+          <button onclick="startPreheat()" class="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-pink-300 to-amber-200 hover:from-pink-400 hover:to-amber-300 border-2 border-pink-400 text-stone-800 text-xs sm:text-sm font-bold shadow-sm animate-pulse-glow cursor-pointer transition">
+            🔥 Preheat Oven (350°F)
+          </button>
+        `;
+      } else if (p === 'INGREDIENTS') {
+        const items = [
+          { key: 'butter', label: '🧈 Butter' },
+          { key: 'sugar', label: '🍬 Sugar' },
+          { key: 'egg1', label: state.pendingEggCrack === 'egg1' ? '💥 Crack Egg 1!' : '🥚 Egg 1' },
+          { key: 'egg2', label: state.pendingEggCrack === 'egg2' ? '💥 Crack Egg 2!' : '🥚 Egg 2' },
+          { key: 'flour', label: '☁️ Flour' },
+          { key: 'cocoa', label: '🍫 Cocoa' }
+        ];
+        area.innerHTML = items
+          .map((item) => {
+            const done = state.ingredients[item.key];
+            const isPendingCrack = state.pendingEggCrack === item.key;
+            if (done) {
+              return `<span class="px-3 py-2 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold opacity-75">✅ ${item.label.split(' ')[1]}</span>`;
+            }
+            return `
+              <button onclick="addIngredient('${item.key}')" ${state.isAnimating ? 'disabled' : ''} class="px-3 py-2 rounded-2xl ${isPendingCrack ? 'bg-amber-200 border-2 border-amber-400 animate-bounce' : 'bg-pink-100 hover:bg-pink-200 border border-pink-300'} text-stone-800 text-xs font-bold shadow-2xs cursor-pointer transition disabled:opacity-50">
+                ${item.label}
+              </button>
+            `;
+          })
+          .join('');
+      } else if (p === 'STIR') {
+        area.innerHTML = `
+          <button onclick="stirBatter()" ${state.isAnimating ? 'disabled' : ''} class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-purple-200 to-pink-200 hover:from-purple-300 hover:to-pink-300 border-2 border-purple-300 text-stone-800 text-xs sm:text-sm font-bold shadow-sm cursor-pointer transition">
+            🥄 Whisk Batter (${state.stirCount}/4)
+          </button>
+        `;
+      } else if (p === 'CABINET') {
+        area.innerHTML = `
+          <button onclick="handleCabinetClick()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-purple-200 to-indigo-200 hover:from-purple-300 hover:to-indigo-300 border-2 border-purple-300 text-stone-800 text-xs sm:text-sm font-bold shadow-sm cursor-pointer transition">
+            ${state.cabinetOpened ? '📥 Take Out 8x8 Tray' : '🗄️ Open Wall Cabinet'}
+          </button>
+        `;
+      } else if (p === 'SPRAY') {
+        area.innerHTML = `
+          <button onclick="sprayBakingTray()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-200 to-amber-200 hover:from-emerald-300 hover:to-amber-300 border-2 border-emerald-300 text-stone-800 text-xs sm:text-sm font-bold shadow-sm cursor-pointer transition">
+            ✨ Spray Baking Tray
+          </button>
+        `;
+      } else if (p === 'POUR') {
+        area.innerHTML = `
+          <button onclick="pourBatterIntoTray()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-amber-200 to-pink-200 hover:from-amber-300 hover:to-pink-300 border-2 border-amber-300 text-stone-800 text-xs sm:text-sm font-bold shadow-sm cursor-pointer transition">
+            🍫 Pour Batter & Move Bowl to Sink
+          </button>
+        `;
+      } else if (p === 'BAKE') {
+        if (!state.inOven) {
+          area.innerHTML = `
+            <button onclick="scrollToStation('oven')" class="px-3.5 py-2.5 rounded-2xl bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-emerald-900 text-xs sm:text-sm font-bold cursor-pointer transition">
+              ← Scroll Left to Oven
+            </button>
+            <button onclick="putTrayInOven()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-pink-300 to-purple-200 hover:from-pink-400 hover:to-purple-300 border-2 border-pink-400 text-stone-800 text-xs sm:text-sm font-bold shadow-sm cursor-pointer transition">
+              🔥 Put Tray in Oven (24m)
+            </button>
+          `;
+        } else {
+          area.innerHTML = `
+            <div class="px-4 py-2 rounded-2xl bg-amber-100 border border-amber-300 text-amber-900 text-xs sm:text-sm font-bold">
+              ⏳ Baking... ${state.bakeMinutesLeft} min left
+            </div>
+          `;
+        }
+      } else if (p === 'DONE') {
+        area.innerHTML = `
+          <button onclick="resetBakery()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-pink-200 via-purple-200 to-emerald-200 hover:opacity-90 border-2 border-pink-300 text-stone-800 text-xs sm:text-sm font-bold shadow-sm cursor-pointer transition">
+            🔄 Bake Another Batch
+          </button>
+        `;
+      }
+    }
+
+    // =========================================================
+    // RESET BAKERY FOR REPLAYABILITY
+    // =========================================================
+    function resetBakery() {
+      clearInterval(preheatInterval);
+      clearInterval(bakeInterval);
+
+      state.phase = 'PREHEAT';
+      state.ovenTemp = 72;
+      state.ovenPreheating = false;
+      state.ovenReady = false;
+      state.ingredients = { butter: false, sugar: false, egg1: false, egg2: false, flour: false, cocoa: false };
+      state.pendingEggCrack = null;
+      state.isAnimating = false;
+      state.stirCount = 0;
+      state.cabinetOpened = false;
+      state.panPlaced = false;
+      state.panSprayed = false;
+      state.batterPoured = false;
+      state.inOven = false;
+      state.bakeMinutesLeft = 24;
+
+      // Reset Oven Visuals
+      document.getElementById('preheatDialNeedle').style.transform = 'rotate(0deg)';
+      document.getElementById('ovenWindowGlass').setAttribute('fill', 'url(#ovenGlassCold)');
+      document.getElementById('ovenDigitalTemp').textContent = '72°F';
+      document.getElementById('ovenDigitalSub').textContent = 'OFF';
+      document.getElementById('headerTempText').textContent = '72°F (Off)';
+      document.getElementById('headerOvenPill').className =
+        'px-3 py-1.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm font-bold text-emerald-700 flex items-center gap-1.5';
+      document.getElementById('ovenTrayGroup').setAttribute('opacity', '0');
+      document.getElementById('ovenSteamGroup').setAttribute('opacity', '0');
+      const brownieLayer = document.getElementById('ovenBrownieLayer');
+      brownieLayer.setAttribute('y', '6');
+      brownieLayer.setAttribute('height', '10');
+      brownieLayer.setAttribute('fill', '#5A301A');
+
+      // Reset Bowl, Sink & Counter Layers
+      ['layerButter', 'layerSugar', 'layerEgg1', 'layerEgg2', 'layerFlour', 'layerCocoa', 'layerMixedBatter'].forEach((id) => {
+        document.getElementById(id).setAttribute('opacity', '0');
+      });
+      document.getElementById('bigBowlGroup').style.transform = 'translate(0px, 0px) rotate(0deg)';
+      const bowlShadow = document.getElementById('bowlCounterShadow');
+      if (bowlShadow) bowlShadow.setAttribute('opacity', '0.6');
+      document.getElementById('sinkBubblesLayer').setAttribute('opacity', '0');
+      document.getElementById('whiskTool').setAttribute('opacity', '0');
+      document.getElementById('activePourLayer').innerHTML = '';
+
+      // Reset Cabinet & Pan
+      document.getElementById('wallCabinetGroup').classList.remove('cabinet-open');
+      document.getElementById('cabinetSuppliesGroup').setAttribute('opacity', '1');
+      document.getElementById('counterPanStage').setAttribute('opacity', '0');
+      document.getElementById('panSpraySheen').setAttribute('opacity', '0');
+      document.getElementById('panFilledBatter').setAttribute('opacity', '0');
+      document.getElementById('panSprayAnimLayer').innerHTML = '';
+
+      // Hide Lesson Card & Re-center Counter
+      document.getElementById('trayLessonCard').classList.add('hidden');
+      updateStepBadge(1, 'Step 1: Preheat Oven');
+      setBunnyMessage(
+        "Fresh batch time! Before we touch any ingredients, <strong>scroll left</strong> to the mint oven and <strong>preheat it to 350°F</strong>!"
+      );
+      scrollToStation('counter');
+      renderControls();
+    }
+  </script>
+</body>
+</html>
