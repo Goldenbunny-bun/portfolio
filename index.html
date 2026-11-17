@@ -6,20 +6,18 @@
   <title>Bunny Baking adventures</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-cream: #FFFDF8;
-      --pastel-pink: #FFD6E0;
-      --pastel-pink-dark: #F7B2C4;
-      --pastel-butter: #FFF3B0;
-      --pastel-mint: #D8F3DC;
-      --pastel-lavender: #E8DFF5;
-      --pastel-sky: #D8EEFE;
-      --text-cocoa: #5C4742;
-      --text-soft: #856D67;
-      --card-bg: #FFFFFF;
-      --shadow-soft: 0 10px 25px rgba(247, 178, 196, 0.25);
+      --oat-bg: #FAF7FF;
+      --lavender: #E5D9F2;
+      --lavender-deep: #C5B4E3;
+      --matcha: #DDF0E4;
+      --peach: #FDE2E4;
+      --lemon: #FFF5CC;
+      --sky: #DCEEFB;
+      --plum-text: #4B3F59;
+      --plum-muted: #786A8A;
     }
 
     * {
@@ -29,397 +27,335 @@
     }
 
     body {
-      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg-cream);
-      background-image: radial-gradient(#FFD6E0 1.5px, transparent 1.5px);
-      background-size: 28px 28px;
-      color: var(--text-cocoa);
-      min-height: 100vh;
-      padding: 2rem 1.25rem 6rem;
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--oat-bg);
+      background-image:
+        linear-gradient(90deg, rgba(197,180,227,0.12) 1px, transparent 1px),
+        linear-gradient(rgba(197,180,227,0.12) 1px, transparent 1px);
+      background-size: 26px 26px;
+      color: var(--plum-text);
+      padding: 2.5rem 1.25rem 5rem;
     }
 
-    .container {
-      max-width: 1050px;
+    .wrapper {
+      max-width: 1020px;
       margin: 0 auto;
     }
 
-    /* Cozy Bakery Header */
-    header {
-      background: linear-gradient(135deg, #FFE5EC 0%, #FFF3B0 100%);
-      border: 3px dashed var(--pastel-pink-dark);
-      border-radius: 32px;
-      padding: 2.5rem 2rem;
-      text-align: center;
-      box-shadow: var(--shadow-soft);
-      position: relative;
+    /* Scrapbook Hero Banner */
+    .hero-banner {
+      background: #FFFFFF;
+      border-radius: 28px;
+      padding: 2.25rem;
+      box-shadow: 0 12px 30px rgba(197, 180, 227, 0.28);
+      border: 2px solid var(--lavender);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
       margin-bottom: 2rem;
     }
 
-    .mascot-wrapper {
-      width: 110px;
-      height: 110px;
-      margin: 0 auto 0.75rem;
-      background: #FFFFFF;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 16px rgba(92, 71, 66, 0.08);
-      animation: gentleFloat 3.5s ease-in-out infinite;
+    .hero-text {
+      flex: 1 1 320px;
     }
 
-    @keyframes gentleFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
+    .hero-pill {
+      display: inline-block;
+      background: var(--matcha);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.65rem;
     }
 
     h1 {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      color: var(--text-cocoa);
-      letter-spacing: 0.5px;
+      font-size: clamp(1.9rem, 4vw, 2.75rem);
+      font-weight: 700;
       margin-bottom: 0.5rem;
+      color: var(--plum-text);
     }
 
-    .subtitle {
-      font-size: 1.05rem;
-      color: var(--text-soft);
-      max-width: 540px;
-      margin: 0 auto;
-    }
-
-    /* Filter Navigation Buttons */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-bottom: 2.25rem;
-    }
-
-    .filter-btn {
-      font-family: 'Fredoka', cursive, sans-serif;
+    .hero-text p {
+      color: var(--plum-muted);
+      line-height: 1.6;
       font-size: 1rem;
-      padding: 0.65rem 1.35rem;
-      border-radius: 999px;
-      border: 2.5px solid var(--pastel-pink-dark);
-      background: #FFFFFF;
-      color: var(--text-cocoa);
+    }
+
+    /* Interactive Bunny Assistant Box in Hero */
+    .assistant-card {
+      flex: 0 1 310px;
+      background: linear-gradient(145deg, var(--lavender) 0%, var(--peach) 100%);
+      border-radius: 24px;
+      padding: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
       cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 10px rgba(247, 178, 196, 0.15);
-    }
-
-    .filter-btn:hover {
-      background: var(--pastel-pink);
-      transform: translateY(-2px);
-    }
-
-    .filter-btn.active {
-      background: var(--pastel-pink-dark);
-      color: #FFFFFF;
-      box-shadow: 0 6px 14px rgba(247, 178, 196, 0.45);
-    }
-
-    /* Portfolio Grid */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .project-card {
-      background: var(--card-bg);
-      border-radius: 26px;
-      padding: 1.5rem;
-      border: 2px solid #FFE5EC;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      animation: popIn 0.35s ease;
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 14px 30px rgba(247, 178, 196, 0.35);
-    }
-
-    .project-card.hidden {
-      display: none;
-    }
-
-    .card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    /* Category Badges */
-    .category-badge {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      color: var(--text-cocoa);
-    }
-
-    .badge-simulations { background-color: var(--pastel-mint); }
-    .badge-sites { background-color: var(--pastel-sky); }
-    .badge-games { background-color: var(--pastel-pink); }
-    .badge-others { background-color: var(--pastel-lavender); }
-
-    .card-icon {
-      font-size: 1.5rem;
-    }
-
-    .project-card h2 {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 1.35rem;
-      margin-bottom: 0.5rem;
-      color: var(--text-cocoa);
-    }
-
-    .project-card p {
-      font-size: 0.95rem;
-      line-height: 1.55;
-      color: var(--text-soft);
-      margin-bottom: 1.35rem;
-    }
-
-    .visit-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      text-decoration: none;
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 0.95rem;
-      background: var(--pastel-butter);
-      color: var(--text-cocoa);
-      padding: 0.7rem 1.2rem;
-      border-radius: 16px;
-      border: 2px solid #F3DF8A;
-      transition: all 0.2s ease;
-    }
-
-    .visit-btn:hover {
-      background: var(--pastel-pink);
-      border-color: var(--pastel-pink-dark);
-    }
-
-    /* Floating Bunny Assistant */
-    .bunny-assistant {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      align-items: flex-end;
-      gap: 0.75rem;
-      z-index: 100;
-    }
-
-    .assistant-bubble {
-      background: #FFFFFF;
-      border: 2.5px solid var(--pastel-pink-dark);
-      border-radius: 20px 20px 4px 20px;
-      padding: 0.75rem 1rem;
-      font-size: 0.88rem;
-      max-width: 220px;
-      box-shadow: var(--shadow-soft);
-      color: var(--text-cocoa);
-      transition: opacity 0.25s ease;
-    }
-
-    .assistant-btn {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: #FFE5EC;
-      border: 3px solid #FFFFFF;
-      box-shadow: 0 8px 20px rgba(92, 71, 66, 0.15);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       transition: transform 0.2s ease;
     }
 
-    .assistant-btn:hover {
-      transform: scale(1.08) rotate(-4deg);
+    .assistant-card:hover {
+      transform: scale(1.02);
+    }
+
+    .assistant-speech {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.7rem 0.9rem;
+      border-radius: 16px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    /* Recipe Tab Filter Buttons */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .tab-btn {
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 16px;
+      border: 2px solid var(--lavender);
+      background: #FFFFFF;
+      color: var(--plum-text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: var(--lavender);
+    }
+
+    .tab-btn.active {
+      background: var(--plum-text);
+      color: #FFFFFF;
+      border-color: var(--plum-text);
+    }
+
+    /* Scrapbook Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 22px;
+      padding: 1.8rem 1.5rem 1.5rem;
+      position: relative;
+      border: 2px solid #EFE9FA;
+      box-shadow: 0 8px 20px rgba(75, 63, 89, 0.06);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card.hidden {
+      display: none;
+    }
+
+    /* Pastel Washi Tape at top of card */
+    .washi-tape {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 90px;
+      height: 22px;
+      background: var(--matcha);
+      opacity: 0.85;
+      border-radius: 4px;
+    }
+
+    .card[data-category="sites"] .washi-tape { background: var(--sky); transform: translateX(-50%) rotate(2deg); }
+    .card[data-category="games"] .washi-tape { background: var(--peach); transform: translateX(-50%) rotate(-1.5deg); }
+    .card[data-category="others"] .washi-tape { background: var(--lemon); transform: translateX(-50%) rotate(1.5deg); }
+
+    .cat-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 0.3rem 0.75rem;
+      border-radius: 8px;
+      margin-bottom: 0.85rem;
+    }
+
+    .tag-simulations { background: var(--matcha); }
+    .tag-sites { background: var(--sky); }
+    .tag-games { background: var(--peach); }
+    .tag-others { background: var(--lemon); }
+
+    .card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.94rem;
+      color: var(--plum-muted);
+      line-height: 1.55;
+      margin-bottom: 1.35rem;
+    }
+
+    .card-link {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--plum-text);
+      background: var(--lavender);
+      padding: 0.7rem 1rem;
+      border-radius: 14px;
+      transition: background 0.2s ease;
+    }
+
+    .card-link:hover {
+      background: var(--matcha);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="mascot-wrapper" aria-hidden="true">
-        <!-- Cute Chef Bunny Mascot SVG -->
-        <svg width="78" height="78" viewBox="0 0 100 100">
-          <!-- Bunny Ears -->
-          <ellipse cx="36" cy="26" rx="9" ry="22" fill="#FFF" stroke="#5C4742" stroke-width="3"/>
-          <ellipse cx="36" cy="27" rx="4.5" ry="15" fill="#FFD6E0"/>
-          <ellipse cx="64" cy="26" rx="9" ry="22" fill="#FFF" stroke="#5C4742" stroke-width="3"/>
-          <ellipse cx="64" cy="27" rx="4.5" ry="15" fill="#FFD6E0"/>
-          <!-- Mini Chef Hat -->
-          <path d="M40 16 C37 8, 63 8, 60 16 Z" fill="#FFF3B0" stroke="#5C4742" stroke-width="2.5"/>
-          <!-- Head -->
-          <circle cx="50" cy="60" r="28" fill="#FFF" stroke="#5C4742" stroke-width="3"/>
-          <!-- Eyes -->
-          <circle cx="40" cy="57" r="3.5" fill="#5C4742"/>
-          <circle cx="60" cy="57" r="3.5" fill="#5C4742"/>
-          <circle cx="41" cy="56" r="1.2" fill="#FFF"/>
-          <circle cx="61" cy="56" r="1.2" fill="#FFF"/>
-          <!-- Blush -->
-          <ellipse cx="33" cy="64" rx="5" ry="3" fill="#FFB3C6"/>
-          <ellipse cx="67" cy="64" rx="5" ry="3" fill="#FFB3C6"/>
-          <!-- Nose & Mouth -->
-          <polygon points="47,63 53,63 50,66" fill="#F7B2C4"/>
-          <path d="M44 68 Q47 72 50 68 Q53 72 56 68" fill="none" stroke="#5C4742" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
+  <div class="wrapper">
+    <section class="hero-banner">
+      <div class="hero-text">
+        <span class="hero-pill">🍵 Matcha & Lavender Edition</span>
+        <h1>Bunny Baking adventures</h1>
+        <p>A comforting little recipe book of my favorite digital creations. Sort by category to inspect each project!</p>
       </div>
-      <h1>Bunny Baking adventures</h1>
-      <p class="subtitle">Welcome to my cozy digital bakery! Pick a category below to explore my handmade simulations, websites, games, and sweet little experiments.</p>
-    </header>
 
-    <!-- Category Filter Buttons -->
-    <nav class="filter-bar" aria-label="Portfolio Categories">
-      <button class="filter-btn active" data-filter="all">All Treats</button>
-      <button class="filter-btn" data-filter="simulations">Simulations</button>
-      <button class="filter-btn" data-filter="sites">Sites</button>
-      <button class="filter-btn" data-filter="games">Games</button>
-      <button class="filter-btn" data-filter="others">Others</button>
-    </nav>
-
-    <!-- Project Cards -->
-    <main class="portfolio-grid" id="portfolioGrid">
-      <!-- First Simulation at root sim1.html -->
-      <article class="project-card" data-category="simulations">
-        <div>
-          <div class="card-top">
-            <span class="category-badge badge-simulations">Simulations</span>
-            <span class="card-icon">🧁</span>
-          </div>
-          <h2>Simulation #1: Pastry Physics</h2>
-          <p>My very first interactive simulation! Watch ingredients mix, rise, and bake in real time.</p>
+      <!-- Teacup Bunny Assistant -->
+      <div class="assistant-card" id="bunnyHelper" title="Click me for a sweet note!">
+        <svg width="68" height="68" viewBox="0 0 100 100" style="flex-shrink:0;">
+          <!-- Ears -->
+          <ellipse cx="38" cy="24" rx="8" ry="20" fill="#FFF" stroke="#4B3F59" stroke-width="3"/>
+          <ellipse cx="38" cy="25" rx="4" ry="13" fill="#FDE2E4"/>
+          <ellipse cx="62" cy="24" rx="8" ry="20" fill="#FFF" stroke="#4B3F59" stroke-width="3"/>
+          <ellipse cx="62" cy="25" rx="4" ry="13" fill="#FDE2E4"/>
+          <!-- Head -->
+          <circle cx="50" cy="52" r="24" fill="#FFF" stroke="#4B3F59" stroke-width="3"/>
+          <circle cx="42" cy="49" r="3" fill="#4B3F59"/>
+          <circle cx="58" cy="49" r="3" fill="#4B3F59"/>
+          <ellipse cx="35" cy="55" rx="4.5" ry="2.5" fill="#F7B2C4"/>
+          <ellipse cx="65" cy="55" rx="4.5" ry="2.5" fill="#F7B2C4"/>
+          <path d="M46 57 Q50 61 54 57" fill="none" stroke="#4B3F59" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Pastel Matcha Teacup -->
+          <path d="M24 66 H76 L70 90 Q50 95 30 90 Z" fill="#DDF0E4" stroke="#4B3F59" stroke-width="3"/>
+          <path d="M75 71 C85 71, 85 84, 72 84" fill="none" stroke="#4B3F59" stroke-width="3"/>
+        </svg>
+        <div class="assistant-speech" id="helperSpeech">
+          Hop-hop! I'm Matcha the Bunny. Tap a tab below to filter your adventures! 🌿
         </div>
-        <a href="sim1.html" target="_blank" rel="noopener noreferrer" class="visit-btn">Open Simulation ↗</a>
-      </article>
+      </div>
+    </section>
 
-      <!-- Sample Site -->
-      <article class="project-card" data-category="sites">
-        <div>
-          <div class="card-top">
-            <span class="category-badge badge-sites">Sites</span>
-            <span class="card-icon">🍓</span>
-          </div>
-          <h2>Strawberry Tea Corner</h2>
-          <p>A cozy pastel recipe blog and interactive menu built with pure HTML and CSS.</p>
-        </div>
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="visit-btn">Visit Site ↗</a>
-      </article>
-
-      <!-- Sample Game -->
-      <article class="project-card" data-category="games">
-        <div>
-          <div class="card-top">
-            <span class="category-badge badge-games">Games</span>
-            <span class="card-icon">🐰</span>
-          </div>
-          <h2>Bunny Macaron Catch</h2>
-          <p>Help Barnaby the bunny catch falling pastel macarons in a woven picnic basket!</p>
-        </div>
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="visit-btn">Play Game ↗</a>
-      </article>
-
-      <!-- Sample Other -->
-      <article class="project-card" data-category="others">
-        <div>
-          <div class="card-top">
-            <span class="category-badge badge-others">Others</span>
-            <span class="card-icon">✨</span>
-          </div>
-          <h2>Pastel Palette Generator</h2>
-          <p>A handy little creative tool for whipping up soothing pastel color schemes.</p>
-        </div>
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="visit-btn">Explore Project ↗</a>
-      </article>
-    </main>
-  </div>
-
-  <!-- Cute Floating Bunny Assistant -->
-  <div class="bunny-assistant">
-    <div class="assistant-bubble" id="assistantText">
-      Hi friend! Click me for a cozy baking tip, or pick a category above! 🍰
+    <!-- Sort / Filter Tabs -->
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" data-cat="all">All</button>
+      <button class="tab-btn" data-cat="simulations">Simulations</button>
+      <button class="tab-btn" data-cat="sites">Sites</button>
+      <button class="tab-btn" data-cat="games">Games</button>
+      <button class="tab-btn" data-cat="others">Others</button>
     </div>
-    <button class="assistant-btn" id="assistantBtn" aria-label="Bunny Assistant">
-      <svg width="42" height="42" viewBox="0 0 100 100">
-        <ellipse cx="36" cy="24" rx="9" ry="22" fill="#FFF" stroke="#5C4742" stroke-width="4"/>
-        <ellipse cx="36" cy="25" rx="4.5" ry="14" fill="#FFD6E0"/>
-        <ellipse cx="64" cy="24" rx="9" ry="22" fill="#FFF" stroke="#5C4742" stroke-width="4"/>
-        <ellipse cx="64" cy="25" rx="4.5" ry="14" fill="#FFD6E0"/>
-        <circle cx="50" cy="60" r="28" fill="#FFF" stroke="#5C4742" stroke-width="4"/>
-        <circle cx="40" cy="57" r="4" fill="#5C4742"/>
-        <circle cx="60" cy="57" r="4" fill="#5C4742"/>
-        <ellipse cx="32" cy="64" rx="5" ry="3" fill="#FFB3C6"/>
-        <ellipse cx="68" cy="64" rx="5" ry="3" fill="#FFB3C6"/>
-        <path d="M45 67 Q50 72 55 67" fill="none" stroke="#5C4742" stroke-width="3" stroke-linecap="round"/>
-      </svg>
-    </button>
+
+    <!-- Categorized Portfolio Cards -->
+    <div class="grid">
+      <article class="card" data-category="simulations">
+        <div class="washi-tape"></div>
+        <div>
+          <span class="cat-tag tag-simulations">Simulations</span>
+          <h2>First Simulation (sim1)</h2>
+          <p>Located at root <code>sim1.html</code>—an interactive pastel baking simulation.</p>
+        </div>
+        <a href="sim1.html" target="_blank" rel="noopener noreferrer" class="card-link">Launch Simulation ↗</a>
+      </article>
+
+      <article class="card" data-category="sites">
+        <div class="washi-tape"></div>
+        <div>
+          <span class="cat-tag tag-sites">Sites</span>
+          <h2>Cozy Cloud Diary</h2>
+          <p>A soothing personal corner on the web decorated with pastel stickers and notes.</p>
+        </div>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-link">Open Website ↗</a>
+      </article>
+
+      <article class="card" data-category="games">
+        <div class="washi-tape"></div>
+        <div>
+          <span class="cat-tag tag-games">Games</span>
+          <h2>Mochi Hop Adventure</h2>
+          <p>Bounce across fluffy clouds and collect sweet mochi treats in this mini game.</p>
+        </div>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-link">Play Game ↗</a>
+      </article>
+
+      <article class="card" data-category="others">
+        <div class="washi-tape"></div>
+        <div>
+          <span class="cat-tag tag-others">Others</span>
+          <h2>Bunny Study Timer</h2>
+          <p>A comforting Pomodoro timer with soft chimes to keep you company while working.</p>
+        </div>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-link">View Creation ↗</a>
+      </article>
+    </div>
   </div>
 
   <script>
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
-    const assistantText = document.getElementById('assistantText');
-    const assistantBtn = document.getElementById('assistantBtn');
+    const tabs = document.querySelectorAll('.tab-btn');
+    const cards = document.querySelectorAll('.card');
+    const helper = document.getElementById('bunnyHelper');
+    const speech = document.getElementById('helperSpeech');
 
-    const categoryMessages = {
-      all: "Showing the whole bakery menu! Everything is freshly baked. 🧁",
-      simulations: "Ooh, Simulations! Don't miss sim1.html right at the front! 🧪✨",
-      sites: "Cozy websites crafted with pastel love! 🌐🌸",
-      games: "Time to play! Have fun with these cute bunny games! 🎮🐰",
-      others: "Sweet little tools and creative experiments! 🎨🍬"
+    const tabLines = {
+      all: "Viewing every single creation in the recipe book! 📖✨",
+      simulations: "Sorted by Simulations! Try sim1.html first! 🧪",
+      sites: "Sorted by Sites! Cute web spaces made with care! 🌸",
+      games: "Sorted by Games! Ready for a cozy play session? 🎮",
+      others: "Sorted by Others! Fun extras & handy helpers! 🎀"
     };
 
-    const cozyQuotes = [
-      "Remember to take a deep breath and sip some warm tea! 🍵",
-      "Every link opens in a brand-new tab so you never lose your spot! 🎀",
-      "You're doing amazing! Keep creating cute things! 🌟",
-      "Freshly baked code with zero calories! 🥐💕"
+    const helperTips = [
+      "All links open safely in a new browser tab! 🌷",
+      "Take it slow—cozy progress is still progress! 🍵",
+      "Click any category pill to organize the shelf! 🧁"
     ];
 
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const category = tab.dataset.cat;
+        speech.textContent = tabLines[category];
 
-        const selected = btn.getAttribute('data-filter');
-        assistantText.textContent = categoryMessages[selected] || categoryMessages.all;
-
-        projectCards.forEach(card => {
-          const category = card.getAttribute('data-category');
-          if (selected === 'all' || category === selected) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
+        cards.forEach(card => {
+          card.classList.toggle('hidden', category !== 'all' && card.dataset.category !== category);
         });
       });
     });
 
-    let quoteIndex = 0;
-    assistantBtn.addEventListener('click', () => {
-      assistantText.textContent = cozyQuotes[quoteIndex];
-      quoteIndex = (quoteIndex + 1) % cozyQuotes.length;
+    let tipIdx = 0;
+    helper.addEventListener('click', () => {
+      speech.textContent = helperTips[tipIdx];
+      tipIdx = (tipIdx + 1) % helperTips.length;
     });
   </script>
 </body>
