@@ -6,18 +6,18 @@
   <title>Bunny Baking adventures</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --oat-bg: #FAF7FF;
-      --lavender: #E5D9F2;
-      --lavender-deep: #C5B4E3;
-      --matcha: #DDF0E4;
-      --peach: #FDE2E4;
-      --lemon: #FFF5CC;
-      --sky: #DCEEFB;
-      --plum-text: #4B3F59;
-      --plum-muted: #786A8A;
+      --sky-top: #E3F2FD;
+      --pink-bottom: #FCE4EC;
+      --honey: #FFF6CC;
+      --mint: #DCF8E8;
+      --lilac: #EDE3FA;
+      --cotton-pink: #FFD9E6;
+      --baby-blue: #D4ECFF;
+      --navy-cocoa: #464B65;
+      --soft-slate: #6D738F;
     }
 
     * {
@@ -27,335 +27,326 @@
     }
 
     body {
-      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--oat-bg);
-      background-image:
-        linear-gradient(90deg, rgba(197,180,227,0.12) 1px, transparent 1px),
-        linear-gradient(rgba(197,180,227,0.12) 1px, transparent 1px);
-      background-size: 26px 26px;
-      color: var(--plum-text);
-      padding: 2.5rem 1.25rem 5rem;
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, var(--sky-top) 0%, #FFFDF9 50%, var(--pink-bottom) 100%);
+      color: var(--navy-cocoa);
+      min-height: 100vh;
+      padding: 2.5rem 1.25rem 6rem;
+      overflow-x: hidden;
     }
 
-    .wrapper {
-      max-width: 1020px;
+    .container {
+      max-width: 1040px;
       margin: 0 auto;
+      position: relative;
     }
 
-    /* Scrapbook Hero Banner */
-    .hero-banner {
-      background: #FFFFFF;
-      border-radius: 28px;
-      padding: 2.25rem;
-      box-shadow: 0 12px 30px rgba(197, 180, 227, 0.28);
-      border: 2px solid var(--lavender);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
+    /* Cloud Header */
+    .cloud-header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      border-radius: 40px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(154, 187, 224, 0.25);
+      border: 3px solid #FFFFFF;
       margin-bottom: 2rem;
     }
 
-    .hero-text {
-      flex: 1 1 320px;
-    }
-
-    .hero-pill {
-      display: inline-block;
-      background: var(--matcha);
-      padding: 0.35rem 0.9rem;
+    .bunny-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--honey);
+      padding: 0.45rem 1.1rem;
       border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 0.65rem;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 0.9rem;
+      box-shadow: 0 4px 10px rgba(255, 225, 130, 0.35);
     }
 
     h1 {
-      font-size: clamp(1.9rem, 4vw, 2.75rem);
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--plum-text);
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3.1rem);
+      color: var(--navy-cocoa);
+      margin-bottom: 0.6rem;
     }
 
-    .hero-text p {
-      color: var(--plum-muted);
-      line-height: 1.6;
-      font-size: 1rem;
+    .lead {
+      color: var(--soft-slate);
+      max-width: 560px;
+      margin: 0 auto;
+      font-size: 1.05rem;
     }
 
-    /* Interactive Bunny Assistant Box in Hero */
-    .assistant-card {
-      flex: 0 1 310px;
-      background: linear-gradient(145deg, var(--lavender) 0%, var(--peach) 100%);
-      border-radius: 24px;
-      padding: 1.15rem;
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .assistant-card:hover {
-      transform: scale(1.02);
-    }
-
-    .assistant-speech {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 0.7rem 0.9rem;
-      border-radius: 16px;
-      font-size: 0.86rem;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    /* Recipe Tab Filter Buttons */
-    .tabs {
+    /* Pastel Pill Controls */
+    .controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.65rem;
-      margin-bottom: 2.25rem;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-bottom: 2.5rem;
     }
 
-    .tab-btn {
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 0.65rem 1.25rem;
-      border-radius: 16px;
-      border: 2px solid var(--lavender);
-      background: #FFFFFF;
-      color: var(--plum-text);
+    .sort-btn {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.98rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 999px;
+      border: 2px solid #FFFFFF;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--navy-cocoa);
       cursor: pointer;
-      transition: all 0.2s ease;
+      box-shadow: 0 6px 15px rgba(70, 75, 101, 0.08);
+      transition: all 0.22s ease;
     }
 
-    .tab-btn:hover {
-      background: var(--lavender);
+    .sort-btn:hover {
+      background: var(--honey);
+      transform: translateY(-2px);
     }
 
-    .tab-btn.active {
-      background: var(--plum-text);
+    .sort-btn.active {
+      background: #9CC8F7;
       color: #FFFFFF;
-      border-color: var(--plum-text);
+      border-color: #9CC8F7;
     }
 
-    /* Scrapbook Cards Grid */
-    .grid {
+    /* Cards with Cute Bunny-Ear Accent */
+    .cards {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 1.75rem;
+      gap: 2rem 1.5rem;
     }
 
-    .card {
-      background: #FFFFFF;
-      border-radius: 22px;
-      padding: 1.8rem 1.5rem 1.5rem;
-      position: relative;
-      border: 2px solid #EFE9FA;
-      box-shadow: 0 8px 20px rgba(75, 63, 89, 0.06);
+    .item-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 28px;
+      padding: 1.6rem;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 10px 25px rgba(70, 75, 101, 0.08);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
       transition: transform 0.25s ease;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
+    .item-card:hover {
+      transform: translateY(-6px);
     }
 
-    .card.hidden {
+    .item-card.hidden {
       display: none;
     }
 
-    /* Pastel Washi Tape at top of card */
-    .washi-tape {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-2deg);
-      width: 90px;
-      height: 22px;
-      background: var(--matcha);
-      opacity: 0.85;
-      border-radius: 4px;
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.9rem;
     }
 
-    .card[data-category="sites"] .washi-tape { background: var(--sky); transform: translateX(-50%) rotate(2deg); }
-    .card[data-category="games"] .washi-tape { background: var(--peach); transform: translateX(-50%) rotate(-1.5deg); }
-    .card[data-category="others"] .washi-tape { background: var(--lemon); transform: translateX(-50%) rotate(1.5deg); }
-
-    .cat-tag {
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      padding: 0.3rem 0.75rem;
-      border-radius: 8px;
-      margin-bottom: 0.85rem;
+    .pill-cat {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.8rem;
+      padding: 0.32rem 0.85rem;
+      border-radius: 999px;
     }
 
-    .tag-simulations { background: var(--matcha); }
-    .tag-sites { background: var(--sky); }
-    .tag-games { background: var(--peach); }
-    .tag-others { background: var(--lemon); }
+    .cat-simulations { background: var(--mint); }
+    .cat-sites { background: var(--baby-blue); }
+    .cat-games { background: var(--cotton-pink); }
+    .cat-others { background: var(--lilac); }
 
-    .card h2 {
-      font-size: 1.25rem;
+    .item-card h2 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.3rem;
       margin-bottom: 0.5rem;
     }
 
-    .card p {
-      font-size: 0.94rem;
-      color: var(--plum-muted);
+    .item-card p {
+      color: var(--soft-slate);
+      font-size: 0.95rem;
       line-height: 1.55;
-      margin-bottom: 1.35rem;
+      margin-bottom: 1.4rem;
     }
 
-    .card-link {
+    .open-btn {
       display: block;
       text-align: center;
       text-decoration: none;
-      font-weight: 700;
-      font-size: 0.92rem;
-      color: var(--plum-text);
-      background: var(--lavender);
-      padding: 0.7rem 1rem;
-      border-radius: 14px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      background: var(--cotton-pink);
+      color: var(--navy-cocoa);
+      padding: 0.72rem 1rem;
+      border-radius: 16px;
       transition: background 0.2s ease;
     }
 
-    .card-link:hover {
-      background: var(--matcha);
+    .open-btn:hover {
+      background: var(--honey);
+    }
+
+    /* Floating Cloud Bunny Assistant */
+    .sky-assistant {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #FFFFFF;
+      padding: 0.65rem 1rem;
+      border-radius: 999px;
+      border: 2.5px solid #D4ECFF;
+      box-shadow: 0 10px 25px rgba(70, 75, 101, 0.14);
+      cursor: pointer;
+      z-index: 50;
+      max-width: 340px;
+    }
+
+    .sky-assistant span {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--navy-cocoa);
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <section class="hero-banner">
-      <div class="hero-text">
-        <span class="hero-pill">🍵 Matcha & Lavender Edition</span>
-        <h1>Bunny Baking adventures</h1>
-        <p>A comforting little recipe book of my favorite digital creations. Sort by category to inspect each project!</p>
-      </div>
-
-      <!-- Teacup Bunny Assistant -->
-      <div class="assistant-card" id="bunnyHelper" title="Click me for a sweet note!">
-        <svg width="68" height="68" viewBox="0 0 100 100" style="flex-shrink:0;">
-          <!-- Ears -->
-          <ellipse cx="38" cy="24" rx="8" ry="20" fill="#FFF" stroke="#4B3F59" stroke-width="3"/>
-          <ellipse cx="38" cy="25" rx="4" ry="13" fill="#FDE2E4"/>
-          <ellipse cx="62" cy="24" rx="8" ry="20" fill="#FFF" stroke="#4B3F59" stroke-width="3"/>
-          <ellipse cx="62" cy="25" rx="4" ry="13" fill="#FDE2E4"/>
-          <!-- Head -->
-          <circle cx="50" cy="52" r="24" fill="#FFF" stroke="#4B3F59" stroke-width="3"/>
-          <circle cx="42" cy="49" r="3" fill="#4B3F59"/>
-          <circle cx="58" cy="49" r="3" fill="#4B3F59"/>
-          <ellipse cx="35" cy="55" rx="4.5" ry="2.5" fill="#F7B2C4"/>
-          <ellipse cx="65" cy="55" rx="4.5" ry="2.5" fill="#F7B2C4"/>
-          <path d="M46 57 Q50 61 54 57" fill="none" stroke="#4B3F59" stroke-width="2.5" stroke-linecap="round"/>
-          <!-- Pastel Matcha Teacup -->
-          <path d="M24 66 H76 L70 90 Q50 95 30 90 Z" fill="#DDF0E4" stroke="#4B3F59" stroke-width="3"/>
-          <path d="M75 71 C85 71, 85 84, 72 84" fill="none" stroke="#4B3F59" stroke-width="3"/>
+  <div class="container">
+    <header class="cloud-header">
+      <div class="bunny-badge">
+        <!-- Mini Bunny Icon -->
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <ellipse cx="36" cy="24" rx="9" ry="22" fill="#FFF" stroke="#464B65" stroke-width="5"/>
+          <ellipse cx="64" cy="24" rx="9" ry="22" fill="#FFF" stroke="#464B65" stroke-width="5"/>
+          <circle cx="50" cy="60" r="28" fill="#FFF" stroke="#464B65" stroke-width="5"/>
+          <circle cx="40" cy="57" r="4" fill="#464B65"/>
+          <circle cx="60" cy="57" r="4" fill="#464B65"/>
+          <ellipse cx="32" cy="65" rx="5" ry="3" fill="#FFB3C6"/>
+          <ellipse cx="68" cy="65" rx="5" ry="3" fill="#FFB3C6"/>
         </svg>
-        <div class="assistant-speech" id="helperSpeech">
-          Hop-hop! I'm Matcha the Bunny. Tap a tab below to filter your adventures! 🌿
-        </div>
+        Pastel Cloud Bakery
       </div>
+      <h1>Bunny Baking adventures</h1>
+      <p class="lead">Float through my soft pastel collection of simulations, websites, games, and cozy side-projects.</p>
+    </header>
+
+    <div class="controls">
+      <button class="sort-btn active" data-type="all">All</button>
+      <button class="sort-btn" data-type="simulations">Simulations</button>
+      <button class="sort-btn" data-type="sites">Sites</button>
+      <button class="sort-btn" data-type="games">Games</button>
+      <button class="sort-btn" data-type="others">Others</button>
+    </div>
+
+    <section class="cards">
+      <article class="item-card" data-category="simulations">
+        <div>
+          <div class="item-header">
+            <span class="pill-cat cat-simulations">Simulations</span>
+            <span>☁️🧁</span>
+          </div>
+          <h2>Simulation 1: Cloud Oven</h2>
+          <p>My flagship simulation located right at <code>sim1.html</code>. Opens in a fresh tab!</p>
+        </div>
+        <a href="sim1.html" target="_blank" rel="noopener noreferrer" class="open-btn">Open sim1.html ↗</a>
+      </article>
+
+      <article class="item-card" data-category="sites">
+        <div>
+          <div class="item-header">
+            <span class="pill-cat cat-sites">Sites</span>
+            <span>🌷💻</span>
+          </div>
+          <h2>Honey Bun Hub</h2>
+          <p>A comforting static web page built to share pastel art, notes, and playlists.</p>
+        </div>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="open-btn">Visit Site ↗</a>
+      </article>
+
+      <article class="item-card" data-category="games">
+        <div>
+          <div class="item-header">
+            <span class="pill-cat cat-games">Games</span>
+            <span>🐰🎮</span>
+          </div>
+          <h2>Starlight Pastry Dash</h2>
+          <p>Deliver warm croissants across sleepy cloud towns before sunrise!</p>
+        </div>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="open-btn">Play Game ↗</a>
+      </article>
+
+      <article class="item-card" data-category="others">
+        <div>
+          <div class="item-header">
+            <span class="pill-cat cat-others">Others</span>
+            <span>🍯✨</span>
+          </div>
+          <h2>Cozy Soundboard</h2>
+          <p>Mix rain drops, oven timers, and soft purrs for ultimate focus.</p>
+        </div>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="open-btn">Try It Out ↗</a>
+      </article>
     </section>
+  </div>
 
-    <!-- Sort / Filter Tabs -->
-    <div class="tabs" role="tablist">
-      <button class="tab-btn active" data-cat="all">All</button>
-      <button class="tab-btn" data-cat="simulations">Simulations</button>
-      <button class="tab-btn" data-cat="sites">Sites</button>
-      <button class="tab-btn" data-cat="games">Games</button>
-      <button class="tab-btn" data-cat="others">Others</button>
-    </div>
-
-    <!-- Categorized Portfolio Cards -->
-    <div class="grid">
-      <article class="card" data-category="simulations">
-        <div class="washi-tape"></div>
-        <div>
-          <span class="cat-tag tag-simulations">Simulations</span>
-          <h2>First Simulation (sim1)</h2>
-          <p>Located at root <code>sim1.html</code>—an interactive pastel baking simulation.</p>
-        </div>
-        <a href="sim1.html" target="_blank" rel="noopener noreferrer" class="card-link">Launch Simulation ↗</a>
-      </article>
-
-      <article class="card" data-category="sites">
-        <div class="washi-tape"></div>
-        <div>
-          <span class="cat-tag tag-sites">Sites</span>
-          <h2>Cozy Cloud Diary</h2>
-          <p>A soothing personal corner on the web decorated with pastel stickers and notes.</p>
-        </div>
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-link">Open Website ↗</a>
-      </article>
-
-      <article class="card" data-category="games">
-        <div class="washi-tape"></div>
-        <div>
-          <span class="cat-tag tag-games">Games</span>
-          <h2>Mochi Hop Adventure</h2>
-          <p>Bounce across fluffy clouds and collect sweet mochi treats in this mini game.</p>
-        </div>
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-link">Play Game ↗</a>
-      </article>
-
-      <article class="card" data-category="others">
-        <div class="washi-tape"></div>
-        <div>
-          <span class="cat-tag tag-others">Others</span>
-          <h2>Bunny Study Timer</h2>
-          <p>A comforting Pomodoro timer with soft chimes to keep you company while working.</p>
-        </div>
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-link">View Creation ↗</a>
-      </article>
-    </div>
+  <!-- Interactive Bunny Assistant Pill -->
+  <div class="sky-assistant" id="skyAssistant" title="Click for a cozy bunny message!">
+    <svg width="40" height="40" viewBox="0 0 100 100" style="flex-shrink:0;">
+      <ellipse cx="36" cy="24" rx="9" ry="22" fill="#FFF" stroke="#464B65" stroke-width="4"/>
+      <ellipse cx="36" cy="25" rx="4.5" ry="14" fill="#FFD9E6"/>
+      <ellipse cx="64" cy="24" rx="9" ry="22" fill="#FFF" stroke="#464B65" stroke-width="4"/>
+      <ellipse cx="64" cy="25" rx="4.5" ry="14" fill="#FFD9E6"/>
+      <circle cx="50" cy="60" r="28" fill="#FFF" stroke="#464B65" stroke-width="4"/>
+      <circle cx="40" cy="57" r="4" fill="#464B65"/>
+      <circle cx="60" cy="57" r="4" fill="#464B65"/>
+      <ellipse cx="32" cy="64" rx="5" ry="3" fill="#FFB3C6"/>
+      <ellipse cx="68" cy="64" rx="5" ry="3" fill="#FFB3C6"/>
+      <path d="M45 67 Q50 72 55 67" fill="none" stroke="#464B65" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <span id="skyMsg">Welcome! Click any filter pill to sort your creations! 🐰☁️</span>
   </div>
 
   <script>
-    const tabs = document.querySelectorAll('.tab-btn');
-    const cards = document.querySelectorAll('.card');
-    const helper = document.getElementById('bunnyHelper');
-    const speech = document.getElementById('helperSpeech');
+    const sortButtons = document.querySelectorAll('.sort-btn');
+    const items = document.querySelectorAll('.item-card');
+    const skyAssistant = document.getElementById('skyAssistant');
+    const skyMsg = document.getElementById('skyMsg');
 
-    const tabLines = {
-      all: "Viewing every single creation in the recipe book! 📖✨",
-      simulations: "Sorted by Simulations! Try sim1.html first! 🧪",
-      sites: "Sorted by Sites! Cute web spaces made with care! 🌸",
-      games: "Sorted by Games! Ready for a cozy play session? 🎮",
-      others: "Sorted by Others! Fun extras & handy helpers! 🎀"
+    const filterReplies = {
+      all: "Showing all pastel creations! 🌈",
+      simulations: "Showing Simulations — check out sim1.html! 🧪",
+      sites: "Showing Sites — cozy corners of the web! 🌐",
+      games: "Showing Games — time to hop in and play! 🎮",
+      others: "Showing Others — sweet little extras! ✨"
     };
 
-    const helperTips = [
-      "All links open safely in a new browser tab! 🌷",
-      "Take it slow—cozy progress is still progress! 🍵",
-      "Click any category pill to organize the shelf! 🧁"
+    const sweetNotes = [
+      "Sending you fluffy cloud hugs today! ☁️💕",
+      "Every link opens in a new tab automatically! 🎀",
+      "Keep baking amazing projects! 🥐✨"
     ];
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const category = tab.dataset.cat;
-        speech.textContent = tabLines[category];
+    sortButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sortButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const type = btn.dataset.type;
+        skyMsg.textContent = filterReplies[type];
 
-        cards.forEach(card => {
-          card.classList.toggle('hidden', category !== 'all' && card.dataset.category !== category);
+        items.forEach(item => {
+          item.classList.toggle('hidden', type !== 'all' && item.dataset.category !== type);
         });
       });
     });
 
-    let tipIdx = 0;
-    helper.addEventListener('click', () => {
-      speech.textContent = helperTips[tipIdx];
-      tipIdx = (tipIdx + 1) % helperTips.length;
+    let noteIndex = 0;
+    skyAssistant.addEventListener('click', () => {
+      skyMsg.textContent = sweetNotes[noteIndex];
+      noteIndex = (noteIndex + 1) % sweetNotes.length;
     });
   </script>
 </body>
