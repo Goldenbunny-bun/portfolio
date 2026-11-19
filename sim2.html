@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Anthropocene Reviewed — Mochi's Pastel ELA Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,400&family=Nunito:wght@400;600;700;800&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #FFFDF9;
+      --bg-soft: #F7FBF9;
+      --mint-light: #E2F7EE;
+      --mint-main: #9CE2C6;
+      --mint-dark: #4EA885;
+      --mint-deep: #2F6F57;
+      --lavender-light: #F2EEFF;
+      --lavender-main: #D6C8FF;
+      --lavender-dark: #6D56A8;
+      --blush-light: #FFF0F3;
+      --blush-main: #FFC8D3;
+      --blush-dark: #B85B70;
+      --butter-light: #FFFBEB;
+      --butter-main: #FDE68A;
+      --sky-light: #EEF8FF;
+      --sky-main: #BAE6FD;
+      --ink-main: #3B3745;
+      --ink-muted: #6E6A7C;
+      --border-soft: #E5ECE8;
+      --shadow-cozy: 0 10px 28px -8px rgba(78, 168, 133, 0.14), 0 4px 12px -4px rgba(59, 55, 69, 0.05);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background:
+        radial-gradient(circle at 8% 10%, #E6F8F0 0%, transparent 32%),
+        radial-gradient(circle at 92% 14%, #F3EEFF 0%, transparent 34%),
+        radial-gradient(circle at 82% 88%, #FFF1F4 0%, transparent 35%),
+        var(--bg-cream);
+      color: var(--ink-main);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, .brand-font {
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .serif-quote {
+      font-family: 'Lora', serif;
+    }
+
+    /* Cozy floating animation for Mochi */
+    @keyframes bunnyBob {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes earWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-4deg); }
+      75% { transform: rotate(4deg); }
+    }
+
+    .mochi-bob {
+      animation: bunnyBob 3.4s ease-in-out infinite;
+    }
+
+    .mochi-ear-left {
+      transform-origin: 38px 34px;
+      animation: earWiggle 4.5s ease-in-out infinite;
+    }
+
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--mint-light);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding: 14px 24px;
+    }
+
+    .header-inner {
+      max-width: 1420px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--mint-light), var(--lavender-light));
+      border: 2px solid var(--mint-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(156, 226, 198, 0.35);
+    }
+
+    .brand-title h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-main);
+      line-height: 1.2;
+    }
+
+    .brand-title p {
+      font-size: 0.82rem;
+      color: var(--mint-deep);
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-mint {
+      background: var(--mint-main);
+      color: var(--mint-deep);
+      box-shadow: 0 4px 12px rgba(156, 226, 198, 0.45);
+    }
+
+    .btn-mint:hover {
+      background: #87d9b8;
+    }
+
+    .btn-lavender {
+      background: var(--lavender-light);
+      color: var(--lavender-dark);
+      border: 1.5px solid var(--lavender-main);
+    }
+
+    .btn-lavender:hover {
+      background: #e7dfff;
+    }
+
+    .btn-blush {
+      background: var(--blush-light);
+      color: var(--blush-dark);
+      border: 1.5px solid var(--blush-main);
+    }
+
+    .btn-blush:hover {
+      background: #ffe3e9;
+    }
+
+    /* Progress Bar */
+    .progress-strip {
+      max-width: 1420px;
+      margin: 18px auto 0;
+      padding: 0 24px;
+    }
+
+    .progress-card {
+      background: #FFFFFF;
+      border: 2px solid var(--mint-light);
+      border-radius: var(--radius-lg);
+      padding: 14px 20px;
+      box-shadow: var(--shadow-cozy);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--mint-deep);
+    }
+
+    .progress-track {
+      position: relative;
+      height: 14px;
+      background: var(--mint-light);
+      border-radius: 999px;
+      overflow: visible;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 2%;
+      background: linear-gradient(90deg, var(--mint-main), var(--lavender-main), var(--blush-main));
+      border-radius: 999px;
+      transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .progress-bunny {
+      position: absolute;
+      top: -15px;
+      left: 2%;
+      transform: translateX(-50%);
+      transition: left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+
+    /* Main 3-column Workspace */
+    .workspace {
+      max-width: 1420px;
+      margin: 20px auto 40px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1.35fr) 370px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 1180px) {
+      .workspace {
+        grid-template-columns: 280px 1fr;
+      }
+      .chat-column {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: #FFFFFF;
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-cozy);
+    }
+
+    /* Left Sidebar: Chapter Navigator */
+    .sidebar {
+      padding: 18px;
+      position: sticky;
+      top: 94px;
+      max-height: calc(100vh - 115px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 2px solid var(--mint-light);
+      background: var(--bg-soft);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-main);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus {
+      border-color: var(--mint-main);
+      background: #FFFFFF;
+    }
+
+    .theme-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      border: 1.5px solid var(--border-soft);
+      background: var(--bg-cream);
+      color: var(--ink-muted);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .pill.active {
+      background: var(--mint-light);
+      border-color: var(--mint-main);
+      color: var(--mint-deep);
+    }
+
+    .chapter-list {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding-right: 4px;
+    }
+
+    .chapter-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .chapter-list::-webkit-scrollbar-thumb {
+      background: var(--mint-main);
+      border-radius: 999px;
+    }
+
+    .chapter-item {
+      text-align: left;
+      border: 1.5px solid transparent;
+      background: var(--bg-soft);
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .chapter-item:hover {
+      background: var(--mint-light);
+      transform: translateX(2px);
+    }
+
+    .chapter-item.active {
+      background: linear-gradient(135deg, var(--mint-light), var(--lavender-light));
+      border-color: var(--mint-main);
+      box-shadow: 0 4px 10px rgba(156, 226, 198, 0.25);
+    }
+
+    .chapter-item-num {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--mint-deep);
+      background: #FFFFFF;
+      padding: 2px 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .chapter-item-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--ink-main);
+      flex: 1;
+    }
+
+    .chapter-item-status {
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    /* Center Column: Active Chapter Study Card */
+    .chapter-stage {
+      position: relative;
+      margin-top: 28px;
+    }
+
+    .peeking-mochi {
+      position: absolute;
+      top: -46px;
+      right: 32px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .chapter-card {
+      padding: 28px;
+      border: 2px solid var(--mint-main);
+      background: #FFFFFF;
+    }
+
+    .chapter-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .badge-mint {
+      background: var(--mint-light);
+      color: var(--mint-deep);
+    }
+
+    .badge-lavender {
+      background: var(--lavender-light);
+      color: var(--lavender-dark);
+    }
+
+    .chapter-heading {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--ink-main);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    /* Macro vs Micro Grid */
+    .lens-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 640px) {
+      .lens-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .lens-box {
+      border-radius: var(--radius-lg);
+      padding: 16px;
+    }
+
+    .lens-macro {
+      background: var(--sky-light);
+      border: 1.5px solid var(--sky-main);
+    }
+
+    .lens-micro {
+      background: var(--blush-light);
+      border: 1.5px solid var(--blush-main);
+    }
+
+    .lens-box h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lens-macro h3 { color: #246A96; }
+    .lens-micro h3 { color: var(--blush-dark); }
+
+    .lens-box p {
+      font-size: 0.9rem;
+      color: var(--ink-main);
+    }
+
+    /* Quote Box */
+    .quote-card {
+      background: var(--butter-light);
+      border: 1.5px dashed #F4C95D;
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .quote-text {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: #534625;
+      margin-bottom: 10px;
+    }
+
+    .quote-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .devices-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .device-chip {
+      background: #FFFFFF;
+      border: 1px solid #EBD79C;
+      color: #6E5823;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    /* Interactive Star Rating Comparison */
+    .rating-box {
+      background: var(--bg-soft);
+      border: 1.5px solid var(--mint-light);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .star-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .star-btn {
+      border: 1.5px solid var(--mint-main);
+      background: #FFFFFF;
+      color: var(--mint-deep);
+      border-radius: 10px;
+      padding: 5px 9px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .star-btn:hover, .star-btn.selected {
+      background: var(--mint-main);
+      color: var(--mint-deep);
+      transform: scale(1.05);
+    }
+
+    .reveal-box {
+      background: var(--lavender-light);
+      border: 1.5px solid var(--lavender-main);
+      border-radius: 14px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 190px;
+    }
+
+    /* ELA Notebook */
+    .notes-section label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--mint-deep);
+      margin-bottom: 8px;
+    }
+
+    .notes-area {
+      width: 100%;
+      min-height: 110px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--mint-light);
+      background: #FCFFFE;
+      padding: 12px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem;
+      color: var(--ink-main);
+      resize: vertical;
+      outline: none;
+    }
+
+    .notes-area:focus {
+      border-color: var(--mint-main);
+    }
+
+    .card-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1.5px solid var(--border-soft);
+    }
+
+    /* Right Column: Mochi Mint Green Study Bunny Chat */
+    .chat-panel {
+      position: sticky;
+      top: 94px;
+      height: calc(100vh - 115px);
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 2px solid var(--mint-main);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, var(--mint-light), #EBF9F3);
+      padding: 16px 18px;
+      border-bottom: 2px solid var(--mint-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header-info h2 {
+      font-size: 1.05rem;
+      color: var(--mint-deep);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chat-header-info p {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #34D399;
+      display: inline-block;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #FAFFFD;
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 6px;
+    }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--mint-main);
+      border-radius: 999px;
+    }
+
+    .msg {
+      max-width: 88%;
+      padding: 11px 14px;
+      border-radius: 18px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    .msg-mochi {
+      align-self: flex-start;
+      background: var(--mint-light);
+      color: var(--ink-main);
+      border-bottom-left-radius: 6px;
+      border: 1px solid #C6EEDB;
+    }
+
+    .msg-mochi strong {
+      color: var(--mint-deep);
+    }
+
+    .msg-user {
+      align-self: flex-end;
+      background: var(--lavender-light);
+      color: var(--ink-main);
+      border-bottom-right-radius: 6px;
+      border: 1px solid var(--lavender-main);
+    }
+
+    .quick-prompts {
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border-top: 1.5px solid var(--mint-light);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .prompt-chip {
+      background: var(--bg-soft);
+      border: 1.5px solid var(--mint-main);
+      color: var(--mint-deep);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .prompt-chip:hover {
+      background: var(--mint-light);
+    }
+
+    .chat-input-row {
+      padding: 12px 14px;
+      background: #FFFFFF;
+      border-top: 1.5px solid var(--mint-light);
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      border: 2px solid var(--mint-light);
+      border-radius: 999px;
+      padding: 9px 15px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .chat-input:focus {
+      border-color: var(--mint-main);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: var(--mint-deep);
+      color: #FFFFFF;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 10px 25px rgba(47, 111, 87, 0.3);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 100;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-badge mochi-bob" aria-hidden="true">
+          <!-- Mint Green Mochi Icon -->
+          <svg width="38" height="38" viewBox="0 0 80 80" fill="none">
+            <ellipse class="mochi-ear-left" cx="29" cy="22" rx="8" ry="19" transform="rotate(-10 29 22)" fill="#9CE2C6" stroke="#4EA885" stroke-width="2.5"/>
+            <ellipse cx="29" cy="23" rx="4" ry="13" transform="rotate(-10 29 23)" fill="#FFD6E0"/>
+            <ellipse cx="51" cy="22" rx="8" ry="19" transform="rotate(10 51 22)" fill="#9CE2C6" stroke="#4EA885" stroke-width="2.5"/>
+            <ellipse cx="51" cy="23" rx="4" ry="13" transform="rotate(10 51 23)" fill="#FFD6E0"/>
+            <ellipse cx="40" cy="52" rx="24" ry="20" fill="#9CE2C6" stroke="#4EA885" stroke-width="2.5"/>
+            <circle cx="31" cy="50" r="3" fill="#3B3745"/>
+            <circle cx="49" cy="50" r="3" fill="#3B3745"/>
+            <circle cx="32" cy="49" r="1" fill="#FFFFFF"/>
+            <circle cx="50" cy="49" r="1" fill="#FFFFFF"/>
+            <ellipse cx="24" cy="55" rx="4.5" ry="2.8" fill="#FFB7B2" opacity="0.85"/>
+            <ellipse cx="56" cy="55" rx="4.5" ry="2.8" fill="#FFB7B2" opacity="0.85"/>
+            <path d="M37 55 Q40 58 43 55" stroke="#3B3745" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+            <polygon points="38,53 42,53 40,55.5" fill="#FF8FA3"/>
+          </svg>
+        </div>
+        <div class="brand-title">
+          <h1>The Anthropocene Reviewed</h1>
+          <p>Mochi's Mint-Pastel ELA Study Companion &bull; 46 Chapters</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn btn-mint" onclick="copyGitHubCode()" title="Copy single-file HTML for GitHub">
+          <span>📋 Copy Code for GitHub</span>
+        </button>
+        <button class="btn btn-lavender" onclick="downloadSingleHTML()" title="Download index.html">
+          <span>💾 Download index.html</span>
+        </button>
+        <button class="btn btn-blush" onclick="exportStudyGuide()" title="Download your notes as a Markdown guide">
+          <span>📝 Export ELA Notes</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress Strip -->
+  <div class="progress-strip">
+    <div class="progress-card">
+      <div class="progress-top">
+        <span id="progressLabel">🐰 Mochi's Reading Journey: 1 / 46 Chapters Explored</span>
+        <span id="ratedCountLabel">⭐ 0 Chapters Rated</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-bunny" id="progressBunny" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 80 80" fill="none">
+            <ellipse cx="30" cy="20" rx="7" ry="17" transform="rotate(-8 30 20)" fill="#9CE2C6" stroke="#2F6F57" stroke-width="3"/>
+            <ellipse cx="50" cy="20" rx="7" ry="17" transform="rotate(8 50 20)" fill="#9CE2C6" stroke="#2F6F57" stroke-width="3"/>
+            <ellipse cx="40" cy="52" rx="23" ry="19" fill="#9CE2C6" stroke="#2F6F57" stroke-width="3"/>
+            <circle cx="32" cy="50" r="3" fill="#3B3745"/>
+            <circle cx="48" cy="50" r="3" fill="#3B3745"/>
+            <ellipse cx="25" cy="55" rx="4" ry="2.5" fill="#FFB7B2"/>
+            <ellipse cx="55" cy="55" rx="4" ry="2.5" fill="#FFB7B2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Workspace -->
+  <main class="workspace">
+    <!-- Left Sidebar: All 46 Chapters -->
+    <aside class="panel sidebar">
+      <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search 46 chapters or themes..." oninput="filterChapters()" />
+      <div class="theme-pills" id="themePills">
+        <button class="pill active" onclick="setThemeFilter('All', this)">All (46)</button>
+        <button class="pill" onclick="setThemeFilter('Wonder & Art', this)">Wonder & Art</button>
+        <button class="pill" onclick="setThemeFilter('Human Fragility', this)">Fragility</button>
+        <button class="pill" onclick="setThemeFilter('Modern Culture', this)">Culture</button>
+        <button class="pill" onclick="setThemeFilter('Nature & Time', this)">Nature & Time</button>
+        <button class="pill" onclick="setThemeFilter('Connection', this)">Connection</button>
+      </div>
+      <div class="chapter-list" id="chapterList"></div>
+    </aside>
+
+    <!-- Center Stage: Chapter Deep-Dive -->
+    <section class="chapter-stage">
+      <!-- Peeking Mint Green Mochi SVG -->
+      <div class="peeking-mochi mochi-bob" aria-hidden="true">
+        <svg width="118" height="68" viewBox="0 0 140 80" fill="none">
+          <!-- Ears -->
+          <ellipse class="mochi-ear-left" cx="48" cy="24" rx="10" ry="22" transform="rotate(-12 48 24)" fill="#9CE2C6" stroke="#4EA885" stroke-width="3"/>
+          <ellipse cx="48" cy="25" rx="5" ry="15" transform="rotate(-12 48 25)" fill="#FFD6E0"/>
+          <ellipse cx="92" cy="24" rx="10" ry="22" transform="rotate(12 92 24)" fill="#9CE2C6" stroke="#4EA885" stroke-width="3"/>
+          <ellipse cx="92" cy="25" rx="5" ry="15" transform="rotate(12 92 25)" fill="#FFD6E0"/>
+          <!-- Head -->
+          <path d="M36 66 C36 42, 104 42, 104 66 Z" fill="#9CE2C6" stroke="#4EA885" stroke-width="3"/>
+          <!-- Eyes & Glasses -->
+          <circle cx="57" cy="54" r="8" fill="#FFFFFF" stroke="#6D56A8" stroke-width="2.2"/>
+          <circle cx="83" cy="54" r="8" fill="#FFFFFF" stroke="#6D56A8" stroke-width="2.2"/>
+          <line x1="65" y1="54" x2="75" y2="54" stroke="#6D56A8" stroke-width="2.2"/>
+          <circle cx="57" cy="54" r="3.2" fill="#3B3745"/>
+          <circle cx="83" cy="54" r="3.2" fill="#3B3745"/>
+          <circle cx="58.2" cy="52.8" r="1.1" fill="#FFFFFF"/>
+          <circle cx="84.2" cy="52.8" r="1.1" fill="#FFFFFF"/>
+          <!-- Cheeks & Nose -->
+          <ellipse cx="46" cy="60" rx="5" ry="3" fill="#FFB7B2"/>
+          <ellipse cx="94" cy="60" rx="5" ry="3" fill="#FFB7B2"/>
+          <polygon points="67,58 73,58 70,61" fill="#FF8FA3"/>
+          <!-- Little Mint Paws resting on the card border -->
+          <ellipse cx="42" cy="67" rx="10" ry="6" fill="#B6EED7" stroke="#4EA885" stroke-width="2.5"/>
+          <ellipse cx="98" cy="67" rx="10" ry="6" fill="#B6EED7" stroke="#4EA885" stroke-width="2.5"/>
+        </svg>
+      </div>
+
+      <article class="panel chapter-card" id="chapterCard">
+        <div class="chapter-meta">
+          <div class="tag-group">
+            <span class="badge badge-mint" id="chapterNumberBadge">Chapter 0</span>
+            <span class="badge badge-lavender" id="chapterThemeBadge">Wonder & Art</span>
+          </div>
+          <button class="btn btn-mint" id="markReadBtn" onclick="toggleReadStatus()">✓ Mark Explored</button>
+        </div>
+
+        <h2 class="chapter-heading" id="chapterTitle">Introduction</h2>
+
+        <!-- Macro vs Micro -->
+        <div class="lens-grid">
+          <div class="lens-box lens-macro">
+            <h3>🌍 The Macro Lens (History, Science & World)</h3>
+            <p id="macroText"></p>
+          </div>
+          <div class="lens-box lens-micro">
+            <h3>💗 The Micro Lens (Memoir & Personal Meaning)</h3>
+            <p id="microText"></p>
+          </div>
+        </div>
+
+        <!-- Quote & Literary Devices -->
+        <div class="quote-card">
+          <p class="quote-text serif-quote" id="quoteText"></p>
+          <div class="quote-footer">
+            <div class="devices-wrap" id="devicesWrap"></div>
+            <button class="btn btn-lavender" onclick="copyQuote()">📋 Copy Quote</button>
+          </div>
+        </div>
+
+        <!-- Star Rating Comparison -->
+        <div class="rating-box">
+          <div>
+            <strong style="font-size: 0.9rem; color: var(--mint-deep);">⭐ Your 5-Star Scale Rating:</strong>
+            <div class="star-buttons" id="starButtons"></div>
+          </div>
+          <div class="reveal-box">
+            <div style="font-size: 0.76rem; font-weight: 700; color: var(--lavender-dark); margin-bottom: 5px;">
+              Book's Official Rating
+            </div>
+            <button class="btn btn-lavender" id="revealRatingBtn" onclick="revealBookRating()">
+              👀 Reveal Book Rating
+            </button>
+            <div id="revealedRatingText" style="display:none; font-weight: 800; color: var(--lavender-dark); font-size: 0.95rem;"></div>
+          </div>
+        </div>
+
+        <!-- ELA Study Notes -->
+        <div class="notes-section">
+          <label for="elaNotes">
+            <span>📓 Your ELA Close-Reading Notes (Auto-Saved)</span>
+            <span id="saveStatus" style="font-size: 0.76rem; color: var(--mint-dark);">Saved locally ✓</span>
+          </label>
+          <textarea id="elaNotes" class="notes-area" placeholder="Jot down thesis ideas, rhetorical choices, or personal connections for this chapter..." oninput="saveNote()"></textarea>
+        </div>
+
+        <div class="card-nav">
+          <button class="btn btn-lavender" onclick="navigateChapter(-1)">← Previous Chapter</button>
+          <span id="chapterCounter" style="font-size: 0.85rem; font-weight: 700; color: var(--ink-muted);">1 of 46</span>
+          <button class="btn btn-mint" onclick="navigateChapter(1)">Next Chapter →</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Right Column: Mochi Mint Green Study Bunny Chat -->
+    <aside class="panel chat-panel chat-column">
+      <div class="chat-header">
+        <div style="flex-shrink:0;">
+          <svg width="46" height="46" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="38" fill="#FFFFFF" stroke="#4EA885" stroke-width="2.5"/>
+            <ellipse cx="30" cy="21" rx="6.5" ry="15" transform="rotate(-10 30 21)" fill="#9CE2C6" stroke="#4EA885" stroke-width="2"/>
+            <ellipse cx="30" cy="22" rx="3" ry="10" transform="rotate(-10 30 22)" fill="#FFD6E0"/>
+            <ellipse cx="50" cy="21" rx="6.5" ry="15" transform="rotate(10 50 21)" fill="#9CE2C6" stroke="#4EA885" stroke-width="2"/>
+            <ellipse cx="50" cy="22" rx="3" ry="10" transform="rotate(10 50 22)" fill="#FFD6E0"/>
+            <ellipse cx="40" cy="49" rx="20" ry="17" fill="#9CE2C6" stroke="#4EA885" stroke-width="2"/>
+            <circle cx="33" cy="47" r="2.6" fill="#3B3745"/>
+            <circle cx="47" cy="47" r="2.6" fill="#3B3745"/>
+            <ellipse cx="27" cy="52" rx="3.8" ry="2.2" fill="#FFB7B2"/>
+            <ellipse cx="53" cy="52" rx="3.8" ry="2.2" fill="#FFB7B2"/>
+            <path d="M37 52 Q40 55 43 52" stroke="#3B3745" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="chat-header-info">
+          <h2>Mochi <span class="status-dot"></span></h2>
+          <p>Mint Green ELA Study Bunny &bull; Cozy Essay Helper</p>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <div class="quick-prompts">
+        <button class="prompt-chip" onclick="askMochiPreset('thesis')">✍️ Thesis Idea</button>
+        <button class="prompt-chip" onclick="askMochiPreset('devices')">🔍 Literary Devices</button>
+        <button class="prompt-chip" onclick="askMochiPreset('macromicro')">🌍 Macro + Micro</button>
+        <button class="prompt-chip" onclick="askMochiPreset('quiz')">🎯 Quiz Me!</button>
+      </div>
+
+      <form class="chat-input-row" onsubmit="handleChatSubmit(event)">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Ask Mochi about this chapter..." />
+        <button type="submit" class="btn btn-mint">Send</button>
+      </form>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script>
+    // Complete 46 Chapters of The Anthropocene Reviewed: Essays on a Human-Centered Planet
+    const CHAPTERS = [
+      {
+        num: 0,
+        title: "Introduction",
+        theme: "Wonder & Art",
+        bookRating: "N/A (Framing Essay)",
+        macro: "Defines the Anthropocene—the current geological epoch in which human activity has become the dominant force shaping Earth's climate and ecosystems—and critiques the modern obsession with five-star rating systems.",
+        micro: "John Green reflects on recovering from labyrinthitis, writing 175-word reviews for Booklist, and learning from his wife Sarah and mentor Amy Krouse Rosenthal to put himself honestly into his observations.",
+        quote: "We are at once far too powerful and not nearly powerful enough.",
+        devices: ["Paradox", "Framing Device", "Rhetorical Reframing"]
+      },
+      {
+        num: 1,
+        title: "“You'll Never Walk Alone”",
+        theme: "Connection",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Traces the journey of Rodgers and Hammerstein's 1945 show tune from Ferenc Molnár's play Liliom to Gerry and the Pacemakers and its adoption as Liverpool FC's sacred communal anthem.",
+        micro: "Written in May 2020 during early COVID-19 lockdowns, Green finds comfort in the song's honest acknowledgment of storms and the shared courage created when voices sing together.",
+        quote: "You have to go on, and you never walk alone.",
+        devices: ["Allusion", "Etymological Analysis ('En-courage')", "Juxtaposition"]
+      },
+      {
+        num: 2,
+        title: "Humanity's Temporal Range",
+        theme: "Human Fragility",
+        bookRating: "4 / 5 Stars",
+        macro: "Compares modern Homo sapiens' brief ~250,000-year existence against ancient species like tuataras and past mass extinctions such as the Permian-Triassic event.",
+        micro: "Recalls a childhood planetarium trip that sparked lifelong existential anxiety, balanced by his brother Hank's calm reassurance during the pandemic that humanity will endure.",
+        quote: "In hope, and in expectation, I give humanity's temporal range four stars.",
+        devices: ["Cosmic Scale Imagery", "Tone Shift", "Anaphora"]
+      },
+      {
+        num: 3,
+        title: "Halley's Comet",
+        theme: "Nature & Time",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Examines Edmond Halley's 1705 mathematical breakthrough proving comets orbit predictably, while contextualizing him within the transatlantic networks of his era.",
+        micro: "Green uses the 75-to-76-year 'Halley' as a human unit of time, reflecting on his childhood disappointment seeing the dim 1986 comet and hoping to live to see its return in 2061.",
+        quote: "Very little about the future is predictable, except that the comet will return.",
+        devices: ["Extended Metaphor", "Historical Contextualization", "Motif"]
+      },
+      {
+        num: 4,
+        title: "Our Capacity for Wonder",
+        theme: "Wonder & Art",
+        bookRating: "3.5 / 5 Stars",
+        macro: "Explores the neuroscience and literary history of awe, contrasting F. Scott Fitzgerald's famous passage in The Great Gatsby with everyday attentional habits.",
+        micro: "Green describes lying beneath a backyard tree watching sunlight filter through green leaves, arguing that wonder depends less on grand spectacles than on how we choose to look.",
+        quote: "What we pay attention to is not merely a reflection of our lives; it is our lives.",
+        devices: ["Literary Allusion", "Imagery", "Aphorism"]
+      },
+      {
+        num: 5,
+        title: "Lascaux Cave Paintings",
+        theme: "Wonder & Art",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Chronicles the 1940 discovery of 17,000-year-old Paleolithic art in France, its closure after human breath damaged the walls, and the construction of exact replicas (Lascaux II–IV).",
+        micro: "Focuses on the ancient negative hand stencils—a human handprint without the hand—as a poignant emblem of memory, permanence, and our inability to physically return to the past.",
+        quote: "A handprint is not a hand, and a replica is not the original, yet both say: I was here.",
+        devices: ["Symbolism", "Irony", "Sensory Imagery"]
+      },
+      {
+        num: 6,
+        title: "Scratch 'n' Sniff Stickers",
+        theme: "Modern Culture",
+        bookRating: "3.5 / 5 Stars",
+        macro: "Explains the 1960s microencapsulation technology invented by 3M that traps synthetic fragrance oils inside microscopic plastic spheres.",
+        micro: "Green marvels at childhood stickers that still smell like artificial banana 35 years later, meditating on how scent unlocks vivid memories and what lost Anthropocene smells might vanish.",
+        quote: "Smell is the sense most tightly braided to memory.",
+        devices: ["Nostalgic Diction", "Scientific Exposition", "Synecdoche"]
+      },
+      {
+        num: 7,
+        title: "Diet Dr Pepper",
+        theme: "Modern Culture",
+        bookRating: "4 / 5 Stars",
+        macro: "Traces Dr Pepper's 1885 creation by pharmacist Charles Alderton in Waco, Texas, designed to capture the blended aroma of an entire soda fountain.",
+        micro: "Green confesses his daily reliance on Diet Dr Pepper as a harmless vice that tastes unapologetically artificial—the quintessential flavor of human ingenuity in the Anthropocene.",
+        quote: "It does not taste like anything in nature; it tastes like the Anthropocene.",
+        devices: ["Self-Deprecating Humor", "Cultural Symbolism", "Sensory Detail"]
+      },
+      {
+        num: 8,
+        title: "Velociraptors",
+        theme: "Nature & Time",
+        bookRating: "3 / 5 Stars",
+        macro: "Contrasts Jurassic Park's towering, scaly movie monsters with paleontological reality: real Velociraptors were turkey-sized feathered carnivores.",
+        micro: "Reflecting on visual perception and cinema, Green admits that even when we know an image is scientifically inaccurate, our eyes still believe what movies taught us to see.",
+        quote: "We believe what we see, even long after we learn that seeing is not believing.",
+        devices: ["Contrast", "Pop-Culture Critique", "Epistemological Inquiry"]
+      },
+      {
+        num: 9,
+        title: "Canada Geese",
+        theme: "Nature & Time",
+        bookRating: "3 / 5 Stars",
+        macro: "Details how giant Canada geese were hunted nearly to extinction by the 1950s before rebounding explosively thanks to suburban lawns and retention ponds.",
+        micro: "Observing geese along Indianapolis waterways, Green points out that humans label animals 'pests' whenever they adapt too successfully to the environments we reshaped.",
+        quote: "We hate in Canada geese the very adaptability that mirrors our own.",
+        devices: ["Ecological Irony", "Parallelism", "Personification"]
+      },
+      {
+        num: 10,
+        title: "Teddy Bears",
+        theme: "Modern Culture",
+        bookRating: "2.5 / 5 Stars",
+        macro: "Recounts the 1902 Mississippi hunting trip where Theodore Roosevelt refused to shoot a tied bear cub, inspiring Morris Michtom's plush toy empire.",
+        micro: "Green critiques selective human empathy: we adore cute representations of bears while driving real wild bear habitats toward fragmentation and peril.",
+        quote: "We love the plush likeness while endangering the living creature.",
+        devices: ["Irony", "Historical Anecdote", "Ethical Critique"]
+      },
+      {
+        num: 11,
+        title: "The Hall of Presidents",
+        theme: "Modern Culture",
+        bookRating: "1.5 / 5 Stars",
+        macro: "Examines Walt Disney World's 1971 animatronic attraction and its earnest attempt to present an unbroken narrative of American presidential optimism.",
+        micro: "Growing up in Orlando, teenage Green defined himself through cynical disdain for tourist attractions, later realizing how national myths smooth over messy historical contradictions.",
+        quote: "There is nothing quite so uncanny as an animatronic speech about human destiny.",
+        devices: ["Satire", "Uncanny Imagery", "Coming-of-Age Reflection"]
+      },
+      {
+        num: 12,
+        title: "Air-Conditioning",
+        theme: "Modern Culture",
+        bookRating: "3 / 5 Stars",
+        macro: "Follows Willis Carrier's 1902 invention of modern air-conditioning and how cooled indoor air reshaped Sun Belt migration, architecture, and global energy demand.",
+        micro: "Green wrestles with a classic Anthropocene dilemma: air-conditioning makes life livable in hot climates while simultaneously accelerating the fossil-fuel emissions warming the planet.",
+        quote: "Every cool room is bought at the price of a slightly warmer outside world.",
+        devices: ["Antithesis", "Cause-and-Effect Structure", "Paradox"]
+      },
+      {
+        num: 13,
+        title: "Staphylococcus aureus",
+        theme: "Human Fragility",
+        bookRating: "1 / 5 Stars",
+        macro: "Explains the biology of staph bacteria—harmless on intact skin yet deadly inside wounds—and the evolutionary arms race of antibiotic resistance.",
+        micro: "Shares the moving history of early penicillin trials and his own gratitude for modern medicine, dismantling romantic illusions about a 'simpler' pre-antibiotic past.",
+        quote: "There was no golden age before antibiotics.",
+        devices: ["Medical Exposition", "Counterargument", "Gratitude Motif"]
+      },
+      {
+        num: 14,
+        title: "The Internet",
+        theme: "Modern Culture",
+        bookRating: "3 / 5 Stars",
+        macro: "Traces the rapid evolution of the networked web from an open, decentralized dream into an attention-harvesting engine driven by outrage algorithms.",
+        micro: "Having built his career online since 2007, Green weighs the genuine human communities forged on the internet against its capacity to amplify loneliness and polarization.",
+        quote: "The internet did not create human cruelty or kindness; it gave both a megaphone.",
+        devices: ["Metaphor", "Balanced Antithesis", "Personal Testimony"]
+      },
+      {
+        num: 15,
+        title: "Academic Decathlon",
+        theme: "Connection",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Describes the structure of the high school Academic Decathlon, uniquely designed so students across GPA tiers (Honors, Scholastic, Varsity) compete together.",
+        micro: "Green fondly remembers finding belonging among fellow misfits at Indian Springs School, celebrating how shared intellectual curiosity turned strangers into lifelong friends.",
+        quote: "To be cared for from afar is still to be held together.",
+        devices: ["Nostalgia", "Character Vignette", "Understatement"]
+      },
+      {
+        num: 16,
+        title: "Sunsets",
+        theme: "Wonder & Art",
+        bookRating: "5 / 5 Stars",
+        macro: "Explains Rayleigh scattering—how Earth's atmosphere bends low-angle sunlight into fiery reds, oranges, and violets at dusk.",
+        micro: "Confessing how hard it is to write sincerely about something cliché without hiding behind irony, Green chooses vulnerability and awards sunsets a rare five stars.",
+        quote: "Cynicism is a form of armor, and armor keeps out beauty along with pain.",
+        devices: ["Metaphor", "Vulnerability as Rhetoric", "Cliché Subversion"]
+      },
+      {
+        num: 17,
+        title: "Jerzy Dudek's Performance on May 25, 2005",
+        theme: "Wonder & Art",
+        bookRating: "5 / 5 Stars",
+        macro: "Recounts the 'Miracle of Istanbul,' where Liverpool FC erased a 3–0 Champions League halftime deficit against AC Milan before goalkeeper Jerzy Dudek's improbable double save.",
+        micro: "Sports, Green argues, matter precisely because they are low-stakes arenas where human grace, improvisation, and collective joy become unforgettable art.",
+        quote: "Nothing of lasting geopolitical consequence happened, and yet everything happened.",
+        devices: ["Dramatic Pacing", "Hyperbole & Bathos", "Ekphrasis"]
+      },
+      {
+        num: 18,
+        title: "Penguins of Madagascar",
+        theme: "Modern Culture",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Analyzes the opening sequence of the 2014 animated film where documentary filmmakers push cute penguin chicks toward a cliff edge just to capture dramatic footage.",
+        micro: "Laughing with his kids while recognizing a sharp satire of human interference in nature, Green celebrates how family comedy can carry genuine philosophical bite.",
+        quote: "Even our cartoons know we cannot resist meddling with the scenery.",
+        devices: ["Satirical Analysis", "Humor", "Framing"]
+      },
+      {
+        num: 19,
+        title: "Piggly Wiggly",
+        theme: "Modern Culture",
+        bookRating: "4 / 5 Stars",
+        macro: "Chronicles Clarence Saunders' 1916 Memphis invention of the self-service grocery store—complete with shopping baskets, price tags, and checkout turnstiles.",
+        micro: "Walking modern supermarket aisles, Green reflects on how self-service abundance quietly reshaped human labor, food packaging, and consumer expectation.",
+        quote: "We walk through aisles of abundance without seeing the hands that stocked them.",
+        devices: ["Historical Narrative", "Social Commentary", "Irony"]
+      },
+      {
+        num: 20,
+        title: "The Nathan's Famous Hot Dog Eating Contest",
+        theme: "Modern Culture",
+        bookRating: "3.5 / 5 Stars",
+        macro: "Follows the Coney Island Fourth of July spectacle and how competitive eater Takeru Kobayashi shattered records through systematic training.",
+        micro: "Green views competitive eating as an unsettlingly accurate mirror of Anthropocene excess: pushing human consumption past biological limits while millions go hungry.",
+        quote: "It is performance art about consumption at the edge of absurdity.",
+        devices: ["Allegory", "Grotesque Imagery", "Cultural Critique"]
+      },
+      {
+        num: 21,
+        title: "CNN",
+        theme: "Modern Culture",
+        bookRating: "2 / 5 Stars",
+        macro: "Traces Ted Turner's 1980 launch of the first 24-hour cable news network and how continuous breaking-news cycles transformed journalism into perpetual urgency.",
+        micro: "Describing his own compulsive news-refreshing during crises, Green warns that constant crisis alerts erode perspective and leave citizens exhausted rather than informed.",
+        quote: "When everything is breaking news, nothing is understood.",
+        devices: ["Antithesis", "Critique of Media", "Repetition"]
+      },
+      {
+        num: 22,
+        title: "Harvey",
+        theme: "Wonder & Art",
+        bookRating: "4 / 5 Stars",
+        macro: "Examines Mary Chase's Pulitzer-winning 1944 play and Jimmy Stewart's 1950 film about Elwood P. Dowd and his invisible six-foot-tall white rabbit friend, Harvey.",
+        micro: "Green embraces Elwood's gentle philosophy—choosing kindness over cleverness—as a radical, comforting way to move through a harsh world.",
+        quote: "In this world, you must be oh so smart or oh so pleasant. I recommend pleasant.",
+        devices: ["Literary Allusion", "Character Study", "Tone of Warmth"]
+      },
+      {
+        num: 23,
+        title: "The Yips",
+        theme: "Human Fragility",
+        bookRating: "3 / 5 Stars",
+        macro: "Explores the neurological and psychological mystery of 'the yips'—when elite athletes suddenly lose the ability to execute simple automatic motor skills.",
+        micro: "Connecting athletic yips to writer's block and obsessive-compulsive spirals, Green reflects on how overthinking can paralyze the mind's natural grace.",
+        quote: "Consciousness is a wonderful servant and a terrible master.",
+        devices: ["Analogy", "Psychological Insight", "Parallelism"]
+      },
+      {
+        num: 24,
+        title: "Auld Lang Syne",
+        theme: "Connection",
+        bookRating: "5 / 5 Stars",
+        macro: "Traces Robert Burns' 1788 Scots poem and its role across centuries—from New Year's Eve gatherings to the 1914 World War I Christmas Truce.",
+        micro: "Remembering late friends and the passage of years, Green celebrates the song's acceptance that time carries everything away while love persists in memory.",
+        quote: "We live in hope—that love will survive even though we will not.",
+        devices: ["Elegiac Tone", "Historical Vignette", "Refrain"]
+      },
+      {
+        num: 25,
+        title: "Googling Strangers",
+        theme: "Connection",
+        bookRating: "4 / 5 Stars",
+        macro: "Considers the ethics of modern search engines and digital footprints, where billions of ordinary lives are searchable in milliseconds.",
+        micro: "Recalling his time as a student hospital chaplain, Green shares the relief of discovering online that a critically burned child he once prayed beside survived and thrived.",
+        quote: "We want to know how the story turns out, even when it is not our story.",
+        devices: ["Narrative Arc", "Ethical Reflection", "Empathy Motif"]
+      },
+      {
+        num: 26,
+        title: "Indianapolis",
+        theme: "Connection",
+        bookRating: "4 / 5 Stars",
+        macro: "Charts the history of Indianapolis—a planned 'railroad city' built without a navigable river, shaped by Midwest industry, highways, and community resilience.",
+        micro: "After initially resisting moving away from New York, Green discovers the quiet grace of putting down roots and loving a place by committing to its neighbors.",
+        quote: "You do not love a place because it is famous; it becomes precious because you love it.",
+        devices: ["Sense of Place", "Chiasmus", "Memoir"]
+      },
+      {
+        num: 27,
+        title: "Kentucky Bluegrass",
+        theme: "Nature & Time",
+        bookRating: "2 / 5 Stars",
+        macro: "Reveals that Kentucky bluegrass is actually native to Europe and Asia, yet now covers 40 million acres of water-hungry, pesticide-treated American lawns.",
+        micro: "Looking at suburban yards, Green critiques how colonial aesthetic habits force uniform monocultures onto diverse native ecosystems.",
+        quote: "The lawn is a monument to human control over soil.",
+        devices: ["Ecological Critique", "Irony", "Expository Contrast"]
+      },
+      {
+        num: 28,
+        title: "The Indianapolis 500",
+        theme: "Modern Culture",
+        bookRating: "4 / 5 Stars",
+        macro: "Covers the history of the 1911 'Greatest Spectacle in Racing' at the Brickyard, blending engineering speed, danger, and ritualized Midwestern tradition.",
+        micro: "Attending the race in person, Green is moved by the deafening sensory roar and the shared civic ritual uniting hundreds of thousands of strangers.",
+        quote: "Ritual gives shape to time that would otherwise blur past us.",
+        devices: ["Sensory Immersion", "Auditory Imagery", "Cultural Anthropology"]
+      },
+      {
+        num: 29,
+        title: "Monopoly",
+        theme: "Modern Culture",
+        bookRating: "2.5 / 5 Stars",
+        macro: "Uncovers the forgotten origin of Monopoly: Lizzie Magie's 1904 'The Landlord's Game,' originally designed to warn against land monopolies and wealth concentration.",
+        micro: "Green highlights the historical irony that an anti-monopoly educational game was commercialized into a celebration of bankrupting your family at the kitchen table.",
+        quote: "A warning against greed became our favorite game about winning through greed.",
+        devices: ["Dramatic Irony", "Historical Recovery", "Social Satire"]
+      },
+      {
+        num: 30,
+        title: "Super Mario Kart",
+        theme: "Modern Culture",
+        bookRating: "4 / 5 Stars",
+        macro: "Analyzes Nintendo's 1992 SNES classic and its famous 'rubber-banding' item boxes that give trailing racers powerful shells while front-runners get coins.",
+        micro: "Playing with his brother and friends, Green contrasts Mario Kart's playful fairness mechanic with real-world economic systems that reward those already in first place.",
+        quote: "In real life, the person in first place gets all the stars.",
+        devices: ["Extended Metaphor", "Social Critique", "Playful Tone"]
+      },
+      {
+        num: 31,
+        title: "Bonneville Salt Flats",
+        theme: "Nature & Time",
+        bookRating: "4 / 5 Stars",
+        macro: "Explains the 30,000-acre Utah salt pan left behind by ancient Lake Bonneville, famous both for land-speed records and fragile mineral crust depletion.",
+        micro: "Standing on the blinding white horizon, Green experiences the humbling realization that humans are brief visitors on a vast geological stage.",
+        quote: "The salt flats remind you that the Earth was not built to human scale.",
+        devices: ["Sublime Imagery", "Spatial Contrast", "Humility Motif"]
+      },
+      {
+        num: 32,
+        title: "Hiroyuki Doi's Circle Drawings",
+        theme: "Wonder & Art",
+        bookRating: "5 / 5 Stars",
+        macro: "Introduces Japanese artist Hiroyuki Doi, who began drawing tens of thousands of tiny, hand-inked circles on washi paper following his brother's death.",
+        micro: "Green finds profound spiritual resonance in Doi's patient, repetitive marks—each small circle representing a soul, a breath, and grief transformed into luminous beauty.",
+        quote: "Out of tiny, patient circles emerges a universe of connection.",
+        devices: ["Ekphrasis", "Symbolism", "Meditative Rhythm"]
+      },
+      {
+        num: 33,
+        title: "Whispering",
+        theme: "Connection",
+        bookRating: "4 / 5 Stars",
+        macro: "Explores the acoustics of whispering—speaking without vocal cord vibration—and why humans instinctively lower their voices in libraries, sickrooms, and sanctuaries.",
+        micro: "Green celebrates whispering as an acoustic pact of intimacy and care, creating a private sanctuary of trust between two people in a noisy world.",
+        quote: "To whisper is to build a tiny room out of breath and trust.",
+        devices: ["Metaphor", "Sensory Intimacy", "Lyrical Prose"]
+      },
+      {
+        num: 34,
+        title: "Viral Meningitis",
+        theme: "Human Fragility",
+        bookRating: "1 / 5 Stars",
+        macro: "Describes inflammation of the protective membranes surrounding the brain and spinal cord, detailing the agonizing pain and photophobia it causes.",
+        micro: "Recounting his own terrifying hospitalization with viral meningitis, Green reflects on how sudden illness strips away every illusion of bodily invulnerability.",
+        quote: "Pain shrinks the entire universe down to the borders of your own skull.",
+        devices: ["Visceral Imagery", "First-Person Testimony", "Metaphor"]
+      },
+      {
+        num: 35,
+        title: "Plague",
+        theme: "Human Fragility",
+        bookRating: "1 / 5 Stars",
+        macro: "Traces Yersinia pestis across the Justinian Plague and the Black Death, showing how pandemic bacteria repeatedly reshaped human civilization.",
+        micro: "Reading Albert Camus' The Plague while living through 2020, Green confronts the recurring human temptation to deny contagion until it arrives at our own doorstep.",
+        quote: "Pestilence is never a surprise to history, only to the living.",
+        devices: ["Intertextuality", "Historical Parallel", "Apocalyptic Tone"]
+      },
+      {
+        num: 36,
+        title: "Wintry Mix",
+        theme: "Nature & Time",
+        bookRating: "3 / 5 Stars",
+        macro: "Explains the meteorological limbo of 'wintry mix'—when atmospheric temperature layers turn precipitation into slush, sleet, and freezing rain.",
+        micro: "Green uses wintry mix as an apt metaphor for uncertain transitional seasons of life when neither clear winter nor true spring has arrived.",
+        quote: "Most of human life happens in the slush between clarity and change.",
+        devices: ["Weather Metaphor", "Ambiguity", "Descriptive Diction"]
+      },
+      {
+        num: 37,
+        title: "The Hot Dogs of Bæjarins Beztu Pylsur",
+        theme: "Modern Culture",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Celebrates Reykjavík's iconic 1937 harbor-side hot dog stand, famous for Icelandic lamb-blend sausages topped with crispy fried onions and remoulade.",
+        micro: "Remembering eating hot dogs in the chilly Icelandic wind with his wife Sarah, Green shows how humble street food anchors joyful travel memories.",
+        quote: "Sometimes the best meal of your life costs four dollars in the rain.",
+        devices: ["Sensory Detail", "Warm Humor", "Memory Anchor"]
+      },
+      {
+        num: 38,
+        title: "The Notes App",
+        theme: "Wonder & Art",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Examines the unpretentious digital notepad built into smartphones—a blank space free of likes, algorithms, or public performance.",
+        micro: "Sharing glimpses of his own messy Notes app lists, grocery reminders, and half-formed poems, Green praises private writing as a refuge for honest thought.",
+        quote: "The Notes app is where we write when nobody is grading or watching.",
+        devices: ["List Structure", "Intimate Voice", "Contrast"]
+      },
+      {
+        num: 39,
+        title: "The Mountain Goats",
+        theme: "Wonder & Art",
+        bookRating: "5 / 5 Stars",
+        macro: "Traces John Darnielle's indie band from lo-fi boombox cassette recordings to fiercely literary songs about survival, recovery, and flawed humanity.",
+        micro: "Green credits The Mountain Goats with helping him survive dark periods of depression, showing how fiercely honest art reminds listeners they are not alone.",
+        quote: "We are going to make it through this year if it kills us.",
+        devices: ["Musical Allusion", "Catharsis", "Direct Testimony"]
+      },
+      {
+        num: 40,
+        title: "The Kauaʻi ʻōʻō",
+        theme: "Nature & Time",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Chronicles the extinction of Kauaʻi's native songbird due to habitat loss and invasive predators, culminating in the final known male bird in 1987.",
+        micro: "Listening to the haunting 1987 Cornell Lab recording—where the last male sings a duet and pauses for a female reply that never comes—Green grieves Anthropocene silence.",
+        quote: "He sang a duet into an empty forest, waiting for a voice that was gone.",
+        devices: ["Pathos", "Auditory Motif", "Elegy"]
+      },
+      {
+        num: 41,
+        title: "The QWERTY Keyboard",
+        theme: "Modern Culture",
+        bookRating: "4 / 5 Stars",
+        macro: "Explains Christopher Latham Sholes' 1870s typewriter layout, designed to prevent mechanical typebars from jamming—a layout that persisted onto touchscreens.",
+        micro: "Reflecting on path dependence, Green notes how accidental historical compromises quietly shape the physical habits of our fingers every single day.",
+        quote: "History lives in our muscle memory long after its original reason fades.",
+        devices: ["Path Dependence Metaphor", "Historical Irony", "Reflection"]
+      },
+      {
+        num: 42,
+        title: "Sycamore Trees",
+        theme: "Nature & Time",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Describes American sycamores with their mottled white-and-tan bark and massive hollow trunks that once sheltered early settlers and wildlife.",
+        micro: "During a heavy bout of depression where everything felt pointless, Green's young son points out squirrels chasing each other up a sycamore, pulling him back into the present.",
+        quote: "Hope is not a denial of darkness; it is noticing the squirrels in the sycamore.",
+        devices: ["Turning Point (Volta)", "Natural Symbolism", "Emotional Candor"]
+      },
+      {
+        num: 43,
+        title: "“New Partner”",
+        theme: "Connection",
+        bookRating: "5 / 5 Stars",
+        macro: "Examines Will Oldham's (Palace Music) 1995 song 'New Partner' and how music holds emotional truth across decades of changing relationships.",
+        micro: "Reflecting on long marriage, parenthood, and growing older alongside his wife Sarah, Green celebrates how love deepens when two people keep becoming new versions of themselves.",
+        quote: "To love someone for decades is to fall in love with a series of strangers.",
+        devices: ["Paradox", "Lyrical Analysis", "Intimate Reflection"]
+      },
+      {
+        num: 44,
+        title: "Three Farmers on Their Way to a Dance",
+        theme: "Human Fragility",
+        bookRating: "4.5 / 5 Stars",
+        macro: "Analyzes August Sander's famous May 1914 photograph of three young German men walking in suits just weeks before World War I shattered Europe.",
+        micro: "Gazing at their hopeful faces, Green reflects on historical blindness—reminding readers that we too stand before horizons we cannot yet see past.",
+        quote: "In their faces we see how profoundly unexpected the coming horror was.",
+        devices: ["Ekphrasis", "Dramatic Irony", "Philosophical Closure"]
+      },
+      {
+        num: 45,
+        title: "Postscript",
+        theme: "Connection",
+        bookRating: "4 / 5 Stars",
+        macro: "Reflects on bookbinding, signed pages, and how physical books carry human touch from author to reader across distance and time.",
+        micro: "Green shares the story of signing thousands of tip-in sheets during lockdown, closing the book with direct gratitude to the reader for paying attention together.",
+        quote: "Thank you for paying attention with me. I give this human experience four stars.",
+        devices: ["Direct Address (Apostrophe)", "Circular Structure", "Gratitude"]
+      }
+    ];
+
+    // App State
+    let currentIndex = 0;
+    let currentTheme = 'All';
+    let searchQuery = '';
+    let userRatings = JSON.parse(localStorage.getItem('mochi_ar_ratings') || '{}');
+    let userNotes = JSON.parse(localStorage.getItem('mochi_ar_notes') || '{}');
+    let exploredChapters = JSON.parse(localStorage.getItem('mochi_ar_explored') || '[0]');
+    let revealedRatings = {};
+
+    // Initialize App
+    function init() {
+      renderChapterList();
+      selectChapter(0, false);
+      updateProgress();
+      addMochiWelcome();
+    }
+
+    function addMochiWelcome() {
+      const chat = document.getElementById('chatMessages');
+      chat.innerHTML = `
+        <div class="msg msg-mochi">
+          <strong>🐰 Mochi:</strong> Hi there! Welcome to our cozy ELA study nook! 🍵✨<br><br>
+          I'm <strong>Mochi</strong>, your mint-green study bunny. Pick any of the <strong>46 chapters</strong> on the left, and ask me for a <em>thesis statement</em>, <em>literary device breakdown</em>, <em>Macro/Micro theme help</em>, or a quick <em>chapter quiz</em>!
+        </div>
+      `;
+    }
+
+    // Filter & Render Chapter List
+    function setThemeFilter(theme, btnEl) {
+      currentTheme = theme;
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      btnEl.classList.add('active');
+      renderChapterList();
+    }
+
+    function filterChapters() {
+      searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+      renderChapterList();
+    }
+
+    function renderChapterList() {
+      const list = document.getElementById('chapterList');
+      list.innerHTML = '';
+
+      CHAPTERS.forEach((ch, idx) => {
+        const matchesTheme = currentTheme === 'All' || ch.theme === currentTheme;
+        const matchesSearch =
+          ch.title.toLowerCase().includes(searchQuery) ||
+          ch.theme.toLowerCase().includes(searchQuery) ||
+          ch.macro.toLowerCase().includes(searchQuery) ||
+          ch.micro.toLowerCase().includes(searchQuery) ||
+          String(ch.num) === searchQuery;
+
+        if (!matchesTheme || !matchesSearch) return;
+
+        const btn = document.createElement('button');
+        btn.className = `chapter-item ${idx === currentIndex ? 'active' : ''}`;
+        btn.onclick = () => selectChapter(idx, true);
+
+        const isExplored = exploredChapters.includes(ch.num);
+        const myStar = userRatings[ch.num];
+        const statusIcon = myStar ? `⭐${myStar}` : (isExplored ? '✓' : '○');
+
+        btn.innerHTML = `
+          <span class="chapter-item-num">Ch. ${ch.num}</span>
+          <span class="chapter-item-title">${ch.title}</span>
+          <span class="chapter-item-status">${statusIcon}</span>
+        `;
+        list.appendChild(btn);
+      });
+    }
+
+    // Select & Render Active Chapter
+    function selectChapter(idx, announceInChat = false) {
+      currentIndex = idx;
+      const ch = CHAPTERS[idx];
+
+      if (!exploredChapters.includes(ch.num)) {
+        exploredChapters.push(ch.num);
+        localStorage.setItem('mochi_ar_explored', JSON.stringify(exploredChapters));
+      }
+
+      document.getElementById('chapterNumberBadge').textContent =
+        ch.num === 0 ? 'Chapter 0 • Prologue' : ch.num === 45 ? 'Chapter 45 • Epilogue' : `Chapter ${ch.num}`;
+      document.getElementById('chapterThemeBadge').textContent = ch.theme;
+      document.getElementById('chapterTitle').textContent = ch.title;
+      document.getElementById('macroText').textContent = ch.macro;
+      document.getElementById('microText').textContent = ch.micro;
+      document.getElementById('quoteText').textContent = `“${ch.quote}”`;
+      document.getElementById('chapterCounter').textContent = `${idx + 1} of ${CHAPTERS.length}`;
+
+      // Devices
+      const devicesWrap = document.getElementById('devicesWrap');
+      devicesWrap.innerHTML = ch.devices.map(d => `<span class="device-chip">✨ ${d}</span>`).join('');
+
+      // Star buttons (0.5 to 5.0)
+      const starWrap = document.getElementById('starButtons');
+      const currentRating = userRatings[ch.num] || 0;
+      const scores = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+      starWrap.innerHTML = scores.map(score => `
+        <button class="star-btn ${currentRating === score ? 'selected' : ''}" onclick="rateChapter(${score})">
+          ${score}★
+        </button>
+      `).join('');
+
+      // Book Rating Spoiler Shield
+      const revealBtn = document.getElementById('revealRatingBtn');
+      const revealedText = document.getElementById('revealedRatingText');
+      if (revealedRatings[ch.num]) {
+        revealBtn.style.display = 'none';
+        revealedText.style.display = 'block';
+        revealedText.textContent = `📖 ${ch.bookRating}`;
+      } else {
+        revealBtn.style.display = 'inline-flex';
+        revealedText.style.display = 'none';
+      }
+
+      // Notes
+      document.getElementById('elaNotes').value = userNotes[ch.num] || '';
+
+      renderChapterList();
+      updateProgress();
+
+      if (announceInChat) {
+        appendMochiMessage(
+          `We hopped over to <strong>Chapter ${ch.num}: ${ch.title}</strong>! 🌿 This essay explores <strong>${ch.theme}</strong> using <em>${ch.devices.join(', ')}</em>. Need help analyzing it for ELA class?`
+        );
+      }
+    }
+
+    function navigateChapter(step) {
+      const next = (currentIndex + step + CHAPTERS.length) % CHAPTERS.length;
+      selectChapter(next, true);
+    }
+
+    function rateChapter(score) {
+      const ch = CHAPTERS[currentIndex];
+      userRatings[ch.num] = score;
+      localStorage.setItem('mochi_ar_ratings', JSON.stringify(userRatings));
+      selectChapter(currentIndex, false);
+      showToast(`⭐ You rated "${ch.title}" ${score} / 5 stars!`);
+    }
+
+    function revealBookRating() {
+      const ch = CHAPTERS[currentIndex];
+      revealedRatings[ch.num] = true;
+      selectChapter(currentIndex, false);
+    }
+
+    function toggleReadStatus() {
+      const ch = CHAPTERS[currentIndex];
+      if (!exploredChapters.includes(ch.num)) {
+        exploredChapters.push(ch.num);
+      }
+      localStorage.setItem('mochi_ar_explored', JSON.stringify(exploredChapters));
+      renderChapterList();
+      updateProgress();
+      showToast(`🐰 Mochi marked Chapter ${ch.num} as explored!`);
+    }
+
+    function saveNote() {
+      const ch = CHAPTERS[currentIndex];
+      userNotes[ch.num] = document.getElementById('elaNotes').value;
+      localStorage.setItem('mochi_ar_notes', JSON.stringify(userNotes));
+      const status = document.getElementById('saveStatus');
+      status.textContent = 'Saving...';
+      setTimeout(() => { status.textContent = 'Saved locally ✓'; }, 400);
+    }
+
+    function updateProgress() {
+      const exploredCount = exploredChapters.length;
+      const ratedCount = Object.keys(userRatings).length;
+      const pct = Math.max(2, Math.round((exploredCount / CHAPTERS.length) * 100));
+
+      document.getElementById('progressLabel').textContent =
+        `🐰 Mochi's Reading Journey: ${exploredCount} / ${CHAPTERS.length} Chapters Explored (${pct}%)`;
+      document.getElementById('ratedCountLabel').textContent =
+        `⭐ ${ratedCount} Chapters Rated`;
+      document.getElementById('progressFill').style.width = `${pct}%`;
+      document.getElementById('progressBunny').style.left = `${pct}%`;
+    }
+
+    function copyQuote() {
+      const ch = CHAPTERS[currentIndex];
+      const text = `"${ch.quote}" — John Green, The Anthropocene Reviewed ("${ch.title}")`;
+      navigator.clipboard.writeText(text);
+      showToast('📋 Quote & citation copied for your ELA essay!');
+    }
+
+    // Mochi Mint Green Bunny Chat Logic (Self-contained so it always works on GitHub!)
+    function appendUserMessage(text) {
+      const chat = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = 'msg msg-user';
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function appendMochiMessage(htmlText) {
+      const chat = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = 'msg msg-mochi';
+      div.innerHTML = `<strong>🐰 Mochi:</strong> ${htmlText}`;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function askMochiPreset(type) {
+      const ch = CHAPTERS[currentIndex];
+      if (type === 'thesis') {
+        appendUserMessage(`Can you give me a strong ELA thesis statement for "${ch.title}"?`);
+        appendMochiMessage(
+          `Here is a strong analytical thesis you can adapt for <strong>"${ch.title}"</strong>:<br><br>
+          <em>"In '${ch.title},' John Green uses ${ch.devices[0].toLowerCase()} and ${ch.devices[1].toLowerCase()} to bridge ${ch.macro.split(',')[0].toLowerCase()} with intimate personal reflection, ultimately arguing that ${ch.theme.toLowerCase()} defines how humans navigate the Anthropocene."</em><br><br>
+          Want to pair it with the quote: <em>"${ch.quote}"</em>? ✨`
+        );
+      } else if (type === 'devices') {
+        appendUserMessage(`What literary devices should I highlight in "${ch.title}"?`);
+        appendMochiMessage(
+          `In <strong>"${ch.title}"</strong>, look closely at these key craft moves:<br>
+          &bull; <strong>${ch.devices[0]}:</strong> Shapes how the reader shifts between factual history and personal emotion.<br>
+          &bull; <strong>${ch.devices[1]}:</strong> Reinforces the central theme of <em>${ch.theme}</em>.<br>
+          &bull; <strong>${ch.devices[2] || 'Five-Star Framing'}:</strong> Turns a seemingly ordinary subject into a deeper reflection on human existence! 🌿`
+        );
+      } else if (type === 'macromicro') {
+        appendUserMessage(`How do the Macro and Micro perspectives connect in "${ch.title}"?`);
+        appendMochiMessage(
+          `Great ELA question! Every essay in this book zooms between two lenses:<br><br>
+          🌍 <strong>Macro:</strong> ${ch.macro}<br><br>
+          💗 <strong>Micro:</strong> ${ch.micro}<br><br>
+          Notice how the big historical/scientific fact sets the stage so the personal moment feels universal!`
+        );
+      } else if (type === 'quiz') {
+        appendUserMessage(`Quiz me on "${ch.title}"!`);
+        appendMochiMessage(
+          `🎯 <strong>Mochi's Quick Check for Ch. ${ch.num}:</strong><br><br>
+          1. Why do you think John Green connects <em>${ch.title}</em> to the broader theme of <strong>${ch.theme}</strong>?<br>
+          2. How would you rate this topic on the 5-star scale compared to the book's rating (<strong>${ch.bookRating}</strong>)?<br><br>
+          Type your thoughts below and I'll give you encouraging feedback! 🍵`
+        );
+      }
+    }
+
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendUserMessage(text);
+      input.value = '';
+
+      const ch = CHAPTERS[currentIndex];
+      const lower = text.toLowerCase();
+
+      setTimeout(() => {
+        if (lower.includes('thesis') || lower.includes('essay') || lower.includes('claim')) {
+          askMochiPreset('thesis');
+        } else if (lower.includes('device') || lower.includes('metaphor') || lower.includes('rhetoric') || lower.includes('tone')) {
+          askMochiPreset('devices');
+        } else if (lower.includes('quote') || lower.includes('evidence')) {
+          appendMochiMessage(
+            `A great piece of textual evidence from <strong>"${ch.title}"</strong> is:<br><br>
+            <em>“${ch.quote}”</em><br><br>
+            Try introducing it by explaining how Green blends <strong>${ch.theme}</strong> with personal vulnerability! 📝`
+          );
+        } else if (lower.includes('star') || lower.includes('rating')) {
+          appendMochiMessage(
+            `In the book, this essay ends with <strong>${ch.bookRating}</strong>! Remember, Green uses star ratings playfully to show how impossible it is to reduce complex human experiences to a single number. ⭐`
+          );
+        } else {
+          appendMochiMessage(
+            `Ooh, I love that thought about <strong>"${ch.title}"</strong>! 🐰💚<br><br>
+            If you're writing about that in your ELA response, try connecting your observation to how Green pairs <strong>${ch.devices[0]}</strong> with the theme of <strong>${ch.theme}</strong>. Would you like me to turn your idea into a topic sentence?`
+          );
+        }
+      }, 260);
+    }
+
+    // GitHub Single-File Copy & Export Tools
+    function copyGitHubCode() {
+      const fullHTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      navigator.clipboard.writeText(fullHTML).then(() => {
+        showToast('📋 Complete single-file HTML copied! Ready to paste into GitHub!');
+      });
+    }
+
+    function downloadSingleHTML() {
+      const fullHTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([fullHTML], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('💾 Downloaded index.html!');
+    }
+
+    function exportStudyGuide() {
+      let md = `# The Anthropocene Reviewed — Mochi's ELA Study Guide\n\n`;
+      CHAPTERS.forEach(ch => {
+        const note = userNotes[ch.num];
+        const rating = userRatings[ch.num];
+        if (note || rating || exploredChapters.includes(ch.num)) {
+          md += `## Chapter ${ch.num}: ${ch.title}\n`;
+          md += `- **Theme:** ${ch.theme}\n`;
+          md += `- **Literary Devices:** ${ch.devices.join(', ')}\n`;
+          md += `- **Key Quote:** "${ch.quote}"\n`;
+          if (rating) md += `- **My Rating:** ${rating} / 5 Stars\n`;
+          if (note) md += `- **My ELA Notes:** ${note}\n`;
+          md += `\n`;
+        }
+      });
+
+      const blob = new Blob([md], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Anthropocene-Reviewed-ELA-Notes.md';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📝 Exported your ELA study guide!');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
