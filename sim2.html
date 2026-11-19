@@ -1,629 +1,13 @@
 <!DOCTYPE html>
-<html lang="en"><head><script data-bard-client-injected="true">(function(firebaseConfig, initialAuthToken, appId) {
-        window.__firebase_config = firebaseConfig;
-        window.__initial_auth_token = initialAuthToken;
-        window.__app_id = appId;
-            })("\n{\n  \"apiKey\": \"AIzaSyCqyCcs2R2e7AegGjvFAwG98wlamtbHvZY\",\n  \"authDomain\": \"bard-frontend.firebaseapp.com\",\n  \"projectId\": \"bard-frontend\",\n  \"storageBucket\": \"bard-frontend.firebasestorage.app\",\n  \"messagingSenderId\": \"175205271074\",\n  \"appId\": \"1:175205271074:web:2b7bd4d34d33bf38e6ec7b\"\n}\n","eyJhbGciOiJSUzI1NiIsImtpZCI6IjExNjRiNzdiNDMzZDdhMDAyMWI4NjE4YjhjYTU3ZTMyZGI5MWUxMTMiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay1mYnN2Y0BiYXJkLWZyb250ZW5kLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwiYXVkIjoiaHR0cHM6Ly9pZGVudGl0eXRvb2xraXQuZ29vZ2xlYXBpcy5jb20vZ29vZ2xlLmlkZW50aXR5LmlkZW50aXR5dG9vbGtpdC52MS5JZGVudGl0eVRvb2xraXQiLCJ1aWQiOiIxNjI2NjI4ODIzOTE0NzY1MzE0NCIsImlzcyI6ImZpcmViYXNlLWFkbWluc2RrLWZic3ZjQGJhcmQtZnJvbnRlbmQuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJjbGFpbXMiOnsiYXBwSWQiOiJjXzYxMjA3NzhiY2RkN2Q3NjhfaW5kZXguaHRtbC01MTAifSwiZXhwIjoxNzk1MTE5MDYwLCJpYXQiOjE3OTUxMTU0NjAsImFsZyI6IlJTMjU2In0.WiwJlGSVpiukpKO6daMj6vFEjIAcHVEQykP7NemDQAihOygMke0VggkdlepWoGGE9rgYdrFn43xrWN7BL7imb2qFLPz4C9C16PzH-wfXZ_BqhfmSvssfSx7efV-3qyEnRQShE82XNwyYTKLaGTWLmlWcGVAsH9Pqs-WBLYN0OS5xhcp10MXTnOb--S_ljEaHB340p71xjwrvNMMUeXwwb_5vBlAZw7HERRFSAkw-vPhjKsXrAe9EiDpcurQqWwrYfiuMGKHiG7IvPtZT88-kc1A1qK6MjxnEe-tVxSxA-VILmn6PvfAOg3qf94mLR38kP-Sbgoe9AGtJqcwSfFkKrQ","c_6120778bcdd7d768_index.html-510")</script><script data-bard-client-injected="true">
-  document.addEventListener('input', (event) => {
-    if (event.target && (event.target.isContentEditable || event.target.hasAttribute('contenteditable'))) {
-      const clonedDoc = document.cloneNode(true);
-      const injectedScripts = clonedDoc.querySelectorAll('[data-bard-client-injected="true"]');
-      injectedScripts.forEach(el => el.remove());
-      window.parent.postMessage({
-        type: 'inlineEdit',
-        html: '<!DOCTYPE html>\n' + clonedDoc.documentElement.outerHTML
-      }, '*');
-    }
-  });
-</script><script data-bard-client-injected="true">(function(){'use strict';window.addEventListener("message",a=>{a.data&&a.data.type==="SUPPLEMENTAL_DATA_UPDATE"&&window.dispatchEvent(new CustomEvent("supplementaldataupdate",{detail:a.data.data}))});}).call(this);
-</script><script data-bard-client-injected="true">(function() {
-  const SCROLL_KEYS = new Set([
-    'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
-    ' ', 'Spacebar', 'PageUp', 'PageDown', 'Home', 'End',
-  ]);
-  const HORIZONTAL_KEYS = new Set(['ArrowLeft', 'ArrowRight']);
-
-  function isTextEntryTarget(target) {
-    if (!target) return false;
-    const tagName = target.tagName;
-    return tagName === 'INPUT' || tagName === 'TEXTAREA' ||
-        tagName === 'SELECT' || target.isContentEditable === true;
-  }
-
-  // An element absorbs the key only if it both overflows on the axis being
-  // scrolled and is configured to scroll on that axis. The cheap dimension
-  // test runs first because getComputedStyle forces a style recalc, and this
-  // runs on every keypress. Each axis is read from its own longhand: the
-  // 'overflow' shorthand serializes as two values when the axes differ, which
-  // is the common 'overflow-x: hidden; overflow-y: auto' pane.
-  function canScroll(node, horizontal) {
-    const overflows = horizontal ? node.scrollWidth > node.clientWidth
-                                 : node.scrollHeight > node.clientHeight;
-    if (!overflows) return false;
-    const style = window.getComputedStyle(node);
-    const overflow = horizontal ? style.overflowX : style.overflowY;
-    return overflow === 'auto' || overflow === 'scroll';
-  }
-
-  // Walks up from the event target so nested scrollers keep their behavior.
-  // <body> is included because pages that pin the root height make it the
-  // scroll container.
-  function hasScrollableAncestor(target, horizontal) {
-    let node = target;
-    while (node && node !== document.documentElement) {
-      if (canScroll(node, horizontal)) return true;
-      node = node.parentElement;
-    }
-    return false;
-  }
-
-  function rootCanScroll(horizontal) {
-    const scroller = document.scrollingElement || document.documentElement;
-    if (!scroller) return false;
-    // Tolerate a pixel of rounding so subpixel layouts do not look scrollable.
-    return horizontal ? scroller.scrollWidth > window.innerWidth + 1
-                      : scroller.scrollHeight > window.innerHeight + 1;
-  }
-
-  window.addEventListener('keydown', function(event) {
-    if (!SCROLL_KEYS.has(event.key)) return;
-    if (event.defaultPrevented) return;
-    // Alt and Meta turn arrows into browser history navigation, and Ctrl is
-    // reserved for shortcuts, so none of them are scroll intent.
-    if (event.altKey || event.metaKey || event.ctrlKey) return;
-
-    const target = event.target;
-    if (isTextEntryTarget(target)) return;
-
-    // Anything that can still absorb the scroll gets to keep it.
-    const horizontal = HORIZONTAL_KEYS.has(event.key);
-    if (rootCanScroll(horizontal)) return;
-    if (hasScrollableAncestor(target, horizontal)) return;
-
-    event.preventDefault();
-  }, {capture: true, passive: false});
-})();</script><script data-bard-client-injected="true">(function() {
-  // Ensure this script is executed only once
-  if (window.firebaseAuthBridgeScriptLoaded) {
-    return;
-  }
-  window.firebaseAuthBridgeScriptLoaded = true;
-
-  let nextTokenPromiseId = 0;
-
-  // Stores { resolve, reject } for ongoing token requests
-  const pendingTokenPromises = {};
-
-  // Listen for messages from the Host Application
-  window.addEventListener('message', function(event) {
-
-    const messageData = event.data;
-
-  if (messageData && messageData.type === 'RESOLVE_NEW_FIREBASE_TOKEN') {
-      const { success, token, error, promiseId } = messageData ?? {};
-      if (pendingTokenPromises[promiseId]) {
-        if (success) {
-          pendingTokenPromises[promiseId].resolve(token);
-        } else {
-          pendingTokenPromises[promiseId].reject(new Error(error || 'Token refresh failed from host.'));
-        }
-        delete pendingTokenPromises[promiseId];
-      }
-    }
-  });
-
-  // Expose a function for the Generated App to request a new Firebase token
-  window.requestNewFirebaseToken = function() {
-    const currentPromiseId = nextTokenPromiseId++;
-    const promise = new Promise((resolve, reject) => {
-      pendingTokenPromises[currentPromiseId] = { resolve, reject };
-    });
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({
-        type: 'REQUEST_NEW_FIREBASE_TOKEN',
-        promiseId: currentPromiseId
-      }, '*');
-    } else {
-      pendingTokenPromises[currentPromiseId].reject(new Error('No parent window to request token from.'));
-      delete pendingTokenPromises[currentPromiseId];
-    }
-    return promise;
-  };
-})();</script><script data-bard-client-injected="true">
-let realOriginalGetUserMedia = null;
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  realOriginalGetUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
-}
-
-(function() {
-  if (navigator.mediaDevices && navigator.mediaDevices.__proto__) {
-    try {
-      Object.defineProperty(navigator.mediaDevices.__proto__, 'getUserMedia', {
-        get: function() {
-          return undefined; // Or throw an error
-        },
-        configurable: false
-      });
-    } catch (error) {
-      console.error("Error defining prototype getter:", error);
-    }
-  }
-})();
-
-(function() {
-  const pendingMediaResolvers = {};
-  let nextMediaPromiseId = 0;
-
-  function requestMediaPermissions(constraints) {
-    const mediaPromiseId = nextMediaPromiseId++;
-    const promise = new Promise((resolve, reject) => {
-      pendingMediaResolvers[mediaPromiseId] = (granted) => {
-        delete pendingMediaResolvers[mediaPromiseId];
-        resolve(granted);
-      };
-    });
-
-    window.parent.postMessage({
-      type: 'requestMediaPermission',
-      constraints: constraints,
-      promiseId: mediaPromiseId,
-    }, '*');
-
-    return promise;
-  }
-
-  let originalGetUserMedia = realOriginalGetUserMedia;
-
-  function interceptGetUserMedia() {
-    if (navigator.mediaDevices) {
-      Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
-        value: function(constraints) {
-          return requestMediaPermissions(constraints).then((granted) => {
-            if (granted) {
-              if (originalGetUserMedia) {
-                return originalGetUserMedia(constraints);
-              } else {
-                throw new Error("Original getUserMedia not available.");
-              }
-            } else {
-              throw new DOMException('Permission denied', 'NotAllowedError');
-            }
-          });
-        },
-        writable: false,
-        configurable: false
-      });
-    }
-  }
-
-  interceptGetUserMedia();
-
-  const observer = new MutationObserver(function(mutationsList, observer) {
-    for (const mutation of mutationsList) {
-      if (mutation.type === 'reconfigured' && mutation.name === 'getUserMedia' && mutation.object === navigator.mediaDevices) {
-        interceptGetUserMedia();
-      } else if (mutation.type === 'attributes' && mutation.attributeName === 'getUserMedia' && mutation.target === navigator.mediaDevices) {
-        interceptGetUserMedia();
-      } else if (mutation.type === 'childList' && mutation.addedNodes) {
-        mutation.addedNodes.forEach(node => {
-          if (node === navigator.mediaDevices) {
-            interceptGetUserMedia();
-          }
-        });
-      }
-    }
-  });
-
-  function interceptSpeechRecognition() {
-    if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
-      return;
-    }
-
-    const OriginalSpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    const SpeechRecognitionWrapper = function(...args) {
-      const recognizer = new OriginalSpeechRecognition(...args);
-      const originalStart = recognizer.start.bind(recognizer);
-
-      recognizer.start = function() {
-        requestMediaPermissions({ audio: true }).then(granted => {
-          if (granted) {
-            originalStart();
-          } else {
-            const errorEvent = new SpeechRecognitionErrorEvent('error');
-            errorEvent.error = 'not-allowed'; // This is the standard error for permission denial.
-            recognizer.dispatchEvent(errorEvent);
-          }
-        });
-      };
-
-      return recognizer;
-    };
-
-    SpeechRecognitionWrapper.prototype = OriginalSpeechRecognition.prototype;
-    SpeechRecognitionWrapper.prototype.constructor = SpeechRecognitionWrapper;
-
-    if (window.SpeechRecognition) {
-      window.SpeechRecognition = SpeechRecognitionWrapper;
-    }
-    if (window.webkitSpeechRecognition) {
-      window.webkitSpeechRecognition = SpeechRecognitionWrapper;
-    }
-  }
-
-  interceptSpeechRecognition();
-
-  window.addEventListener('message', function(event) {
-    if (event.data) {
-      if (event.data.type === 'resolveMediaPermission') {
-        const { promiseId, granted } = event.data;
-        if (pendingMediaResolvers[promiseId]) {
-          pendingMediaResolvers[promiseId](granted);
-        }
-      }
-    }
-  });
-
-})();</script><script ws-interception-config="{&quot;parentOrigin&quot;:&quot;https://gemini.google.com&quot;,&quot;proxiedDomains&quot;:[]}" data-bard-client-injected="true">(function(){'use strict';var u=typeof Object.defineProperties=="function"?Object.defineProperty:function(b,d,e){if(b==Array.prototype||b==Object.prototype)return b;b[d]=e.value;return b};function v(b){b=["object"==typeof globalThis&&globalThis,b,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var d=0;d<b.length;++d){var e=b[d];if(e&&e.Math==Math)return e}throw Error("Cannot find global object");}var w=v(this);
-function y(b,d){if(d)a:{var e=w;b=b.split(".");for(var h=0;h<b.length-1;h++){var k=b[h];if(!(k in e))break a;e=e[k]}b=b[b.length-1];h=e[b];d=d(h);d!=h&&d!=null&&u(e,b,{configurable:!0,writable:!0,value:d})}}function z(b){function d(h){return b.next(h)}function e(h){return b.throw(h)}return new Promise(function(h,k){function m(n){n.done?h(n.value):Promise.resolve(n.value).then(d,e).then(m,k)}m(b.next())})}y("globalThis",function(b){return b||w});/*
-
- Copyright The Closure Library Authors.
- SPDX-License-Identifier: Apache-2.0
-*/
-function A(b,d){function e(){}e.prototype=d.prototype;b.i=d.prototype;b.prototype=new e;b.prototype.constructor=b;b.h=function(h,k,m){for(var n=Array(arguments.length-2),p=2;p<arguments.length;p++)n[p-2]=arguments[p];return d.prototype[k].apply(h,n)}};function B(b,d,e="*"){function h(a){if(typeof a==="string")return F.encode(a).buffer;if(a instanceof ArrayBuffer)return a.slice(0);if(ArrayBuffer.isView(a))return a.buffer.slice(a.byteOffset,a.byteOffset+a.byteLength);throw Error("Invalid data type");}function k(a){a=h(a);var f={type:"send",data:new Uint8Array(a)},g;(g=r)==null||g.postMessage(f,[a])}function m(){if(!r)throw Error("Data port not captured yet.");r.onmessage=a=>{if(a.data.type==="message"){a=new MessageEvent("message",{data:G.decode(a.data.data)});
-let f;(f=c.onmessage)==null||f.call(c,a);c.dispatchEvent(a)}}}function n(){if(!t)throw Error("Control port not captured yet.");t.onmessage=a=>{switch(a.data.type){case "open":l=1;var f=new Event("open"),g;(g=c.onopen)==null||g.call(c,f);c.dispatchEvent(f);q.forEach(H=>{k(H)});q=[];break;case "close":g=a.data;l=3;g=new CloseEvent("close",{code:g.code,reason:g.reason,wasClean:g.wasClean});(f=c.onclose)==null||f.call(c,g);c.dispatchEvent(g);break;case "error":l=3;f=new Event("error");let x;(x=c.onerror)==
-null||x.call(c,f);c.dispatchEvent(f)}}}function p(a){return z(function*(){var f=new MessageChannel;t=f.port1;var g=new MessageChannel;r=g.port1;n();m();window.parent.postMessage({type:"websocket_open",portOrdering:["control","data"],url:b,protocols:a||[],connectionId:I},e,[f.port2,g.port2])}())}var c=Reflect.construct(EventTarget,[],new.target);c.CONNECTING=0;c.OPEN=1;c.CLOSING=2;c.CLOSED=3;c.url=b;c.binaryType="arraybuffer";c.protocol="";c.extensions="";var l=0,t=null,r=null,q=[],F=new TextEncoder,
-G=new TextDecoder;c.onopen=null;c.onmessage=null;c.onclose=null;c.onerror=null;Object.defineProperty(c,"readyState",{get:()=>l,enumerable:!0,configurable:!0});Object.defineProperty(c,"bufferedAmount",{get:()=>{var a=0;q.forEach(f=>{a+=typeof f==="string"?f.length:f.byteLength});return a},enumerable:!0,configurable:!0});var I=function(){var a;return((a=globalThis.crypto)==null?0:a.randomUUID)?globalThis.crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,f=>{var g=Math.random()*
-16|0;return(f==="x"?g:g&3|8).toString(16)})}();c.send=a=>{if(l===1)a instanceof Blob?a.arrayBuffer().then(f=>{k(f)}):k(a);else if(l===0)if(typeof a==="string")q.push(a);else if(a instanceof ArrayBuffer||ArrayBuffer.isView(a))q.push(h(a));else throw Error("Sending Blob is not supported before the connection is open.");else console.debug("WebSocket send called in CLOSING or CLOSED state; ignored.")};c.close=(a=1E3,f="")=>{if(l!==2&&l!==3){l=2;a={type:"close",code:a,reason:f,wasClean:a===1E3};var g;
-(g=t)==null||g.postMessage(a)}};Promise.resolve().then(()=>p(d));return c}A(B,EventTarget);var C=document.currentScript,D=C==null?void 0:C.getAttribute("ws-interception-config");if(!D)throw Error("WebSocket Interceptor: Missing ws-interception-config attribute in the script tag.");var E=JSON.parse(D);if(!E.parentOrigin||typeof E.parentOrigin!=="string")throw Error("WebSocket Interceptor: Invalid parentOrigin in ws-interception-config");
-(function(b){var d=Object.getOwnPropertyDescriptor(window,"WebSocket");if(!d||d.writable||d.configurable)d=Object.assign(function(e,h){try{let k=(new URL(e)).hostname;if(b.proxiedDomains.some(m=>k===m||k.endsWith(`.${m}`)))return new B(e,h,b.parentOrigin)}catch(k){throw window.parent.postMessage({type:"websocket_blocked",url:e,reason:"blocked_invalid_url"},b.parentOrigin),new DOMException(`WebSocket connection to '${e}' is not allowed in Canvas.`,"SecurityError");}window.parent.postMessage({type:"websocket_blocked",
-url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMException(`WebSocket connection to '${e}' is not allowed in Canvas.`,"SecurityError");},{CONNECTING:0,OPEN:1,CLOSING:2,CLOSED:3}),Object.defineProperty(window,"WebSocket",{value:d,writable:!1,configurable:!1})})({proxiedDomains:E.proxiedDomains||[],parentOrigin:E.parentOrigin});}).call(this);
-</script><script data-bard-client-injected="true">(function() {
-  const OVERLAY_SELECTOR =
-    'dialog[open], [role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"], [role="combobox"]';
-
-  function isVisibleOverlay(element) {
-    if (element.closest('[hidden], [aria-hidden="true"], [inert]')) {
-      return false;
-    }
-    if (window.getComputedStyle(element).visibility === 'hidden') {
-      return false;
-    }
-    for (let cur = element; cur; cur = cur.parentElement) {
-      if (window.getComputedStyle(cur).display === 'none') {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  function hasOpenOverlay() {
-    const candidates = document.querySelectorAll(OVERLAY_SELECTOR);
-    for (let i = 0; i < candidates.length; i++) {
-      if (isVisibleOverlay(candidates[i])) {
-        return true;
-      }
-    }
-    try {
-      if (document.querySelector('[popover]:popover-open')) {
-        return true;
-      }
-    } catch (e) {
-      // Ignore engines that do not support :popover-open.
-    }
-    return false;
-  }
-
-  function isNonEmptySearchInput(target) {
-    return (
-      Boolean(target) &&
-      target.tagName === 'INPUT' &&
-      typeof target.type === 'string' &&
-      target.type.toLowerCase() === 'search' &&
-      typeof target.value === 'string' &&
-      target.value.length > 0
-    );
-  }
-
-  function shouldIgnoreEscape(event) {
-    return (
-      event.key !== 'Escape' ||
-      event.altKey ||
-      event.ctrlKey ||
-      event.metaKey ||
-      event.shiftKey ||
-      event.isComposing ||
-      event.repeat ||
-      event.keyCode === 229 ||
-      isNonEmptySearchInput(event.target)
-    );
-  }
-
-  let shouldIgnoreCaptureState = false;
-
-  window.addEventListener(
-    'keydown',
-    function(event) {
-      if (event.key === 'Escape') {
-        shouldIgnoreCaptureState =
-          hasOpenOverlay() || isNonEmptySearchInput(event.target);
-      }
-    },
-    {capture: true},
-  );
-
-  window.addEventListener('keydown', function(event) {
-    if (
-      shouldIgnoreEscape(event) ||
-      event.defaultPrevented ||
-      shouldIgnoreCaptureState
-    ) {
-      return;
-    }
-    const wasBlockedOnCapture = shouldIgnoreCaptureState;
-    queueMicrotask(function() {
-      if (event.defaultPrevented || wasBlockedOnCapture) {
-        return;
-      }
-      if (window.parent && window.parent !== window) {
-        window.parent.postMessage({'type': 'escapeKey'}, '*');
-      }
-    });
-  });
-})();</script><script data-bard-client-injected="true">(function() {
-  function normalizeSlug(str) {
-    try {
-      return str
-        .trim()
-        .toLowerCase()
-        .replace(/[^p{L}p{N}s_-]/gu, '')
-        .replace(/s+/g, '-');
-    } catch (e) {
-      return str
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9s_-]/g, '')
-        .replace(/s+/g, '-');
-    }
-  }
-
-  function findTargetElement(hash) {
-    if (!hash || hash === '#') {
-      return null;
-    }
-    const rawId = hash.startsWith('#') ? hash.slice(1) : hash;
-    let decodedId = rawId;
-    try {
-      decodedId = decodeURIComponent(rawId);
-    } catch (e) {
-      // Ignore URI malformed errors.
-    }
-
-    // 1. Direct ID match (raw and decoded).
-    let target = document.getElementById(rawId) || document.getElementById(decodedId);
-    if (target) {
-      return target;
-    }
-
-    // 2. Name attribute match (<a name="...">).
-    try {
-      if (typeof CSS !== 'undefined' && CSS.escape) {
-        target =
-          document.querySelector('[name="' + CSS.escape(rawId) + '"]') ||
-          document.querySelector('[name="' + CSS.escape(decodedId) + '"]');
-      } else {
-        const namedElements = document.getElementsByName(rawId);
-        if (namedElements && namedElements.length > 0) {
-          return namedElements[0];
-        }
-      }
-    } catch (e) {
-      // Ignore querySelector syntax errors.
-    }
-    if (target) {
-      return target;
-    }
-
-    // 3. Match heading text by slug (for Markdown TOCs where headings lack explicit IDs).
-    const targetSlug = normalizeSlug(decodedId);
-    if (targetSlug) {
-      for (const heading of document.querySelectorAll('h1, h2, h3, h4, h5, h6')) {
-        if (normalizeSlug(heading.textContent || '') === targetSlug) {
-          return heading;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  document.addEventListener('click', function(event) {
-    const target = event.target;
-    const anchor = target && typeof target.closest === 'function' ? target.closest('a') : null;
-    if (!anchor) {
-      return;
-    }
-
-    const href = anchor.getAttribute('href');
-    if (
-      !href ||
-      href.trim().toLowerCase().startsWith('javascript:') ||
-      anchor.hasAttribute('download')
-    ) {
-      return;
-    }
-
-    // Check if the link is an in-page hash / anchor link.
-    if (href.startsWith('#')) {
-      event.preventDefault();
-      const targetElement = findTargetElement(href);
-      if (targetElement) {
-        targetElement.scrollIntoView({behavior: 'smooth', block: 'start'});
-      }
-      return;
-    }
-
-    // Check if the URL has the same origin/pathname but with a hash.
-    try {
-      const url = new URL(anchor.href, window.location.href);
-      if (
-        url.hash &&
-        url.origin === window.location.origin &&
-        url.pathname === window.location.pathname
-      ) {
-        event.preventDefault();
-        const targetElement = findTargetElement(url.hash);
-        if (targetElement) {
-          targetElement.scrollIntoView({behavior: 'smooth', block: 'start'});
-        }
-        return;
-      }
-    } catch (e) {
-      // Fall through if URL parsing fails.
-    }
-
-    // For all external or full navigation links, prevent iframe-level navigation
-    // (which breaks in AGSA WebView or sandboxed iframes) and ensure they open
-    // safely in a new tab/window.
-    if (anchor.target !== '_blank') {
-      event.preventDefault();
-      window.open(anchor.href, '_blank', 'noopener,noreferrer');
-    }
-  }, {capture: true});
-})();</script><script data-bard-client-injected="true">(function(){'use strict';function a(){window.parent.postMessage({type:"interaction"},"*")}window.addEventListener("click",a,{capture:!0,passive:!0});window.addEventListener("touchstart",a,{capture:!0,passive:!0});window.addEventListener("keydown",a,{capture:!0,passive:!0});}).call(this);
-</script><script data-bard-client-injected="true">(function() {
-  const originalConsoleLog = console.log;
-  const originalConsoleError = console.error;
-
-    /**
-   * Normalizes an error event or a promise rejection reason into a structured error object.
-   * @param {*} errorEventOrReason The error object or reason.
-   * @return {object} Structured error data { message, name, stack }.
-   */
-  function getErrorObject(errorEventOrReason) {
-    if (errorEventOrReason instanceof Error) {
-      return {
-        message: errorEventOrReason.message,
-        name: errorEventOrReason.name,
-        stack: errorEventOrReason.stack,
-      };
-    }
-    // Fallback for non-Error objects.
-    try {
-      return {
-        message: JSON.stringify(errorEventOrReason),
-        name: 'UnknownErrorType',
-        stack: null,
-      };
-    } catch (e) {
-      return {
-        message: String(errorEventOrReason),
-        name: 'UnknownErrorTypeNonStringifiable',
-        stack: null,
-      };
-    }
-  }
-
-  /**
-   * Converts an array of arguments (from log/error) into a single string.
-   * Handles Error objects specially to include their message and stack.
-   * @param {Array<*>} args - Arguments passed to console methods.
-   * @return {string} A string representation of the arguments.
-   */
-  function stringifyArgs(args) {
-    return args
-      .map((arg) => {
-        if (arg instanceof Error) {
-          const {message, stack} = arg;
-          return `Error: ${message}${stack ? ('\nStack: ' + stack) : ''}`;
-        }
-        if (typeof arg === 'object' && arg !== null) {
-          try {
-            return JSON.stringify(arg);
-          } catch (error) {
-            return '[Circular Object]';
-          }
-        } else {
-          return String(arg);
-        }
-      })
-      .join(' ');
-  }
-
-  console.log = function(...args) {
-    const logString = stringifyArgs(args);
-    window.parent.postMessage({ type: 'log', message: logString }, '*');
-    originalConsoleLog.apply(console, args);
-  };
-
-  console.error = function(...args) {
-    let errorData;
-    if (args.length > 0 && args[0] instanceof Error) {
-      const err = args[0];
-      // If the first arg is an Error, capture its details.
-      errorData = {
-        type: 'error',
-        source: 'CONSOLE_ERROR',
-        ...getErrorObject(err),
-        rawArgsString: stringifyArgs(args.slice(1)),
-        timestamp: new Date().toISOString(),
-      };
-    } else {
-      // If not an Error object, treat all args as a general error message.
-      errorData = {
-        type: 'error',
-        source: 'CONSOLE_ERROR',
-        message: stringifyArgs(args),
-        name: 'ConsoleLoggedError',
-        stack: null,
-        timestamp: new Date().toISOString(),
-      };
-    }
-    window.parent.postMessage(errorData, '*');
-    originalConsoleError.apply(console, args);
-  };
-
-  // Listen for global unhandled synchronous errors.
-  window.addEventListener('error', function(event) {
-    const errorDetails = event.error ? getErrorObject(event.error) : {
-      message: event.message,
-      name: 'GlobalError',
-      stack: null,
-      filename: event.filename,
-      lineno: event.lineno,
-      colno: event.colno,
-    };
-
-    window.parent.postMessage({
-      type: 'error',
-      source: 'global',
-      ...errorDetails,
-      message: errorDetails.message || event.message,
-      timestamp: new Date().toISOString(),
-    }, '*');
-  });
-
-  // Listen for unhandled promise rejections (asynchronous errors).
-  window.addEventListener('unhandledrejection', function(event) {
-    const errorDetails = getErrorObject(event.reason);
-
-    window.parent.postMessage({
-      type: 'error',
-      source: 'unhandledrejection',
-      ...errorDetails,
-      message: errorDetails.message || 'Unhandled Promise Rejection',
-      timestamp: new Date().toISOString(),
-    }, '*');
-  });
-
-})();</script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Anthropocene Reviewed • Pastel Bunny ELA Companion</title>
   <!-- Google Fonts: Quicksand (friendly rounded UI) & Lora (warm literary serif) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -753,19 +137,19 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
       scrollbar-width: none;
     }
   </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Quicksand, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.pointer-events-auto{pointer-events:auto}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.inset-y-0{top:0px;bottom:0px}.-top-4{top:-1rem}.-top-9{top:-2.25rem}.bottom-12{bottom:3rem}.bottom-5{bottom:1.25rem}.left-0{left:0px}.left-1\/4{left:25%}.left-3{left:0.75rem}.left-6{left:1.5rem}.left-8{left:2rem}.right-10{right:2.5rem}.right-5{right:1.25rem}.top-0{top:0px}.top-16{top:4rem}.top-2\.5{top:0.625rem}.top-36{top:9rem}.z-0{z-index:0}.z-10{z-index:10}.z-30{z-index:30}.z-40{z-index:40}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1\.5{margin-bottom:0.375rem}.mb-2{margin-bottom:0.5rem}.mb-2\.5{margin-bottom:0.625rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mt-2\.5{margin-top:0.625rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-11{height:2.75rem}.h-16{height:4rem}.h-2{height:0.5rem}.h-20{height:5rem}.h-3{height:0.75rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-7{height:1.75rem}.h-8{height:2rem}.h-9{height:2.25rem}.h-\[600px\]{height:600px}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-10{width:2.5rem}.w-11{width:2.75rem}.w-2{width:0.5rem}.w-28{width:7rem}.w-32{width:8rem}.w-36{width:9rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-7{width:1.75rem}.w-8{width:2rem}.w-80{width:20rem}.w-9{width:2.25rem}.w-full{width:100%}.min-w-0{min-width:0px}.max-w-\[1440px\]{max-width:1440px}.max-w-\[88vw\]{max-width:88vw}.max-w-md{max-width:28rem}.max-w-\[82\%\]{max-width:82%}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.-translate-x-full{--tw-translate-x:-100%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;user-select:none}.resize-y{resize:vertical}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-3\.5{gap:0.875rem}.gap-5{gap:1.25rem}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.self-start{align-self:flex-start}.overflow-hidden{overflow:hidden}.overflow-visible{overflow:visible}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.whitespace-nowrap{white-space:nowrap}.rounded-2xl{border-radius:1rem}.rounded-cozy{border-radius:24px}.rounded-full{border-radius:9999px}.rounded-xl{border-radius:0.75rem}.rounded-r-cozy{border-top-right-radius:24px;border-bottom-right-radius:24px}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-b-2{border-bottom-width:2px}.border-l-4{border-left-width:4px}.border-t{border-top-width:1px}.border-babyBlueDeep{--tw-border-opacity:1;border-color:rgb(169 203 232 / var(--tw-border-opacity, 1))}.border-blushDeep{--tw-border-opacity:1;border-color:rgb(245 184 192 / var(--tw-border-opacity, 1))}.border-buttercreamDeep{--tw-border-opacity:1;border-color:rgb(243 223 158 / var(--tw-border-opacity, 1))}.border-buttercreamDeep\/60{border-color:rgb(243 223 158 / 0.6)}.border-buttercreamDeep\/80{border-color:rgb(243 223 158 / 0.8)}.border-lavender{--tw-border-opacity:1;border-color:rgb(232 223 245 / var(--tw-border-opacity, 1))}.border-lavender\/60{border-color:rgb(232 223 245 / 0.6)}.border-lavender\/70{border-color:rgb(232 223 245 / 0.7)}.border-lavender\/80{border-color:rgb(232 223 245 / 0.8)}.border-lavenderDeep{--tw-border-opacity:1;border-color:rgb(200 182 226 / var(--tw-border-opacity, 1))}.border-lavenderDeep\/60{border-color:rgb(200 182 226 / 0.6)}.border-lavenderDeep\/70{border-color:rgb(200 182 226 / 0.7)}.border-mintDeep{--tw-border-opacity:1;border-color:rgb(174 212 205 / var(--tw-border-opacity, 1))}.border-mintDeep\/70{border-color:rgb(174 212 205 / 0.7)}.border-pastelGold{--tw-border-opacity:1;border-color:rgb(246 200 95 / var(--tw-border-opacity, 1))}.border-transparent{border-color:transparent}.border-cocoa\/15{border-color:rgb(74 63 85 / 0.15)}.bg-babyBlue\/55{background-color:rgb(218 234 246 / 0.55)}.bg-blush{--tw-bg-opacity:1;background-color:rgb(252 225 228 / var(--tw-bg-opacity, 1))}.bg-blush\/50{background-color:rgb(252 225 228 / 0.5)}.bg-blush\/55{background-color:rgb(252 225 228 / 0.55)}.bg-blush\/70{background-color:rgb(252 225 228 / 0.7)}.bg-blushDeep{--tw-bg-opacity:1;background-color:rgb(245 184 192 / var(--tw-bg-opacity, 1))}.bg-buttercream{--tw-bg-opacity:1;background-color:rgb(252 244 221 / var(--tw-bg-opacity, 1))}.bg-buttercream\/75{background-color:rgb(252 244 221 / 0.75)}.bg-cocoa\/30{background-color:rgb(74 63 85 / 0.3)}.bg-cocoa\/35{background-color:rgb(74 63 85 / 0.35)}.bg-emerald-400{--tw-bg-opacity:1;background-color:rgb(52 211 153 / var(--tw-bg-opacity, 1))}.bg-lavender{--tw-bg-opacity:1;background-color:rgb(232 223 245 / var(--tw-bg-opacity, 1))}.bg-lavender\/35{background-color:rgb(232 223 245 / 0.35)}.bg-lavender\/40{background-color:rgb(232 223 245 / 0.4)}.bg-lavender\/45{background-color:rgb(232 223 245 / 0.45)}.bg-lavender\/70{background-color:rgb(232 223 245 / 0.7)}.bg-mint{--tw-bg-opacity:1;background-color:rgb(221 237 234 / var(--tw-bg-opacity, 1))}.bg-mint\/45{background-color:rgb(221 237 234 / 0.45)}.bg-mint\/80{background-color:rgb(221 237 234 / 0.8)}.bg-vanilla{--tw-bg-opacity:1;background-color:rgb(255 253 249 / var(--tw-bg-opacity, 1))}.bg-vanilla\/50{background-color:rgb(255 253 249 / 0.5)}.bg-vanilla\/90{background-color:rgb(255 253 249 / 0.9)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.bg-white\/85{background-color:rgb(255 255 255 / 0.85)}.bg-white\/90{background-color:rgb(255 255 255 / 0.9)}.bg-white\/95{background-color:rgb(255 255 255 / 0.95)}.bg-lavender\/60{background-color:rgb(232 223 245 / 0.6)}.bg-mint\/60{background-color:rgb(221 237 234 / 0.6)}.bg-vanilla\/80{background-color:rgb(255 253 249 / 0.8)}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-mint\/85{--tw-gradient-from:rgb(221 237 234 / 0.85) var(--tw-gradient-from-position);--tw-gradient-to:rgb(221 237 234 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-mintDeep{--tw-gradient-from:#AED4CD var(--tw-gradient-from-position);--tw-gradient-to:rgb(174 212 205 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-mint\/75{--tw-gradient-from:rgb(221 237 234 / 0.75) var(--tw-gradient-from-position);--tw-gradient-to:rgb(221 237 234 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-lavender\/50{--tw-gradient-to:rgb(232 223 245 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), rgb(232 223 245 / 0.5) var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-lavenderDeep{--tw-gradient-to:rgb(200 182 226 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #C8B6E2 var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-blush\/50{--tw-gradient-to:rgb(252 225 228 / 0.5) var(--tw-gradient-to-position)}.to-blushDeep{--tw-gradient-to:#F5B8C0 var(--tw-gradient-to-position)}.to-lavender\/65{--tw-gradient-to:rgb(232 223 245 / 0.65) var(--tw-gradient-to-position)}.p-1\.5{padding:0.375rem}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.px-4{padding-left:1rem;padding-right:1rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.pb-0\.5{padding-bottom:0.125rem}.pb-1{padding-bottom:0.25rem}.pb-1\.5{padding-bottom:0.375rem}.pb-4{padding-bottom:1rem}.pl-9{padding-left:2.25rem}.pr-3{padding-right:0.75rem}.pt-2{padding-top:0.5rem}.pt-2\.5{padding-top:0.625rem}.pt-3{padding-top:0.75rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.font-serif{font-family:Lora, serif}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.leading-snug{line-height:1.375}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-wider{letter-spacing:0.05em}.text-babyBlue{--tw-text-opacity:1;color:rgb(218 234 246 / var(--tw-text-opacity, 1))}.text-blush{--tw-text-opacity:1;color:rgb(252 225 228 / var(--tw-text-opacity, 1))}.text-cocoa{--tw-text-opacity:1;color:rgb(74 63 85 / var(--tw-text-opacity, 1))}.text-mint{--tw-text-opacity:1;color:rgb(221 237 234 / var(--tw-text-opacity, 1))}.text-pastelGold{--tw-text-opacity:1;color:rgb(246 200 95 / var(--tw-text-opacity, 1))}.text-plumMuted{--tw-text-opacity:1;color:rgb(125 110 141 / var(--tw-text-opacity, 1))}.placeholder-plumMuted\/60::placeholder{color:rgb(125 110 141 / 0.6)}.placeholder-plumMuted\/70::placeholder{color:rgb(125 110 141 / 0.7)}.opacity-60{opacity:0.6}.opacity-45{opacity:0.45}.shadow-cozy{--tw-shadow:0 10px 30px -8px rgba(74, 63, 85, 0.08), 0 4px 12px -4px rgba(200, 182, 226, 0.18);--tw-shadow-colored:0 10px 30px -8px var(--tw-shadow-color), 0 4px 12px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-cozySm{--tw-shadow:0 4px 14px -2px rgba(74, 63, 85, 0.06);--tw-shadow-colored:0 4px 14px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.drop-shadow-sm{--tw-drop-shadow:drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.duration-500{transition-duration:500ms}.selection\:bg-blush *::selection{--tw-bg-opacity:1;background-color:rgb(252 225 228 / var(--tw-bg-opacity, 1))}.selection\:text-cocoa *::selection{--tw-text-opacity:1;color:rgb(74 63 85 / var(--tw-text-opacity, 1))}.selection\:bg-blush::selection{--tw-bg-opacity:1;background-color:rgb(252 225 228 / var(--tw-bg-opacity, 1))}.selection\:text-cocoa::selection{--tw-text-opacity:1;color:rgb(74 63 85 / var(--tw-text-opacity, 1))}.hover\:border-lavender:hover{--tw-border-opacity:1;border-color:rgb(232 223 245 / var(--tw-border-opacity, 1))}.hover\:bg-blush:hover{--tw-bg-opacity:1;background-color:rgb(252 225 228 / var(--tw-bg-opacity, 1))}.hover\:bg-blushDeep\/70:hover{background-color:rgb(245 184 192 / 0.7)}.hover\:bg-buttercreamDeep\/60:hover{background-color:rgb(243 223 158 / 0.6)}.hover\:bg-lavender:hover{--tw-bg-opacity:1;background-color:rgb(232 223 245 / var(--tw-bg-opacity, 1))}.hover\:bg-lavender\/50:hover{background-color:rgb(232 223 245 / 0.5)}.hover\:bg-lavenderDeep\/60:hover{background-color:rgb(200 182 226 / 0.6)}.hover\:bg-lavenderDeep\/70:hover{background-color:rgb(200 182 226 / 0.7)}.hover\:bg-lavenderDeep\/80:hover{background-color:rgb(200 182 226 / 0.8)}.hover\:bg-mintDeep\/60:hover{background-color:rgb(174 212 205 / 0.6)}.hover\:bg-mintDeep\/70:hover{background-color:rgb(174 212 205 / 0.7)}.hover\:bg-white:hover{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.hover\:bg-buttercream\/60:hover{background-color:rgb(252 244 221 / 0.6)}.hover\:bg-lavender\/35:hover{background-color:rgb(232 223 245 / 0.35)}.hover\:bg-mint:hover{--tw-bg-opacity:1;background-color:rgb(221 237 234 / var(--tw-bg-opacity, 1))}.hover\:bg-mint\/50:hover{background-color:rgb(221 237 234 / 0.5)}.hover\:text-cocoa:hover{--tw-text-opacity:1;color:rgb(74 63 85 / var(--tw-text-opacity, 1))}.focus\:border-lavenderDeep:focus{--tw-border-opacity:1;border-color:rgb(200 182 226 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.active\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){.sm\:inline-flex{display:inline-flex}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:flex-row{flex-direction:row}.sm\:items-center{align-items:center}.sm\:self-auto{align-self:auto}.sm\:p-6{padding:1.5rem}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:text-2xl{font-size:1.5rem;line-height:2rem}.sm\:text-\[13px\]{font-size:13px}.sm\:text-lg{font-size:1.125rem;line-height:1.75rem}.sm\:text-sm{font-size:0.875rem;line-height:1.25rem}}@media (min-width: 768px){.md\:inline{display:inline}.md\:hidden{display:none}}@media (min-width: 1024px){.lg\:static{position:static}.lg\:sticky{position:sticky}.lg\:top-\[128px\]{top:128px}.lg\:col-span-3{grid-column:span 3 / span 3}.lg\:col-span-4{grid-column:span 4 / span 4}.lg\:col-span-5{grid-column:span 5 / span 5}.lg\:hidden{display:none}.lg\:h-\[calc\(100vh-145px\)\]{height:calc(100vh - 145px)}.lg\:w-auto{width:auto}.lg\:translate-x-0{--tw-translate-x:0px;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.lg\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.lg\:rounded-cozy{border-radius:24px}.lg\:bg-white\/85{background-color:rgb(255 255 255 / 0.85)}.lg\:backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}}</style></head>
+</head>
 <body class="min-h-screen flex flex-col selection:bg-blush selection:text-cocoa">
 
   <!-- Decorative Floating Pastel Clouds -->
   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-60" aria-hidden="true">
     <svg class="absolute top-16 left-6 w-32 h-20 text-babyBlue animate-float" viewBox="0 0 120 70" fill="currentColor">
-      <path d="M25 55h70a18 18 0 0 0 2-35.8A24 24 0 0 0 51 12a20 20 0 0 0-28 18A15 15 0 0 0 25 55z"></path>
+      <path d="M25 55h70a18 18 0 0 0 2-35.8A24 24 0 0 0 51 12a20 20 0 0 0-28 18A15 15 0 0 0 25 55z"/>
     </svg>
     <svg class="absolute top-36 right-10 w-36 h-22 text-blush animate-float" style="animation-delay: 1.5s;" viewBox="0 0 120 70" fill="currentColor">
-      <path d="M25 55h70a18 18 0 0 0 2-35.8A24 24 0 0 0 51 12a20 20 0 0 0-28 18A15 15 0 0 0 25 55z"></path>
+      <path d="M25 55h70a18 18 0 0 0 2-35.8A24 24 0 0 0 51 12a20 20 0 0 0-28 18A15 15 0 0 0 25 55z"/>
     </svg>
     <svg class="absolute bottom-12 left-1/4 w-28 h-16 text-mint animate-float" style="animation-delay: 3s;" viewBox="0 0 120 70" fill="currentColor">
-      <path d="M25 55h70a18 18 0 0 0 2-35.8A24 24 0 0 0 51 12a20 20 0 0 0-28 18A15 15 0 0 0 25 55z"></path>
+      <path d="M25 55h70a18 18 0 0 0 2-35.8A24 24 0 0 0 51 12a20 20 0 0 0-28 18A15 15 0 0 0 25 55z"/>
     </svg>
   </div>
 
@@ -777,7 +161,7 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
         <div class="flex items-center gap-3">
           <button id="mobileDrawerToggle" type="button" class="lg:hidden p-2.5 rounded-2xl bg-lavender/70 hover:bg-lavender text-cocoa font-bold transition active:scale-95" aria-label="Toggle Chapters Menu">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10"/>
             </svg>
           </button>
 
@@ -785,29 +169,29 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
           <div class="w-11 h-11 rounded-2xl bg-mint/80 border-2 border-mintDeep flex items-center justify-center shadow-sm shrink-0">
             <svg class="w-9 h-9" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Mint Green Bunny Ears -->
-              <rect x="24" y="6" width="10" height="28" rx="5" transform="rotate(-8 24 6)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></rect>
-              <rect x="26.5" y="10" width="5" height="19" rx="2.5" transform="rotate(-8 26.5 10)" fill="#FCE1E4"></rect>
-              <rect x="46" y="5" width="10" height="28" rx="5" transform="rotate(8 46 5)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></rect>
-              <rect x="48.5" y="9" width="5" height="19" rx="2.5" transform="rotate(8 48.5 9)" fill="#FCE1E4"></rect>
+              <rect x="24" y="6" width="10" height="28" rx="5" transform="rotate(-8 24 6)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+              <rect x="26.5" y="10" width="5" height="19" rx="2.5" transform="rotate(-8 26.5 10)" fill="#FCE1E4"/>
+              <rect x="46" y="5" width="10" height="28" rx="5" transform="rotate(8 46 5)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+              <rect x="48.5" y="9" width="5" height="19" rx="2.5" transform="rotate(8 48.5 9)" fill="#FCE1E4"/>
               <!-- Mint Green Head -->
-              <ellipse cx="40" cy="46" rx="22" ry="18" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></ellipse>
+              <ellipse cx="40" cy="46" rx="22" ry="18" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
               <!-- Rosy Cheeks -->
-              <ellipse cx="26" cy="49" rx="4" ry="2.5" fill="#F9B8C2"></ellipse>
-              <ellipse cx="54" cy="49" rx="4" ry="2.5" fill="#F9B8C2"></ellipse>
+              <ellipse cx="26" cy="49" rx="4" ry="2.5" fill="#F9B8C2"/>
+              <ellipse cx="54" cy="49" rx="4" ry="2.5" fill="#F9B8C2"/>
               <!-- Round Reading Glasses -->
-              <circle cx="32" cy="44" r="6" fill="#FFFDF9" fill-opacity="0.55" stroke="#F6C85F" stroke-width="2"></circle>
-              <circle cx="48" cy="44" r="6" fill="#FFFDF9" fill-opacity="0.55" stroke="#F6C85F" stroke-width="2"></circle>
-              <line x1="38" y1="44" x2="42" y2="44" stroke="#F6C85F" stroke-width="2"></line>
+              <circle cx="32" cy="44" r="6" fill="#FFFDF9" fill-opacity="0.55" stroke="#F6C85F" stroke-width="2"/>
+              <circle cx="48" cy="44" r="6" fill="#FFFDF9" fill-opacity="0.55" stroke="#F6C85F" stroke-width="2"/>
+              <line x1="38" y1="44" x2="42" y2="44" stroke="#F6C85F" stroke-width="2"/>
               <!-- Eyes -->
-              <circle cx="32" cy="44" r="2" fill="#4A3F55"></circle>
-              <circle cx="48" cy="44" r="2" fill="#4A3F55"></circle>
+              <circle cx="32" cy="44" r="2" fill="#4A3F55"/>
+              <circle cx="48" cy="44" r="2" fill="#4A3F55"/>
               <!-- Nose & Mouth -->
-              <path d="M38.5 49.5L40 51L41.5 49.5" stroke="#4A3F55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-              <path d="M37 53Q40 55.5 43 53" stroke="#4A3F55" stroke-width="1.8" stroke-linecap="round"></path>
+              <path d="M38.5 49.5L40 51L41.5 49.5" stroke="#4A3F55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M37 53Q40 55.5 43 53" stroke="#4A3F55" stroke-width="1.8" stroke-linecap="round"/>
               <!-- Tiny Pastel Book -->
-              <rect x="28" y="60" width="24" height="14" rx="3" fill="#E8DFF5" stroke="#4A3F55" stroke-width="2"></rect>
-              <path d="M40 60V74" stroke="#4A3F55" stroke-width="1.8"></path>
-              <circle cx="34" cy="67" r="1.8" fill="#F6C85F"></circle>
+              <rect x="28" y="60" width="24" height="14" rx="3" fill="#E8DFF5" stroke="#4A3F55" stroke-width="2"/>
+              <path d="M40 60V74" stroke="#4A3F55" stroke-width="1.8"/>
+              <circle cx="34" cy="67" r="1.8" fill="#F6C85F"/>
             </svg>
           </div>
 
@@ -826,24 +210,12 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
           </div>
         </div>
 
-        <!-- GitHub Single-File Export & Settings Controls -->
+        <!-- Study Settings Control -->
         <div class="flex items-center gap-2">
-          <button id="copyGithubBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-lavender hover:bg-lavenderDeep/60 text-cocoa text-xs sm:text-sm font-bold border border-lavenderDeep transition active:scale-95 shadow-cozySm" title="Copy complete single-file HTML code to paste into GitHub">
-            <span>📋</span>
-            <span class="hidden md:inline">Copy Code for GitHub</span>
-            <span class="md:hidden">Copy GitHub</span>
-          </button>
-
-          <button id="downloadHtmlBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-mint hover:bg-mintDeep/60 text-cocoa text-xs sm:text-sm font-bold border border-mintDeep transition active:scale-95 shadow-cozySm" title="Download standalone single HTML file">
-            <span>⬇️</span>
-            <span class="hidden md:inline">Download Single HTML</span>
-            <span class="md:hidden">Download</span>
-          </button>
-
-          <button id="settingsBtn" type="button" class="p-2 rounded-2xl bg-buttercream hover:bg-buttercreamDeep/60 text-cocoa border border-buttercreamDeep transition active:scale-95" title="Optional API Key &amp; Study Settings" aria-label="Settings">
+          <button id="settingsBtn" type="button" class="p-2 rounded-2xl bg-buttercream hover:bg-buttercreamDeep/60 text-cocoa border border-buttercreamDeep transition active:scale-95" title="Optional API Key & Study Settings" aria-label="Settings">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
           </button>
         </div>
@@ -860,14 +232,14 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
           <!-- Hopping Mint Green Mochi Marker -->
           <div id="hoppingBunnyMarker" class="absolute -top-4 transition-all duration-500 select-none pointer-events-none" style="left: calc(2% - 14px);" title="Mochi is cheering you on!">
             <svg class="w-7 h-7 animate-hop drop-shadow-sm" viewBox="0 0 64 64" fill="none">
-              <rect x="19" y="4" width="8" height="22" rx="4" transform="rotate(-8 19 4)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></rect>
-              <rect x="37" y="3" width="8" height="22" rx="4" transform="rotate(8 37 3)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></rect>
-              <ellipse cx="32" cy="40" rx="18" ry="15" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></ellipse>
-              <circle cx="26" cy="38" r="2" fill="#4A3F55"></circle>
-              <circle cx="38" cy="38" r="2" fill="#4A3F55"></circle>
-              <ellipse cx="21" cy="42" rx="3.2" ry="2" fill="#F9B8C2"></ellipse>
-              <ellipse cx="43" cy="42" rx="3.2" ry="2" fill="#F9B8C2"></ellipse>
-              <path d="M29.5 43Q32 45.5 34.5 43" stroke="#4A3F55" stroke-width="2" stroke-linecap="round"></path>
+              <rect x="19" y="4" width="8" height="22" rx="4" transform="rotate(-8 19 4)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+              <rect x="37" y="3" width="8" height="22" rx="4" transform="rotate(8 37 3)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+              <ellipse cx="32" cy="40" rx="18" ry="15" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+              <circle cx="26" cy="38" r="2" fill="#4A3F55"/>
+              <circle cx="38" cy="38" r="2" fill="#4A3F55"/>
+              <ellipse cx="21" cy="42" rx="3.2" ry="2" fill="#F9B8C2"/>
+              <ellipse cx="43" cy="42" rx="3.2" ry="2" fill="#F9B8C2"/>
+              <path d="M29.5 43Q32 45.5 34.5 43" stroke="#4A3F55" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
         </div>
@@ -895,524 +267,22 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
 
         <!-- Search Input -->
         <div class="relative">
-          <input id="chapterSearch" type="text" placeholder="Search essay, topic, device..." class="w-full pl-9 pr-3 py-2 text-xs font-medium bg-vanilla border-2 border-lavender rounded-2xl focus:outline-none focus:border-lavenderDeep text-cocoa placeholder-plumMuted/70">
+          <input id="chapterSearch" type="text" placeholder="Search essay, topic, device..." class="w-full pl-9 pr-3 py-2 text-xs font-medium bg-vanilla border-2 border-lavender rounded-2xl focus:outline-none focus:border-lavenderDeep text-cocoa placeholder-plumMuted/70" />
           <svg class="w-4 h-4 text-plumMuted absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
           </svg>
         </div>
 
         <!-- Theme Filter Pills -->
-        <div id="themeFilters" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2.5 pb-0.5"><button type="button" class="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap border transition active:scale-95 bg-mint text-cocoa border-mintDeep shadow-2xs">All (46)</button><button type="button" class="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap border transition active:scale-95 bg-vanilla hover:bg-lavender/50 text-plumMuted border-lavender">Attention &amp; Wonder</button><button type="button" class="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap border transition active:scale-95 bg-vanilla hover:bg-lavender/50 text-plumMuted border-lavender">Connection &amp; Community</button><button type="button" class="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap border transition active:scale-95 bg-vanilla hover:bg-lavender/50 text-plumMuted border-lavender">Human Power &amp; Frailty</button><button type="button" class="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap border transition active:scale-95 bg-vanilla hover:bg-lavender/50 text-plumMuted border-lavender">Memory &amp; Art</button><button type="button" class="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap border transition active:scale-95 bg-vanilla hover:bg-lavender/50 text-plumMuted border-lavender">Nature &amp; Planet</button></div>
+        <div id="themeFilters" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2.5 pb-0.5">
+          <!-- Populated dynamically -->
+        </div>
       </div>
 
       <!-- Scrollable Chapter List -->
-      <div id="chapterList" class="flex-1 overflow-y-auto p-2.5 space-y-1.5"><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-gradient-to-r from-mint/75 to-lavender/65 border-mintDeep shadow-cozySm">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-white text-cocoa border border-mintDeep">
-              Intro
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Introduction</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.1
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">“You’ll Never Walk Alone”</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.2
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Humanity’s Temporal Range</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.3
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Halley’s Comet</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.4
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Our Capacity for Wonder</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.5
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Lascaux Cave Paintings</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.6
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Scratch ’N’ Sniff Stickers</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.7
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Diet Dr Pepper</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.8
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Velociraptors</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.9
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Canada Geese</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.10
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Teddy Bears</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.11
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The Hall of Presidents</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.12
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Air-Conditioning</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.13
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Staphylococcus Aureus</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.14
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The Internet</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.15
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Academic Decathlon</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.16
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Sunsets</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.17
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Jerzy Dudek’s Performance on May 25, 2005</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.18
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Penguins of Madagascar</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.19
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Piggly Wiggly</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.20
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The Nathan’s Famous Hot Dog Eating Contest</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.21
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">CNN</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.22
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Harvey</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.23
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The Yips</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.24
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Auld Lang Syne</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.25
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Googling Strangers</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.26
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Indianapolis</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.27
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Kentucky Bluegrass</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.28
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The Indianapolis 500</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.29
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Monopoly</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.30
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Super Mario Kart</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.31
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Bonneville Salt Flats</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.32
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Hiroyuki Doi’s Circle Drawings</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.33
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Whispering</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.34
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Viral Meningitis</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.35
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Plague</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.36
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Wintry Mix</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.37
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The Hot Dogs of Bæjarins Beztu Pylsur</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.38
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The Notes App</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.39
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The Mountain Goats</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.40
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The QWERTY Keyboard</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.41
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">The World’s Largest Ball of Paint</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.42
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Sycamore Trees</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.43
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">“New Partner”</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.44
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Three Farmers on Their Way to a Dance</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button><button type="button" class="w-full text-left px-3 py-2.5 rounded-2xl border transition flex items-center justify-between gap-2 bg-vanilla/80 hover:bg-lavender/35 border-transparent hover:border-lavender">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 bg-lavender/60 text-cocoa">
-              Ch.45
-            </span>
-            <span class="text-xs font-bold text-cocoa truncate">Postscript</span>
-          </div>
-          <div class="flex items-center gap-1 shrink-0 text-[11px] font-bold">
-            
-            <span>🤍</span>
-          </div>
-        </button></div>
+      <div id="chapterList" class="flex-1 overflow-y-auto p-2.5 space-y-1.5">
+        <!-- Populated dynamically -->
+      </div>
     </aside>
 
     <!-- CENTER PANEL: Interactive Chapter Studio -->
@@ -1422,25 +292,29 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
         <div class="peeking-ears absolute -top-9 left-8 flex items-end gap-3 cursor-pointer select-none" title="Mochi says: You're doing great in ELA!">
           <!-- Left Peeking Mint Green Bunny Ear -->
           <svg class="ear-left w-7 h-11" viewBox="0 0 28 44" fill="none">
-            <path d="M4 44C2 24 5 4 14 4C23 4 26 24 24 44" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></path>
-            <path d="M9 42C8 27 10 11 14 11C18 11 20 27 19 42" fill="#FCE1E4"></path>
+            <path d="M4 44C2 24 5 4 14 4C23 4 26 24 24 44" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+            <path d="M9 42C8 27 10 11 14 11C18 11 20 27 19 42" fill="#FCE1E4"/>
           </svg>
           <!-- Right Peeking Mint Green Bunny Ear -->
           <svg class="ear-right w-7 h-11" viewBox="0 0 28 44" fill="none">
-            <path d="M4 44C2 24 5 4 14 4C23 4 26 24 24 44" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></path>
-            <path d="M9 42C8 27 10 11 14 11C18 11 20 27 19 42" fill="#FCE1E4"></path>
+            <path d="M4 44C2 24 5 4 14 4C23 4 26 24 24 44" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+            <path d="M9 42C8 27 10 11 14 11C18 11 20 27 19 42" fill="#FCE1E4"/>
           </svg>
         </div>
 
         <!-- Chapter Header & Navigation -->
         <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-lavender/70">
           <div class="flex items-center gap-2">
-            <span id="chapterNumberBadge" class="px-3 py-1 rounded-full bg-lavender text-cocoa text-xs font-bold">Prologue • Ch. 0</span>
-            <span id="chapterThemePill" class="px-3 py-1 rounded-full bg-buttercream text-cocoa text-xs font-bold border border-buttercreamDeep">Attention &amp; Wonder</span>
+            <span id="chapterNumberBadge" class="px-3 py-1 rounded-full bg-lavender text-cocoa text-xs font-bold">
+              Chapter 0
+            </span>
+            <span id="chapterThemePill" class="px-3 py-1 rounded-full bg-buttercream text-cocoa text-xs font-bold border border-buttercreamDeep">
+              Attention &amp; Wonder
+            </span>
           </div>
 
           <div class="flex items-center gap-1.5">
-            <button id="prevChapterBtn" type="button" class="px-2.5 py-1.5 rounded-xl bg-vanilla hover:bg-lavender/50 border border-lavender text-xs font-bold text-cocoa transition active:scale-95 opacity-45" title="Previous Chapter" disabled="">
+            <button id="prevChapterBtn" type="button" class="px-2.5 py-1.5 rounded-xl bg-vanilla hover:bg-lavender/50 border border-lavender text-xs font-bold text-cocoa transition active:scale-95" title="Previous Chapter">
               ← Prev
             </button>
             <button id="nextChapterBtn" type="button" class="px-2.5 py-1.5 rounded-xl bg-vanilla hover:bg-lavender/50 border border-lavender text-xs font-bold text-cocoa transition active:scale-95" title="Next Chapter">
@@ -1451,8 +325,10 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
 
         <!-- Chapter Title & Mark Read Toggle -->
         <div class="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <h2 id="chapterTitle" class="text-xl sm:text-2xl font-bold text-cocoa leading-snug">Introduction</h2>
-          <button id="markReadBtn" type="button" class="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs font-bold border-2 bg-vanilla hover:bg-mint/50 border-lavenderDeep text-cocoa transition active:scale-95 shrink-0">
+          <h2 id="chapterTitle" class="text-xl sm:text-2xl font-bold text-cocoa leading-snug">
+            Introduction
+          </h2>
+          <button id="markReadBtn" type="button" class="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs font-bold border-2 transition active:scale-95 shrink-0">
             <span id="markReadIcon">🤍</span>
             <span id="markReadText">Mark Chapter Read</span>
           </button>
@@ -1469,7 +345,9 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
               </h3>
             </div>
             <p class="text-[11px] font-semibold text-plumMuted mb-1.5">History, Science &amp; The Anthropocene</p>
-            <p id="macroSummary" class="text-xs sm:text-[13px] leading-relaxed text-cocoa font-medium">Introduces the geological epoch of the Anthropocene—the current era in which human activity has become the dominant force shaping Earth's climate, ecosystems, and future.</p>
+            <p id="macroSummary" class="text-xs sm:text-[13px] leading-relaxed text-cocoa font-medium">
+              <!-- Populated dynamically -->
+            </p>
           </div>
 
           <!-- Micro Card -->
@@ -1481,7 +359,9 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
               </h3>
             </div>
             <p class="text-[11px] font-semibold text-plumMuted mb-1.5">John Green's Personal Memoir</p>
-            <p id="microSummary" class="text-xs sm:text-[13px] leading-relaxed text-cocoa font-medium">John shares how writing reviews of everyday phenomena helped him recover from severe depression and sensory overwhelm by grounding his attention in concrete details.</p>
+            <p id="microSummary" class="text-xs sm:text-[13px] leading-relaxed text-cocoa font-medium">
+              <!-- Populated dynamically -->
+            </p>
           </div>
         </div>
 
@@ -1495,11 +375,15 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
               </h3>
               <p class="text-xs text-plumMuted">Rate this subject yourself before peeking at John's rating!</p>
             </div>
-            <span id="studentRatingText" class="px-3 py-1 rounded-full bg-buttercream text-cocoa text-xs font-bold self-start sm:self-auto">Not rated yet</span>
+            <span id="studentRatingText" class="px-3 py-1 rounded-full bg-buttercream text-cocoa text-xs font-bold self-start sm:self-auto">
+              Not rated yet
+            </span>
           </div>
 
           <!-- Interactive Half-Star Selector Buttons -->
-          <div id="studentStarButtons" class="flex flex-wrap items-center gap-1.5 mb-4"><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">0.5 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">1 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">1.5 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">2 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">2.5 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">3 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">3.5 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">4 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">4.5 ★</button><button type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition active:scale-95 bg-white hover:bg-buttercream/60 border-buttercreamDeep text-plumMuted hover:text-cocoa">5 ★</button></div>
+          <div id="studentStarButtons" class="flex flex-wrap items-center gap-1.5 mb-4">
+            <!-- Populated dynamically (0.5 to 5.0 stars) -->
+          </div>
 
           <!-- Spoiler-Protected Reveal John Green's Rating -->
           <div class="pt-3 border-t border-buttercreamDeep/60">
@@ -1540,11 +424,15 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
           </div>
 
           <!-- Literary Devices Pills -->
-          <div id="literaryDevicesList" class="flex flex-wrap gap-1.5 mb-3"><span class="px-2.5 py-1 rounded-full bg-white/90 text-cocoa text-[11px] font-bold border border-mintDeep">✨ Extended Metaphor (The Five-Star Scale)</span><span class="px-2.5 py-1 rounded-full bg-white/90 text-cocoa text-[11px] font-bold border border-mintDeep">✨ Direct Address</span><span class="px-2.5 py-1 rounded-full bg-white/90 text-cocoa text-[11px] font-bold border border-mintDeep">✨ Juxtaposition (Cosmic vs. Everyday)</span></div>
+          <div id="literaryDevicesList" class="flex flex-wrap gap-1.5 mb-3">
+            <!-- Populated dynamically -->
+          </div>
 
           <!-- Literary Quote Block -->
           <blockquote class="bg-white/80 rounded-2xl p-3.5 border-l-4 border-lavenderDeep">
-            <p id="chapterQuote" class="font-serif italic text-xs sm:text-sm text-cocoa leading-relaxed">“The Anthropocene Reviewed is a book about what it feels like to be alive right now, and also about what we might learn by paying attention to the things we usually ignore.”</p>
+            <p id="chapterQuote" class="font-serif italic text-xs sm:text-sm text-cocoa leading-relaxed">
+              <!-- Populated dynamically -->
+            </p>
           </blockquote>
         </div>
 
@@ -1560,7 +448,9 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
             </span>
           </div>
 
-          <p id="elaReflectionPrompt" class="font-serif text-xs text-plumMuted italic mb-2.5">Prompt: Why does John Green argue that paying close attention to ordinary things is a form of love and survival?</p>
+          <p id="elaReflectionPrompt" class="font-serif text-xs text-plumMuted italic mb-2.5">
+            <!-- Populated dynamically -->
+          </p>
 
           <textarea id="studentNotesInput" rows="4" placeholder="Write your ELA observations, literary analysis, or your own 1-paragraph review of this topic here..." class="w-full p-3 text-xs sm:text-sm bg-white/90 border-2 border-lavender rounded-2xl focus:outline-none focus:border-lavenderDeep text-cocoa placeholder-plumMuted/60 leading-relaxed resize-y"></textarea>
 
@@ -1583,22 +473,22 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
           <div class="flex items-center gap-2.5">
             <div id="chatAvatarBadge" class="w-10 h-10 rounded-2xl bg-white flex items-center justify-center shadow-xs border-2 border-mintDeep shrink-0">
               <svg class="w-8 h-8" viewBox="0 0 80 80" fill="none">
-                <rect x="24" y="6" width="10" height="27" rx="5" transform="rotate(-8 24 6)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></rect>
-                <rect x="26.5" y="10" width="5" height="18" rx="2.5" transform="rotate(-8 26.5 10)" fill="#FCE1E4"></rect>
-                <rect x="46" y="5" width="10" height="27" rx="5" transform="rotate(8 46 5)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></rect>
-                <rect x="48.5" y="9" width="5" height="18" rx="2.5" transform="rotate(8 48.5 9)" fill="#FCE1E4"></rect>
-                <ellipse cx="40" cy="48" rx="22" ry="18" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></ellipse>
-                <circle cx="32" cy="46" r="2.2" fill="#4A3F55"></circle>
-                <circle cx="48" cy="46" r="2.2" fill="#4A3F55"></circle>
-                <ellipse cx="25" cy="51" rx="4" ry="2.5" fill="#F9B8C2"></ellipse>
-                <ellipse cx="55" cy="51" rx="4" ry="2.5" fill="#F9B8C2"></ellipse>
-                <path d="M37 54Q40 56.5 43 54" stroke="#4A3F55" stroke-width="2" stroke-linecap="round"></path>
+                <rect x="24" y="6" width="10" height="27" rx="5" transform="rotate(-8 24 6)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+                <rect x="26.5" y="10" width="5" height="18" rx="2.5" transform="rotate(-8 26.5 10)" fill="#FCE1E4"/>
+                <rect x="46" y="5" width="10" height="27" rx="5" transform="rotate(8 46 5)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+                <rect x="48.5" y="9" width="5" height="18" rx="2.5" transform="rotate(8 48.5 9)" fill="#FCE1E4"/>
+                <ellipse cx="40" cy="48" rx="22" ry="18" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"/>
+                <circle cx="32" cy="46" r="2.2" fill="#4A3F55"/>
+                <circle cx="48" cy="46" r="2.2" fill="#4A3F55"/>
+                <ellipse cx="25" cy="51" rx="4" ry="2.5" fill="#F9B8C2"/>
+                <ellipse cx="55" cy="51" rx="4" ry="2.5" fill="#F9B8C2"/>
+                <path d="M37 54Q40 56.5 43 54" stroke="#4A3F55" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </div>
             <div>
               <h2 id="chatPersonaTitle" class="text-sm font-bold text-cocoa leading-tight flex items-center gap-1.5">
                 <span>Mochi • ELA Study Bunny</span>
-                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400" title="Online &amp; ready to help"></span>
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400" title="Online & ready to help"></span>
               </h2>
               <p id="chatPersonaSubtitle" class="text-[11px] font-semibold text-plumMuted">Studying: Introduction</p>
             </div>
@@ -1610,27 +500,21 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
       </div>
 
       <!-- Chat Message History -->
-      <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-vanilla/50"><div class="flex items-start gap-2.5 pop-in "><div class="w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 border bg-mint/80 border-mintDeep text-cocoa">
-          <svg class="w-5 h-5" viewBox="0 0 64 64" fill="none">
-            <rect x="19" y="4" width="8" height="22" rx="4" transform="rotate(-8 19 4)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></rect>
-            <rect x="37" y="3" width="8" height="22" rx="4" transform="rotate(8 37 3)" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></rect>
-            <ellipse cx="32" cy="40" rx="18" ry="15" fill="#BEEAE0" stroke="#4A3F55" stroke-width="2.5"></ellipse>
-            <circle cx="26" cy="38" r="2" fill="#4A3F55"></circle>
-            <circle cx="38" cy="38" r="2" fill="#4A3F55"></circle>
-            <ellipse cx="21" cy="42" rx="3.2" ry="2" fill="#F9B8C2"></ellipse>
-            <ellipse cx="43" cy="42" rx="3.2" ry="2" fill="#F9B8C2"></ellipse>
-          </svg>
-        </div><div class="max-w-[82%] px-3.5 py-2.5 rounded-2xl text-xs sm:text-[13px] leading-relaxed shadow-2xs bg-white border border-mintDeep/70 text-cocoa rounded-tl-xs font-medium">Hop-hello! 🌿🐰✨ I'm Mochi, your mint-green ELA study bunny! Ready to explore "Introduction" together? I can help you spot literary devices, build a strong thesis statement, unpack the Macro &amp; Micro lenses, or quiz you on the chapter!</div></div></div>
+      <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-vanilla/50">
+        <!-- Messages populated dynamically -->
+      </div>
 
       <!-- Context-Aware Quick Prompt Chips -->
       <div class="px-3.5 pt-2.5 pb-1.5 bg-white border-t border-lavender/60">
         <p class="text-[10px] font-bold uppercase tracking-wider text-plumMuted mb-1.5">✨ Quick Chapter Prompts:</p>
-        <div id="quickPromptChips" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1"><button type="button" class="px-2.5 py-1.5 rounded-xl bg-mint/60 hover:bg-mint text-cocoa text-[11px] font-bold border border-mintDeep whitespace-nowrap transition active:scale-95">Help me write an ELA thesis statement on "Introduction"</button><button type="button" class="px-2.5 py-1.5 rounded-xl bg-mint/60 hover:bg-mint text-cocoa text-[11px] font-bold border border-mintDeep whitespace-nowrap transition active:scale-95">Explain the literary devices in this chapter</button><button type="button" class="px-2.5 py-1.5 rounded-xl bg-mint/60 hover:bg-mint text-cocoa text-[11px] font-bold border border-mintDeep whitespace-nowrap transition active:scale-95">Compare the Macro &amp; Micro lenses here</button><button type="button" class="px-2.5 py-1.5 rounded-xl bg-mint/60 hover:bg-mint text-cocoa text-[11px] font-bold border border-mintDeep whitespace-nowrap transition active:scale-95">Quiz me on "Introduction"! 🐰</button></div>
+        <div id="quickPromptChips" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
+          <!-- Populated dynamically -->
+        </div>
       </div>
 
       <!-- Chat Input Form -->
       <form id="chatForm" class="p-3 bg-white border-t border-lavender/70 flex items-center gap-2">
-        <input id="chatInput" type="text" placeholder="Ask Mochi about &quot;Introduction&quot;..." autocomplete="off" class="flex-1 px-3.5 py-2.5 text-xs sm:text-sm bg-vanilla border-2 border-lavender rounded-2xl focus:outline-none focus:border-lavenderDeep text-cocoa placeholder-plumMuted/70">
+        <input id="chatInput" type="text" placeholder="Ask about this chapter..." autocomplete="off" class="flex-1 px-3.5 py-2.5 text-xs sm:text-sm bg-vanilla border-2 border-lavender rounded-2xl focus:outline-none focus:border-lavenderDeep text-cocoa placeholder-plumMuted/70" />
         <button id="chatSendBtn" type="submit" class="px-4 py-2.5 rounded-2xl bg-lavender hover:bg-lavenderDeep/80 text-cocoa text-xs sm:text-sm font-bold border border-lavenderDeep transition active:scale-95 shrink-0 shadow-xs">
           Send ✨
         </button>
@@ -1656,7 +540,7 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
       <label class="block text-xs font-bold text-cocoa mb-1.5" for="customApiKeyInput">
         Optional Gemini API Key (Stored only in your browser)
       </label>
-      <input id="customApiKeyInput" type="password" placeholder="AIzaSy..." class="w-full px-3.5 py-2 text-xs bg-white border-2 border-lavender rounded-2xl focus:outline-none focus:border-lavenderDeep text-cocoa mb-3">
+      <input id="customApiKeyInput" type="password" placeholder="AIzaSy..." class="w-full px-3.5 py-2 text-xs bg-white border-2 border-lavender rounded-2xl focus:outline-none focus:border-lavenderDeep text-cocoa mb-3" />
 
       <div class="flex items-center justify-between gap-2 pt-2 border-t border-lavender/70">
         <button id="resetProgressRequestBtn" type="button" class="px-3 py-2 rounded-2xl bg-blush/70 hover:bg-blush text-cocoa text-xs font-bold border border-blushDeep transition">
@@ -1681,7 +565,7 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
   </div>
 
   <!-- Gentle Floating Toast Notification -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div><div class="pop-in px-4 py-2.5 rounded-2xl bg-mint border-2 border-cocoa/15 shadow-cozy text-xs font-bold text-cocoa flex items-center gap-2 pointer-events-auto"><span>🐰</span><span>Full single-file HTML copied! Ready to paste into GitHub 📋✨</span></div></div>
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <!-- Application Data & Logic -->
   <script>
@@ -2857,13 +1741,9 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
 
     /**
      * ============================================================================
-     * GITHUB SINGLE-FILE EXPORT & ELA STUDY GUIDE EXPORT
+     * ELA STUDY GUIDE EXPORT
      * ============================================================================
      */
-    function getCleanSingleFileHTML() {
-      return '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-    }
-
     function downloadFile(filename, content, mimeType) {
       const blob = new Blob([content], { type: mimeType });
       const url = URL.createObjectURL(blob);
@@ -3025,21 +1905,6 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
       // Export Study Guide button
       document.getElementById('exportStudyGuideBtn').addEventListener('click', exportStudentStudyGuide);
 
-      // GitHub Single-File Export Buttons
-      document.getElementById('copyGithubBtn').addEventListener('click', () => {
-        const fullHtml = getCleanSingleFileHTML();
-        copyTextToClipboard(
-          fullHtml,
-          'Full single-file HTML copied! Ready to paste into GitHub 📋✨'
-        );
-      });
-
-      document.getElementById('downloadHtmlBtn').addEventListener('click', () => {
-        const fullHtml = getCleanSingleFileHTML();
-        downloadFile('anthropocene-reviewed-ela-companion.html', fullHtml, 'text/html;charset=utf-8');
-        showToast('Downloaded single-file HTML for GitHub! ⬇️🐰', 'bg-mint');
-      });
-
       // Clear Current Chat Thread
       document.getElementById('clearChatBtn').addEventListener('click', () => {
         const key = getChatThreadKey();
@@ -3116,5 +1981,5 @@ url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMExce
       });
     });
   </script>
-
-</body></html>
+</body>
+</html>
