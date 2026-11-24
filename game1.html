@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bunny Bake Off — Cozy Pastel Garden Game</title>
+  <!-- Tailwind CSS for responsive layout & pastel UI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Cute rounded typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --pastel-cream: #fffdf7;
+      --pastel-pink: #ffb7ce;
+      --pastel-pink-dark: #f28eb0;
+      --pastel-mint: #b8e8c8;
+      --pastel-mint-dark: #7ec498;
+      --pastel-lavender: #d8c8f8;
+      --pastel-butter: #ffeaa7;
+      --pastel-sky: #bce6ff;
+      --cocoa-text: #5c4742;
+      --cocoa-soft: #856c66;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: radial-gradient(circle at top left, #ffeef4 0%, #f3fbf5 48%, #f4f0ff 100%);
+      color: var(--cocoa-text);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .font-display {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Soft pastel card & button styling */
+    .pastel-card {
+      background: rgba(255, 253, 247, 0.94);
+      backdrop-filter: blur(10px);
+      border: 3px solid #f7dce6;
+      box-shadow: 0 12px 30px rgba(168, 128, 144, 0.14), inset 0 2px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .btn-pastel-pink {
+      background: linear-gradient(180deg, #ffc4d8 0%, #ff9ebb 100%);
+      border: 3px solid #ffffff;
+      box-shadow: 0 5px 0 #e3799b, 0 8px 16px rgba(227, 121, 155, 0.3);
+      color: #5a2d3d;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .btn-pastel-pink:hover:not(:disabled) {
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+      box-shadow: 0 7px 0 #e3799b, 0 10px 20px rgba(227, 121, 155, 0.35);
+    }
+
+    .btn-pastel-pink:active:not(:disabled) {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #e3799b, 0 4px 8px rgba(227, 121, 155, 0.25);
+    }
+
+    .btn-pastel-mint {
+      background: linear-gradient(180deg, #c9f2d7 0%, #9ee0b5 100%);
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 0 #6fb588, 0 6px 12px rgba(111, 181, 136, 0.25);
+      color: #2f593e;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .btn-pastel-mint:active:not(:disabled) {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #6fb588;
+    }
+
+    .btn-pastel-butter {
+      background: linear-gradient(180deg, #fff1ba 0%, #ffd97d 100%);
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 0 #d9ae4c, 0 6px 14px rgba(217, 174, 76, 0.28);
+      color: #5e4615;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .btn-pastel-butter:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .btn-pastel-butter:active:not(:disabled) {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #d9ae4c;
+    }
+
+    .btn-pastel-butter:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Floating bunny ear wiggle animation */
+    @keyframes earWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-6deg); }
+      75% { transform: rotate(6deg); }
+    }
+
+    .bunny-mascot-wiggle {
+      transform-origin: bottom center;
+      animation: earWiggle 3s ease-in-out infinite;
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .animate-gentle-bounce {
+      animation: gentleBounce 2.2s ease-in-out infinite;
+    }
+
+    /* Game Canvas Wrapper */
+    .canvas-frame {
+      background: #e9f7ec;
+      border: 4px solid #ffffff;
+      box-shadow: 0 14px 32px rgba(124, 158, 134, 0.22), 0 0 0 3px #cde9d5;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+    }
+
+    /* Custom D-Pad buttons */
+    .dpad-btn {
+      background: linear-gradient(180deg, #ffffff 0%, #f7edf2 100%);
+      border: 2.5px solid #f2cad8;
+      box-shadow: 0 4px 0 #e0b3c3;
+      color: #6b4c57;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      transition: transform 0.08s ease;
+    }
+
+    .dpad-btn:active, .dpad-btn.pressed {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #e0b3c3;
+      background: #ffe3ed;
+    }
+
+    /* Full Screen & Theater Mode Layout */
+    body.fullscreen-mode {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 50;
+      padding: 0.5rem 0.75rem;
+    }
+
+    body.fullscreen-mode header {
+      display: none;
+    }
+
+    body.fullscreen-mode #hudSection {
+      max-width: 100%;
+      margin-bottom: 0.5rem;
+    }
+
+    body.fullscreen-mode main {
+      max-width: 100%;
+      min-height: 0;
+    }
+
+    body.fullscreen-mode #canvasContainer {
+      max-width: none;
+    }
+
+    body.fullscreen-mode #exitFullscreenHudBtn {
+      display: inline-flex;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-2 sm:p-4">
+
+  <!-- Top Cozy Header with Bunny Chef Mascot -->
+  <header class="w-full max-w-5xl flex flex-wrap items-center justify-between gap-2 mb-2 sm:mb-3 px-3 py-2 rounded-3xl pastel-card">
+    <div class="flex items-center gap-2.5">
+      <!-- Cute Custom SVG Bunny Mascot Icon -->
+      <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#ffe3ee] to-[#ffd1e3] border-2 border-white shadow-sm flex items-center justify-center shrink-0">
+        <svg viewBox="0 0 64 64" class="w-9 h-9 bunny-mascot-wiggle" aria-hidden="true">
+          <!-- Left Ear -->
+          <ellipse cx="23" cy="17" rx="5.5" ry="14" transform="rotate(-10 23 17)" fill="#fff9fb" stroke="#e8a7be" stroke-width="2.2"/>
+          <ellipse cx="23" cy="18" rx="2.7" ry="9.5" transform="rotate(-10 23 18)" fill="#ffb7ce"/>
+          <!-- Right Ear -->
+          <ellipse cx="41" cy="17" rx="5.5" ry="14" transform="rotate(10 41 17)" fill="#fff9fb" stroke="#e8a7be" stroke-width="2.2"/>
+          <ellipse cx="41" cy="18" rx="2.7" ry="9.5" transform="rotate(10 41 18)" fill="#ffb7ce"/>
+          <!-- Mini Chef Hat -->
+          <path d="M25 14 C23 9, 29 6, 32 9 C35 6, 41 9, 39 14 Z" fill="#ffffff" stroke="#d8c8f8" stroke-width="1.8"/>
+          <!-- Head -->
+          <ellipse cx="32" cy="39" rx="17" ry="15" fill="#fff9fb" stroke="#e8a7be" stroke-width="2.4"/>
+          <!-- Rosy Cheeks -->
+          <ellipse cx="21" cy="42" rx="3.4" ry="2.1" fill="#ff9ebb" opacity="0.75"/>
+          <ellipse cx="43" cy="42" rx="3.4" ry="2.1" fill="#ff9ebb" opacity="0.75"/>
+          <!-- Eyes -->
+          <circle cx="25.5" cy="37.5" r="2.3" fill="#5c4742"/>
+          <circle cx="26.2" cy="36.8" r="0.8" fill="#ffffff"/>
+          <circle cx="38.5" cy="37.5" r="2.3" fill="#5c4742"/>
+          <circle cx="39.2" cy="36.8" r="0.8" fill="#ffffff"/>
+          <!-- Nose & Smile -->
+          <ellipse cx="32" cy="41.2" rx="2" ry="1.4" fill="#ff8fb3"/>
+          <path d="M29.2 43.5 Q32 46 34.8 43.5" fill="none" stroke="#5c4742" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-lg sm:text-2xl font-bold tracking-tight text-[#5c4742]">Bunny Bake Off</h1>
+          <span class="hidden sm:inline-block text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-[#ffe6f0] text-[#b85678] border border-[#ffc8dd]">
+            🥕 Carrot Cake Edition
+          </span>
+        </div>
+        <p class="text-xs sm:text-sm font-semibold text-[#856c66] leading-tight">
+          Gather 15 ingredients &amp; dig holes to out-bake rival bunnies!
+        </p>
+      </div>
+    </div>
+
+    <!-- Top Action Controls -->
+    <div class="flex items-center gap-2">
+      <button id="fullscreenBtn" type="button" title="Toggle Full Screen (F)"
+        class="px-3 py-2 rounded-2xl bg-[#e6f4ff] hover:bg-[#d6ecff] border-2 border-white text-[#35648a] font-bold text-xs sm:text-sm shadow-sm transition">
+        ⛶ Full Screen
+      </button>
+      <button id="soundToggleBtn" type="button" title="Toggle Sound"
+        class="px-3 py-2 rounded-2xl bg-[#f3efff] hover:bg-[#e8e0ff] border-2 border-white text-[#64528a] font-bold text-xs sm:text-sm shadow-sm transition">
+        🔊 Sound
+      </button>
+      <button id="helpBtn" type="button"
+        class="px-3 py-2 rounded-2xl bg-[#e7f7ec] hover:bg-[#d7f0df] border-2 border-white text-[#3d6e4e] font-bold text-xs sm:text-sm shadow-sm transition">
+        ❓ Rules
+      </button>
+      <button id="restartTopBtn" type="button"
+        class="px-3 py-2 rounded-2xl btn-pastel-pink font-bold text-xs sm:text-sm">
+        ↻ New Game
+      </button>
+    </div>
+  </header>
+
+  <!-- Live HUD Bar: Carry Capacity, Dig Cooldown, & Bake-Off Standings -->
+  <section id="hudSection" class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-12 gap-2 mb-2 sm:mb-3">
+    <!-- Player Paws / Basket Status -->
+    <div class="md:col-span-5 pastel-card rounded-2xl px-3 py-2 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5">
+        <div id="carryIconBadge" class="w-10 h-10 rounded-2xl bg-[#ffe6ef] border-2 border-white flex items-center justify-center text-xl shadow-sm">
+          🐾
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span id="carryModeLabel" class="text-xs font-extrabold uppercase tracking-wider text-[#b85678]">Bunny Paws</span>
+            <span id="basketTimerBadge" class="hidden text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-[#fff0b3] text-[#8a6510]">
+              🧺 25s
+            </span>
+          </div>
+          <div id="carriedSlotsVisual" class="flex items-center gap-1 mt-0.5 text-base">
+            <!-- Populated dynamically with slots -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Dig Hole Action Button -->
+      <button id="digActionBtn" type="button" class="btn-pastel-butter px-3 py-2 rounded-2xl font-display font-bold text-xs sm:text-sm flex flex-col items-center leading-tight shrink-0">
+        <span>🕳️ Dig Hole</span>
+        <span id="digCooldownText" class="text-[11px] font-sans font-extrabold opacity-85">[Space] Ready!</span>
+      </button>
+    </div>
+
+    <!-- All 4 Bunnies Cake Progress Standings -->
+    <div class="md:col-span-7 pastel-card rounded-2xl px-3 py-2 flex flex-col justify-center">
+      <div class="flex items-center justify-between gap-2 mb-1">
+        <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#856c66]">🎂 Carrot Cake Progress (First to 15 wins!)</span>
+        <div class="flex items-center gap-2 min-w-0">
+          <span id="alertTicker" class="text-xs font-bold text-[#c9597e] truncate">
+            Collect ingredients &amp; return to your pink table!
+          </span>
+          <button id="exitFullscreenHudBtn" type="button" title="Exit Full Screen (Esc)"
+            class="hidden shrink-0 items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#e6f4ff] hover:bg-[#d6ecff] border border-[#b8dfff] text-[#35648a] font-extrabold text-[11px] transition">
+            🗗 Exit Full Screen
+          </button>
+        </div>
+      </div>
+      <div id="standingsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Playable Arena Container -->
+  <main class="w-full max-w-5xl flex-1 flex flex-col items-center justify-center relative">
+    <div id="arenaViewport" class="w-full flex-1 min-h-0 flex items-center justify-center">
+      <div id="canvasContainer" class="canvas-frame w-full max-w-[920px] aspect-[21/15]">
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Start / Rules Overlay Modal -->
+        <div id="startOverlay" class="absolute inset-0 bg-[#fff9fc]/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 z-20 overflow-y-auto">
+          <div class="pastel-card rounded-3xl max-w-xl w-full p-4 sm:p-6 text-center my-auto">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#ffe6f0] border-2 border-white shadow-sm mb-2">
+              <svg viewBox="0 0 64 64" class="w-11 h-11 bunny-mascot-wiggle" aria-hidden="true">
+                <ellipse cx="23" cy="17" rx="5.5" ry="14" transform="rotate(-10 23 17)" fill="#fff9fb" stroke="#e8a7be" stroke-width="2.2"/>
+                <ellipse cx="23" cy="18" rx="2.7" ry="9.5" transform="rotate(-10 23 18)" fill="#ffb7ce"/>
+                <ellipse cx="41" cy="17" rx="5.5" ry="14" transform="rotate(10 41 17)" fill="#fff9fb" stroke="#e8a7be" stroke-width="2.2"/>
+                <ellipse cx="41" cy="18" rx="2.7" ry="9.5" transform="rotate(10 41 18)" fill="#ffb7ce"/>
+                <path d="M25 14 C23 9, 29 6, 32 9 C35 6, 41 9, 39 14 Z" fill="#ffffff" stroke="#d8c8f8" stroke-width="1.8"/>
+                <ellipse cx="32" cy="39" rx="17" ry="15" fill="#fff9fb" stroke="#e8a7be" stroke-width="2.4"/>
+                <ellipse cx="21" cy="42" rx="3.4" ry="2.1" fill="#ff9ebb" opacity="0.75"/>
+                <ellipse cx="43" cy="42" rx="3.4" ry="2.1" fill="#ff9ebb" opacity="0.75"/>
+                <circle cx="25.5" cy="37.5" r="2.3" fill="#5c4742"/>
+                <circle cx="26.2" cy="36.8" r="0.8" fill="#ffffff"/>
+                <circle cx="38.5" cy="37.5" r="2.3" fill="#5c4742"/>
+                <circle cx="39.2" cy="36.8" r="0.8" fill="#ffffff"/>
+                <ellipse cx="32" cy="41.2" rx="2" ry="1.4" fill="#ff8fb3"/>
+                <path d="M29.2 43.5 Q32 46 34.8 43.5" fill="none" stroke="#5c4742" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-[#5c4742] mb-1">Welcome to Bunny Bake Off!</h2>
+            <p class="text-xs sm:text-sm font-semibold text-[#856c66] mb-3 sm:mb-4 leading-relaxed">
+              Race through the pastel hedge garden to gather <strong class="text-[#c9597e]">15 Carrot Cake ingredients</strong> and bring them back to your <strong class="text-[#c9597e]">Pink Baking Table</strong> before the rival bunnies finish theirs!
+            </p>
+
+            <!-- Cute 4-Card Quick Guide -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-left mb-4">
+              <div class="p-3 rounded-2xl bg-[#fff4f8] border-2 border-[#ffd8e6]">
+                <div class="font-display font-bold text-sm text-[#b85678] mb-0.5">🐾 Carry Limit: 3 Items</div>
+                <p class="text-xs text-[#6e5752] font-semibold">
+                  Your paws hold <strong>3 ingredients</strong> at once. Drop them off at your bottom-left pink baking table to bank them!
+                </p>
+              </div>
+              <div class="p-3 rounded-2xl bg-[#fffbe8] border-2 border-[#ffe79e]">
+                <div class="font-display font-bold text-sm text-[#9c7216] mb-0.5">🧺 Special Item: Basket (5!)</div>
+                <p class="text-xs text-[#6e5752] font-semibold">
+                  Grab the glowing <strong>Picnic Basket</strong> in the garden center to carry up to <strong>5 ingredients</strong> at once!
+                </p>
+              </div>
+              <div class="p-3 rounded-2xl bg-[#eefbf2] border-2 border-[#c2ebd0]">
+                <div class="font-display font-bold text-sm text-[#39754e] mb-0.5">🕳️ Dig Holes to Sabotage</div>
+                <p class="text-xs text-[#6e5752] font-semibold">
+                  Press <strong>Space / Dig</strong> to dig a garden hole! Rival bunnies who fall in drop their loot and <strong>restart at their table</strong>.
+                </p>
+              </div>
+              <div class="p-3 rounded-2xl bg-[#f4f0ff] border-2 border-[#dcd0ff]">
+                <div class="font-display font-bold text-sm text-[#634c9c] mb-0.5">🍰 Guard &amp; Steal Tables</div>
+                <p class="text-xs text-[#6e5752] font-semibold">
+                  Dodge rivals sneaking toward your table to steal—or sneak up to <em>their</em> tables to swipe an ingredient!
+                </p>
+              </div>
+            </div>
+
+            <!-- Cozy Pace / Difficulty Selector -->
+            <div class="flex flex-wrap items-center justify-center gap-2 mb-5">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#856c66]">Garden Pace:</span>
+              <button type="button" data-diff="cozy" class="diff-pill px-3 py-1.5 rounded-full text-xs font-extrabold border-2 border-[#ffc8dd] bg-[#fff0f6] text-[#856c66] transition">
+                🌸 Cozy Stroll
+              </button>
+              <button type="button" data-diff="normal" class="diff-pill px-3 py-1.5 rounded-full text-xs font-extrabold border-2 border-[#ff9ebb] bg-[#ffd6e5] text-[#5a2d3d] shadow-sm transition">
+                🥕 Classic Bake-Off
+              </button>
+              <button type="button" data-diff="master" class="diff-pill px-3 py-1.5 rounded-full text-xs font-extrabold border-2 border-[#ffc8dd] bg-[#fff0f6] text-[#856c66] transition">
+                ⚡ Master Pastry
+              </button>
+            </div>
+
+            <button id="startGameBtn" type="button" class="btn-pastel-pink w-full sm:w-auto px-8 py-3.5 rounded-full font-display font-bold text-lg tracking-wide">
+              🎂 Start Baking!
+            </button>
+          </div>
+        </div>
+
+        <!-- Win / Loss Overlay Modal -->
+        <div id="endOverlay" class="hidden absolute inset-0 bg-[#fff9fc]/90 backdrop-blur-md flex items-center justify-center p-4 z-30">
+          <div class="pastel-card rounded-3xl max-w-md w-full p-6 text-center">
+            <div id="endEmoji" class="text-5xl mb-2 animate-gentle-bounce">🎂</div>
+            <h2 id="endTitle" class="text-2xl sm:text-3xl font-bold text-[#5c4742] mb-1">Carrot Cake Perfection!</h2>
+            <p id="endSubtitle" class="text-sm font-semibold text-[#856c66] mb-4">
+              You baked the fluffiest pastel carrot cake first!
+            </p>
+
+            <!-- Match Summary Stats -->
+            <div class="grid grid-cols-3 gap-2 mb-5">
+              <div class="p-2.5 rounded-2xl bg-[#fff4f8] border-2 border-[#ffd8e6]">
+                <div id="statBaked" class="font-display font-bold text-xl text-[#c9597e]">15/15</div>
+                <div class="text-[11px] font-bold text-[#856c66]">Your Cake</div>
+              </div>
+              <div class="p-2.5 rounded-2xl bg-[#eefbf2] border-2 border-[#c2ebd0]">
+                <div id="statTraps" class="font-display font-bold text-xl text-[#39754e]">0</div>
+                <div class="text-[11px] font-bold text-[#856c66]">Rivals Trapped</div>
+              </div>
+              <div class="p-2.5 rounded-2xl bg-[#fffbe8] border-2 border-[#ffe79e]">
+                <div id="statTime" class="font-display font-bold text-xl text-[#9c7216]">0:00</div>
+                <div class="text-[11px] font-bold text-[#856c66]">Bake Time</div>
+              </div>
+            </div>
+
+            <button id="playAgainBtn" type="button" class="btn-pastel-pink w-full py-3.5 rounded-full font-display font-bold text-lg">
+              🐰 Bake Another Cake!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile / Touch On-Screen Controls (Also clickable on desktop!) -->
+    <div class="w-full max-w-[920px] mt-2.5 flex items-center justify-between gap-4 px-2 md:hidden">
+      <!-- D-Pad -->
+      <div class="grid grid-cols-3 gap-1.5 w-36 h-36">
+        <div></div>
+        <button type="button" data-dir="UP" class="dpad-btn text-lg" aria-label="Move Up">▲</button>
+        <div></div>
+        <button type="button" data-dir="LEFT" class="dpad-btn text-lg" aria-label="Move Left">◀</button>
+        <div class="rounded-2xl bg-[#fff5f9] border-2 border-[#f7dce6] flex items-center justify-center text-sm">🐰</div>
+        <button type="button" data-dir="RIGHT" class="dpad-btn text-lg" aria-label="Move Right">▶</button>
+        <div></div>
+        <button type="button" data-dir="DOWN" class="dpad-btn text-lg" aria-label="Move Down">▼</button>
+        <div></div>
+      </div>
+
+      <!-- Big Touch Dig Hole Button -->
+      <div class="flex flex-col items-end gap-2">
+        <p class="text-[11px] font-bold text-[#856c66] text-right">
+          Swipe map or use D-Pad.<br/>Tap below to trap rivals!
+        </p>
+        <button id="mobileDigBtn" type="button" class="btn-pastel-butter px-5 py-4 rounded-3xl font-display font-bold text-base shadow-md">
+          🕳️ Dig Hole!
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    /**
+     * ============================================================================
+     * BUNNY BAKE OFF — Cozy Pastel Garden Top-Down Arena Game
+     * Single-File HTML5 Canvas Game (HTML + CSS + JS)
+     * ============================================================================
+     */
+
+    (() => {
+      // ------------------------------------------------------------------------
+      // 1. AUDIO ENGINE (Self-Contained Web Audio API Cozy Synthesizer)
+      // ------------------------------------------------------------------------
+      class CozySoundEngine {
+        constructor() {
+          this.ctx = null;
+          this.muted = false;
+        }
+
+        ensureContext() {
+          if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) {
+              this.ctx = new AudioCtx();
+            }
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(() => {});
+          }
+        }
+
+        playTone(freq, type = 'sine', duration = 0.14, gainVal = 0.12, slideTo = null, delay = 0) {
+          if (this.muted) return;
+          this.ensureContext();
+          if (!this.ctx) return;
+
+          const now = this.ctx.currentTime + delay;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, now);
+          if (slideTo) {
+            osc.frequency.exponentialRampToValueAtTime(slideTo, now + duration);
+          }
+
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(gainVal, now + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(now);
+          osc.stop(now + duration + 0.02);
+        }
+
+        pickupIngredient(comboCount = 1) {
+          const base = 520 + comboCount * 65;
+          this.playTone(base, 'triangle', 0.11, 0.13, base * 1.25, 0);
+          this.playTone(base * 1.35, 'sine', 0.14, 0.1, null, 0.06);
+        }
+
+        pickupBasket() {
+          const notes = [523.25, 659.25, 783.99, 1046.5];
+          notes.forEach((n, idx) => {
+            this.playTone(n, 'triangle', 0.16, 0.13, null, idx * 0.06);
+          });
+        }
+
+        depositCake() {
+          const notes = [440, 554.37, 659.25, 880];
+          notes.forEach((n, idx) => {
+            this.playTone(n, 'sine', 0.18, 0.14, null, idx * 0.055);
+          });
+        }
+
+        digHole() {
+          this.playTone(190, 'triangle', 0.12, 0.16, 95, 0);
+          this.playTone(150, 'sine', 0.1, 0.12, 80, 0.07);
+        }
+
+        rivalFallInHole() {
+          this.playTone(620, 'sine', 0.28, 0.14, 150, 0);
+          this.playTone(784, 'triangle', 0.12, 0.1, 987, 0.22);
+        }
+
+        stealAlert() {
+          this.playTone(392, 'triangle', 0.12, 0.12, 311, 0);
+          this.playTone(311, 'triangle', 0.14, 0.12, 261, 0.11);
+        }
+
+        winFanfare() {
+          const melody = [523.25, 659.25, 783.99, 1046.5, 987.77, 1046.5];
+          melody.forEach((n, i) => {
+            this.playTone(n, 'triangle', 0.22, 0.15, null, i * 0.1);
+          });
+        }
+
+        loseSound() {
+          const melody = [440, 392, 349.23, 293.66];
+          melody.forEach((n, i) => {
+            this.playTone(n, 'sine', 0.25, 0.13, null, i * 0.14);
+          });
+        }
+      }
+
+      const sound = new CozySoundEngine();
+
+      // ------------------------------------------------------------------------
+      // 2. GAME CONSTANTS & PASTEL GARDEN MAZE BLUEPRINT
+      // ------------------------------------------------------------------------
+      const COLS = 21;
+      const ROWS = 15;
+      const TARGET_CAKE_INGREDIENTS = 15;
+      const BASE_CARRY_CAPACITY = 3;
+      const BASKET_CARRY_CAPACITY = 5;
+      const BASKET_DURATION = 25; // seconds
+      const DIG_COOLDOWN = 4.2; // seconds
+      const HOLE_LIFETIME = 16; // seconds
+      const MAX_PLAYER_HOLES = 3;
+
+      // 1 = Flowering Hedge Wall, 0 = Open Clover Path
+      const GARDEN_MAP = [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
+        [1,0,0,1,1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,0,1],
+        [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+        [1,0,1,1,0,1,1,0,1,0,1,0,1,0,1,1,0,1,1,0,1],
+        [1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,1,0,1,1,0,0,0,1,1,0,1,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,1,0,1,1,0,0,0,1,1,0,1,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1],
+        [1,0,1,1,0,1,1,0,1,0,1,0,1,0,1,1,0,1,1,0,1],
+        [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+        [1,0,0,1,1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,0,1],
+        [1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ];
+
+      const DIR_VECTORS = {
+        UP: { dx: 0, dy: -1 },
+        DOWN: { dx: 0, dy: 1 },
+        LEFT: { dx: -1, dy: 0 },
+        RIGHT: { dx: 1, dy: 0 }
+      };
+
+      const OPPOSITE_DIR = {
+        UP: 'DOWN',
+        DOWN: 'UP',
+        LEFT: 'RIGHT',
+        RIGHT: 'LEFT'
+      };
+
+      const INGREDIENT_TYPES = [
+        { id: 'carrot', emoji: '🥕', name: 'Sweet Carrot', bg: '#ffe3cc', ring: '#ffae70' },
+        { id: 'egg', emoji: '🥚', name: 'Farm Egg', bg: '#fff8e1', ring: '#f5d57a' },
+        { id: 'flour', emoji: '🌾', name: 'Golden Flour', bg: '#fdf2d6', ring: '#e8c474' },
+        { id: 'butter', emoji: '🧈', name: 'Whipped Butter', bg: '#fff6b3', ring: '#ebd14e' },
+        { id: 'honey', emoji: '🍯', name: 'Clover Honey', bg: '#ffebb8', ring: '#f2b646' },
+        { id: 'spice', emoji: '🌿', name: 'Garden Spice', bg: '#dcf7e3', ring: '#86d49b' }
+      ];
+
+      const DIFFICULTY_CONFIG = {
+        cozy: { rivalSpeed: 3.1, stealChance: 0.14, respawnInterval: 3.2 },
+        normal: { rivalSpeed: 3.75, stealChance: 0.28, respawnInterval: 3.8 },
+        master: { rivalSpeed: 4.35, stealChance: 0.42, respawnInterval: 4.4 }
+      };
+
+      const BUNNY_CONFIGS = [
+        {
+          id: 'player',
+          name: 'Mochi (You)',
+          shortName: 'You',
+          isPlayer: true,
+          fur: '#fff9fb',
+          earInner: '#ffb7ce',
+          accent: '#ff8fb3',
+          tableFill: '#ffd6e6',
+          tableStroke: '#f28eb0',
+          badgeBg: 'bg-[#ffe6f0]',
+          badgeText: 'text-[#b85678]',
+          barFill: 'bg-[#ff8fb3]',
+          homeCol: 1,
+          homeRow: 13
+        },
+        {
+          id: 'clover',
+          name: 'Clover',
+          shortName: 'Clover',
+          isPlayer: false,
+          fur: '#f2fff6',
+          earInner: '#9ee0b5',
+          accent: '#63c486',
+          tableFill: '#ccf5da',
+          tableStroke: '#6ec48d',
+          badgeBg: 'bg-[#e6f9ed]',
+          badgeText: 'text-[#2f7549]',
+          barFill: 'bg-[#6ec48d]',
+          homeCol: 1,
+          homeRow: 1
+        },
+        {
+          id: 'buttercup',
+          name: 'Buttercup',
+          shortName: 'Buttercup',
+          isPlayer: false,
+          fur: '#fffdf0',
+          earInner: '#ffe082',
+          accent: '#f0b835',
+          tableFill: '#fff0b8',
+          tableStroke: '#e3b23c',
+          badgeBg: 'bg-[#fff7d6]',
+          badgeText: 'text-[#8c6411]',
+          barFill: 'bg-[#f0b835]',
+          homeCol: 19,
+          homeRow: 1
+        },
+        {
+          id: 'lavender',
+          name: 'Lavender',
+          shortName: 'Lavender',
+          isPlayer: false,
+          fur: '#faf7ff',
+          earInner: '#d4bfff',
+          accent: '#9d7ce6',
+          tableFill: '#e8dcff',
+          tableStroke: '#a487e8',
+          badgeBg: 'bg-[#f2ebff]',
+          badgeText: 'text-[#5f439e]',
+          barFill: 'bg-[#a487e8]',
+          homeCol: 19,
+          homeRow: 13
+        }
+      ];
+
+      // ------------------------------------------------------------------------
+      // 3. DOM REFERENCES
+      // ------------------------------------------------------------------------
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+      const canvasContainer = document.getElementById('canvasContainer');
+      const arenaViewport = document.getElementById('arenaViewport');
+
+      const startOverlay = document.getElementById('startOverlay');
+      const endOverlay = document.getElementById('endOverlay');
+      const startGameBtn = document.getElementById('startGameBtn');
+      const playAgainBtn = document.getElementById('playAgainBtn');
+      const restartTopBtn = document.getElementById('restartTopBtn');
+      const helpBtn = document.getElementById('helpBtn');
+      const soundToggleBtn = document.getElementById('soundToggleBtn');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      const exitFullscreenHudBtn = document.getElementById('exitFullscreenHudBtn');
+
+      const digActionBtn = document.getElementById('digActionBtn');
+      const mobileDigBtn = document.getElementById('mobileDigBtn');
+      const digCooldownText = document.getElementById('digCooldownText');
+
+      const carryIconBadge = document.getElementById('carryIconBadge');
+      const carryModeLabel = document.getElementById('carryModeLabel');
+      const basketTimerBadge = document.getElementById('basketTimerBadge');
+      const carriedSlotsVisual = document.getElementById('carriedSlotsVisual');
+      const standingsGrid = document.getElementById('standingsGrid');
+      const alertTicker = document.getElementById('alertTicker');
+
+      const endEmoji = document.getElementById('endEmoji');
+      const endTitle = document.getElementById('endTitle');
+      const endSubtitle = document.getElementById('endSubtitle');
+      const statBaked = document.getElementById('statBaked');
+      const statTraps = document.getElementById('statTraps');
+      const statTime = document.getElementById('statTime');
+
+      // ------------------------------------------------------------------------
+      // 4. GAME STATE
+      // ------------------------------------------------------------------------
+      let difficulty = 'normal';
+      let gamePhase = 'menu'; // 'menu' | 'playing' | 'gameover'
+      let elapsedTime = 0;
+      let lastTimestamp = 0;
+      let tileSize = 40;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      let bunnies = [];
+      let ingredients = [];
+      let holes = [];
+      let particles = [];
+      let floatingTexts = [];
+      let gardenFlowers = [];
+
+      let basketItem = null; // { col, row, x, y, bobPhase }
+      let basketRespawnTimer = 4.0;
+      let ingredientSpawnTimer = 0;
+
+      let digCooldownTimer = 0;
+      let rivalsTrappedCount = 0;
+      let tickerTimeout = null;
+
+      // Keyboard & Touch input tracking
+      const keysDown = new Set();
+      let desiredDir = null; // 'UP' | 'DOWN' | 'LEFT' | 'RIGHT' | null
+      let touchStartPos = null;
+
+      // ------------------------------------------------------------------------
+      // 5. HELPER FUNCTIONS
+      // ------------------------------------------------------------------------
+      function isWalkable(col, row) {
+        if (!Number.isFinite(col) || !Number.isFinite(row)) return false;
+        if (col < 0 || col >= COLS || row < 0 || row >= ROWS) return false;
+        return GARDEN_MAP[row][col] === 0;
+      }
+
+      function isHomeTile(col, row) {
+        return BUNNY_CONFIGS.some(cfg => cfg.homeCol === col && cfg.homeRow === row);
+      }
+
+      function getRandomOpenTile(predicate = null) {
+        const candidates = [];
+        for (let r = 1; r < ROWS - 1; r++) {
+          for (let c = 1; c < COLS - 1; c++) {
+            if (GARDEN_MAP[r][c] === 0) {
+              if (!predicate || predicate(c, r)) {
+                candidates.push({ col: c, row: r });
+              }
+            }
+          }
+        }
+        if (candidates.length === 0) return null;
+        return candidates[Math.floor(Math.random() * candidates.length)];
+      }
+
+      function setTicker(message, tone = 'pink') {
+        if (!alertTicker) return;
+        alertTicker.textContent = message;
+        alertTicker.className = 'text-xs font-bold truncate ' + (
+          tone === 'green' ? 'text-[#2f7549]' :
+          tone === 'gold' ? 'text-[#9c7216]' :
+          tone === 'warn' ? 'text-[#c94a4a]' : 'text-[#c9597e]'
+        );
+        if (tickerTimeout) clearTimeout(tickerTimeout);
+        tickerTimeout = setTimeout(() => {
+          if (gamePhase === 'playing' && alertTicker) {
+            alertTicker.textContent = 'Gather 15 ingredients & guard your pink baking table!';
+            alertTicker.className = 'text-xs font-bold text-[#856c66] truncate';
+          }
+        }, 4200);
+      }
+
+      function spawnParticles(x, y, colors, count = 12, speedScale = 1) {
+        for (let i = 0; i < count; i++) {
+          const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+          const speed = (1.2 + Math.random() * 2.4) * speedScale;
+          particles.push({
+            x,
+            y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            size: 3 + Math.random() * 3.5,
+            color: colors[i % colors.length],
+            life: 0.45 + Math.random() * 0.35,
+            maxLife: 0.8
+          });
+        }
+      }
+
+      function spawnFloatingText(x, y, text, color = '#5c4742') {
+        floatingTexts.push({
+          x,
+          y,
+          text,
+          color,
+          life: 1.15,
+          maxLife: 1.15
+        });
+      }
+
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      function getBunnyCapacity(bunny) {
+        return bunny.basketTimer > 0 ? BASKET_CARRY_CAPACITY : BASE_CARRY_CAPACITY;
+      }
+
+      // ------------------------------------------------------------------------
+      // 6. INITIALIZATION & SPAWNERS
+      // ------------------------------------------------------------------------
+      function generateGardenDecor() {
+        gardenFlowers = [];
+        const flowerColors = ['#ffb7ce', '#ffe082', '#d8c8f8', '#bce6ff', '#ffffff'];
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (GARDEN_MAP[r][c] === 1 && Math.random() < 0.65) {
+              gardenFlowers.push({
+                col: c,
+                row: r,
+                ox: 0.22 + Math.random() * 0.56,
+                oy: 0.22 + Math.random() * 0.56,
+                color: flowerColors[Math.floor(Math.random() * flowerColors.length)],
+                size: 3 + Math.random() * 2.2
+              });
+            }
+          }
+        }
+      }
+
+      function spawnIngredient() {
+        const tile = getRandomOpenTile((c, r) => {
+          if (isHomeTile(c, r)) return false;
+          if (Math.abs(c - 10) <= 1 && Math.abs(r - 7) <= 1) return false;
+          const hasItem = ingredients.some(ing => ing.col === c && ing.row === r);
+          const hasBasket = basketItem && basketItem.col === c && basketItem.row === r;
+          return !hasItem && !hasBasket;
+        });
+
+        if (!tile) return;
+
+        const type = INGREDIENT_TYPES[Math.floor(Math.random() * INGREDIENT_TYPES.length)];
+        ingredients.push({
+          col: tile.col,
+          row: tile.row,
+          x: tile.col + 0.5,
+          y: tile.row + 0.5,
+          type,
+          bobPhase: Math.random() * Math.PI * 2
+        });
+      }
+
+      function spawnBasket() {
+        const centerCandidates = [
+          { col: 10, row: 7 },
+          { col: 9, row: 7 },
+          { col: 11, row: 7 },
+          { col: 10, row: 6 },
+          { col: 10, row: 8 }
+        ];
+        let chosen = null;
+        for (const pt of centerCandidates) {
+          if (isWalkable(pt.col, pt.row) && !ingredients.some(i => i.col === pt.col && i.row === pt.row)) {
+            chosen = pt;
+            break;
+          }
+        }
+        if (!chosen) {
+          chosen = getRandomOpenTile((c, r) => !isHomeTile(c, r));
+        }
+        if (chosen) {
+          basketItem = {
+            col: chosen.col,
+            row: chosen.row,
+            x: chosen.col + 0.5,
+            y: chosen.row + 0.5,
+            bobPhase: 0
+          };
+          spawnParticles(basketItem.x, basketItem.y, ['#ffe082', '#ffffff', '#ffb7ce'], 14, 1.1);
+          setTicker('🧺 A golden Picnic Basket appeared in the garden center!', 'gold');
+        }
+      }
+
+      function startNewMatch() {
+        sound.ensureContext();
+        gamePhase = 'playing';
+        elapsedTime = 0;
+        digCooldownTimer = 0;
+        rivalsTrappedCount = 0;
+        desiredDir = null;
+
+        holes = [];
+        particles = [];
+        floatingTexts = [];
+        ingredients = [];
+        basketItem = null;
+        basketRespawnTimer = 2.5;
+        ingredientSpawnTimer = 0;
+
+        bunnies = BUNNY_CONFIGS.map(cfg => ({
+          ...cfg,
+          x: cfg.homeCol + 0.5,
+          y: cfg.homeRow + 0.5,
+          dir: cfg.homeCol < 10 ? 'RIGHT' : 'LEFT',
+          nextDir: null,
+          carried: [],
+          banked: 0,
+          basketTimer: 0,
+          hopPhase: Math.random() * Math.PI * 2,
+          stunTimer: 0,
+          stealCooldown: 0,
+          aiMode: 'forage',
+          aiTarget: null,
+          stuckTimer: 0
+        }));
+
+        // Populate initial scattered ingredients across the pastel garden
+        for (let i = 0; i < 24; i++) {
+          spawnIngredient();
+        }
+
+        if (startOverlay) startOverlay.classList.add('hidden');
+        if (endOverlay) endOverlay.classList.add('hidden');
+        setTicker('🥕 Race to 15 ingredients! Collect treats & return to your pink table!', 'pink');
+        updateHUD();
+      }
+
+      function endMatch(winnerBunny) {
+        gamePhase = 'gameover';
+        const playerWon = winnerBunny.isPlayer;
+        const player = bunnies.find(b => b.isPlayer);
+
+        if (playerWon) {
+          sound.winFanfare();
+          endEmoji.textContent = '🎂';
+          endTitle.textContent = 'You Win!';
+          endSubtitle.textContent = 'You baked the grand 15-ingredient Carrot Cake first!';
+          spawnParticles(player.x, player.y, ['#ffb7ce', '#ffe082', '#b8e8c8', '#d8c8f8'], 36, 1.6);
+        } else {
+          sound.loseSound();
+          endEmoji.textContent = '🐰';
+          endTitle.textContent = `${winnerBunny.name} Finished First!`;
+          endSubtitle.textContent = `${winnerBunny.name} plated all 15 ingredients at their baking table!`;
+        }
+
+        statBaked.textContent = `${player.banked}/${TARGET_CAKE_INGREDIENTS}`;
+        statTraps.textContent = `${rivalsTrappedCount}`;
+        statTime.textContent = formatTime(elapsedTime);
+
+        if (endOverlay) endOverlay.classList.remove('hidden');
+        updateHUD();
+      }
+
+      // ------------------------------------------------------------------------
+      // 7. PLAYER SABOTAGE ACTION: DIG A HOLE
+      // ------------------------------------------------------------------------
+      function attemptDigHole() {
+        if (gamePhase !== 'playing') return;
+        const player = bunnies[0];
+        if (!player || player.stunTimer > 0) return;
+
+        if (digCooldownTimer > 0) {
+          spawnFloatingText(player.x, player.y - 0.45, '⏳ Shovel resting...', '#856c66');
+          return;
+        }
+
+        const col = Math.floor(player.x);
+        const row = Math.floor(player.y);
+
+        // Cannot dig directly on any bunny's baking table
+        if (isHomeTile(col, row)) {
+          spawnFloatingText(player.x, player.y - 0.45, '🚫 Not on a baking table!', '#c9597e');
+          return;
+        }
+
+        // Check if a hole already exists on this tile
+        if (holes.some(h => h.col === col && h.row === row)) {
+          spawnFloatingText(player.x, player.y - 0.45, '🕳️ Hole already here!', '#856c66');
+          return;
+        }
+
+        // Enforce max active holes by recycling the oldest hole
+        if (holes.length >= MAX_PLAYER_HOLES) {
+          holes.shift();
+        }
+
+        holes.push({
+          col,
+          row,
+          x: col + 0.5,
+          y: row + 0.5,
+          life: HOLE_LIFETIME,
+          graceTimer: 0.45
+        });
+
+        digCooldownTimer = DIG_COOLDOWN;
+        sound.digHole();
+        spawnParticles(col + 0.5, row + 0.5, ['#c8a68a', '#9c785c', '#b8e8c8'], 14, 1.0);
+        spawnFloatingText(col + 0.5, row + 0.25, '🕳️ Trap Dug!', '#6e4e37');
+        setTicker('🕳️ Trap hole dug! Rival bunnies who fall in restart at their table!', 'green');
+        updateHUD();
+      }
+
+      // ------------------------------------------------------------------------
+      // 8. SMOOTH GRID-ASSISTED MOVEMENT & RIVAL AI
+      // ------------------------------------------------------------------------
+      function moveBunnySmooth(bunny, dir, speed, dt) {
+        if (!dir || !DIR_VECTORS[dir]) return false;
+
+        const { dx, dy } = DIR_VECTORS[dir];
+        const col = Math.floor(bunny.x);
+        const row = Math.floor(bunny.y);
+        const centerX = col + 0.5;
+        const centerY = row + 0.5;
+
+        const step = speed * dt;
+        const alignSpeed = speed * 1.45 * dt;
+
+        // First align perpendicular axis smoothly toward corridor center so turns never clip corners
+        if (dx !== 0) {
+          const offsetY = centerY - bunny.y;
+          if (Math.abs(offsetY) > 0.005) {
+            if (!isWalkable(col + dx, row)) {
+              const slideY = Math.sign(offsetY) * Math.min(Math.abs(offsetY), alignSpeed);
+              bunny.y += slideY;
+              bunny.dir = dir;
+              bunny.hopPhase += dt * 14;
+              return true;
+            }
+            const nudge = Math.sign(offsetY) * Math.min(Math.abs(offsetY), alignSpeed);
+            bunny.y += nudge;
+          }
+
+          if (!isWalkable(col + dx, row)) {
+            const limitX = centerX;
+            if ((dx > 0 && bunny.x >= limitX) || (dx < 0 && bunny.x <= limitX)) {
+              bunny.x = limitX;
+              return false;
+            }
+            bunny.x = dx > 0 ? Math.min(limitX, bunny.x + step) : Math.max(limitX, bunny.x - step);
+            bunny.dir = dir;
+            bunny.hopPhase += dt * 14;
+            return true;
+          }
+
+          bunny.x += dx * step;
+          bunny.dir = dir;
+          bunny.hopPhase += dt * 14;
+          return true;
+        }
+
+        if (dy !== 0) {
+          const offsetX = centerX - bunny.x;
+          if (Math.abs(offsetX) > 0.005) {
+            if (!isWalkable(col, row + dy)) {
+              const slideX = Math.sign(offsetX) * Math.min(Math.abs(offsetX), alignSpeed);
+              bunny.x += slideX;
+              bunny.dir = dir;
+              bunny.hopPhase += dt * 14;
+              return true;
+            }
+            const nudge = Math.sign(offsetX) * Math.min(Math.abs(offsetX), alignSpeed);
+            bunny.x += nudge;
+          }
+
+          if (!isWalkable(col, row + dy)) {
+            const limitY = centerY;
+            if ((dy > 0 && bunny.y >= limitY) || (dy < 0 && bunny.y <= limitY)) {
+              bunny.y = limitY;
+              return false;
+            }
+            bunny.y = dy > 0 ? Math.min(limitY, bunny.y + step) : Math.max(limitY, bunny.y - step);
+            bunny.dir = dir;
+            bunny.hopPhase += dt * 14;
+            return true;
+          }
+
+          bunny.y += dy * step;
+          bunny.dir = dir;
+          bunny.hopPhase += dt * 14;
+          return true;
+        }
+
+        return false;
+      }
+
+      function chooseRivalDirection(bunny) {
+        const col = Math.floor(bunny.x);
+        const row = Math.floor(bunny.y);
+        const centerX = col + 0.5;
+        const centerY = row + 0.5;
+        const nearCenter = Math.hypot(bunny.x - centerX, bunny.y - centerY) < 0.22;
+
+        const possibleDirs = ['UP', 'DOWN', 'LEFT', 'RIGHT'].filter(d => {
+          const v = DIR_VECTORS[d];
+          return isWalkable(col + v.dx, row + v.dy);
+        });
+
+        if (possibleDirs.length === 0) return bunny.dir;
+
+        // Continue straight between intersections unless blocked
+        const curVec = DIR_VECTORS[bunny.dir];
+        const canContinue = curVec && isWalkable(col + curVec.dx, row + curVec.dy);
+        if (!nearCenter && canContinue) {
+          return bunny.dir;
+        }
+
+        const cap = getBunnyCapacity(bunny);
+        const player = bunnies[0];
+        const diffCfg = DIFFICULTY_CONFIG[difficulty];
+
+        // Decide target tile for rival AI
+        let targetCol = bunny.homeCol;
+        let targetRow = bunny.homeRow;
+
+        const needsReturn =
+          bunny.carried.length >= cap ||
+          (bunny.banked + bunny.carried.length >= TARGET_CAKE_INGREDIENTS && bunny.carried.length > 0);
+
+        if (needsReturn) {
+          bunny.aiMode = 'return';
+          targetCol = bunny.homeCol;
+          targetRow = bunny.homeRow;
+        } else if (
+          bunny.carried.length < cap &&
+          player.banked > 0 &&
+          bunny.stealCooldown <= 0 &&
+          Math.hypot(player.x - (player.homeCol + 0.5), player.y - (player.homeRow + 0.5)) > 4.5 &&
+          Math.random() < diffCfg.stealChance
+        ) {
+          // Opportunistic raid on player's baking table when player is far away
+          bunny.aiMode = 'steal';
+          targetCol = player.homeCol;
+          targetRow = player.homeRow;
+        } else {
+          bunny.aiMode = 'forage';
+          // Look for Picnic Basket first if nearby, otherwise nearest ingredient
+          let bestDist = Infinity;
+          if (basketItem && bunny.basketTimer <= 0) {
+            const bDist = Math.hypot(basketItem.col - col, basketItem.row - row);
+            if (bDist < 8) {
+              bestDist = bDist * 0.75;
+              targetCol = basketItem.col;
+              targetRow = basketItem.row;
+            }
+          }
+          for (const ing of ingredients) {
+            const d = Math.hypot(ing.col - col, ing.row - row);
+            if (d < bestDist) {
+              bestDist = d;
+              targetCol = ing.col;
+              targetRow = ing.row;
+            }
+          }
+        }
+
+        // Prefer non-reversing directions when options exist
+        let candidates = possibleDirs.filter(d => d !== OPPOSITE_DIR[bunny.dir]);
+        if (candidates.length === 0) candidates = possibleDirs;
+
+        // Score candidate directions (avoid visible holes when possible, move toward target)
+        let bestDir = candidates[0];
+        let bestScore = Infinity;
+
+        for (const d of candidates) {
+          const v = DIR_VECTORS[d];
+          const nextC = col + v.dx;
+          const nextR = row + v.dy;
+          let score = Math.hypot(targetCol - nextC, targetRow - nextR);
+
+          // Rivals try to sidestep holes most of the time, but still fall in sometimes!
+          const holeAhead = holes.some(h => h.col === nextC && h.row === nextR);
+          if (holeAhead && Math.random() < 0.62) {
+            score += 9.5;
+          }
+
+          // Small jitter so rivals don't move identically
+          score += Math.random() * 0.65;
+
+          if (score < bestScore) {
+            bestScore = score;
+            bestDir = d;
+          }
+        }
+
+        return bestDir;
+      }
+
+      // ------------------------------------------------------------------------
+      // 9. INTERACTIONS: PICKUPS, DEPOSITS, TABLE STEALING & HOLE TRAPS
+      // ------------------------------------------------------------------------
+      function handleBunnyInteractions(bunny) {
+        const limit = getBunnyCapacity(bunny);
+
+        // 1. Pick up special Picnic Basket (capacity -> 5)
+        if (basketItem && Math.hypot(bunny.x - basketItem.x, bunny.y - basketItem.y) < 0.65) {
+          bunny.basketTimer = BASKET_DURATION;
+          spawnParticles(basketItem.x, basketItem.y, ['#ffe082', '#ffffff', '#ffb7ce'], 18, 1.3);
+          spawnFloatingText(basketItem.x, basketItem.y - 0.3, '🧺 Basket (Hold 5!)', '#9c7216');
+          basketItem = null;
+          basketRespawnTimer = 18.0;
+
+          if (bunny.isPlayer) {
+            sound.pickupBasket();
+            setTicker('🧺 You got the Picnic Basket! Carry up to 5 ingredients!', 'gold');
+          }
+        }
+
+        // 2. Pick up scattered ingredients
+        if (bunny.carried.length < limit) {
+          for (let i = ingredients.length - 1; i >= 0; i--) {
+            const ing = ingredients[i];
+            if (Math.hypot(bunny.x - ing.x, bunny.y - ing.y) < 0.6) {
+              bunny.carried.push(ing.type);
+              ingredients.splice(i, 1);
+              spawnParticles(ing.x, ing.y, [ing.type.ring, '#ffffff', '#ffe680'], 10, 0.9);
+              if (bunny.isPlayer) {
+                sound.pickupIngredient(bunny.carried.length);
+                spawnFloatingText(ing.x, ing.y - 0.2, `${ing.type.emoji} +1 (${bunny.carried.length}/${limit})`, '#5c4742');
+              }
+              if (bunny.carried.length >= limit) break;
+            }
+          }
+        }
+
+        // 3. Deposit at Own Baking Table
+        const homeX = bunny.homeCol + 0.5;
+        const homeY = bunny.homeRow + 0.5;
+        if (bunny.carried.length > 0 && Math.hypot(bunny.x - homeX, bunny.y - homeY) < 0.78) {
+          const added = bunny.carried.length;
+          bunny.banked = Math.min(TARGET_CAKE_INGREDIENTS, bunny.banked + added);
+          bunny.carried = [];
+
+          spawnParticles(homeX, homeY, [bunny.accent, '#ffffff', '#ffe082'], 18, 1.2);
+          spawnFloatingText(homeX, homeY - 0.35, `🎂 +${added} Baked! (${bunny.banked}/${TARGET_CAKE_INGREDIENTS})`, '#5c4742');
+
+          if (bunny.isPlayer) {
+            sound.depositCake();
+            setTicker(`🎂 Yummy! Your Carrot Cake is at ${bunny.banked}/${TARGET_CAKE_INGREDIENTS}!`, 'pink');
+          }
+
+          if (bunny.banked >= TARGET_CAKE_INGREDIENTS && gamePhase === 'playing') {
+            endMatch(bunny);
+            return;
+          }
+        }
+
+        // 4. Stealing from Rival Baking Tables (Player can swipe from rivals; Rivals can swipe from player!)
+        if (bunny.carried.length < limit && bunny.stealCooldown <= 0) {
+          for (const other of bunnies) {
+            if (other.id === bunny.id || other.banked <= 0) continue;
+            const otherTableX = other.homeCol + 0.5;
+            const otherTableY = other.homeRow + 0.5;
+
+            if (Math.hypot(bunny.x - otherTableX, bunny.y - otherTableY) < 0.72) {
+              // Cannot steal if the table owner is right there guarding it
+              const ownerGuarding = Math.hypot(other.x - otherTableX, other.y - otherTableY) < 1.35;
+              if (!ownerGuarding) {
+                other.banked -= 1;
+                const stolenType = INGREDIENT_TYPES[Math.floor(Math.random() * INGREDIENT_TYPES.length)];
+                bunny.carried.push(stolenType);
+                bunny.stealCooldown = 7.5;
+
+                spawnParticles(otherTableX, otherTableY, ['#ff9ebb', '#ffe082', '#ffffff'], 14, 1.1);
+
+                if (bunny.isPlayer) {
+                  sound.pickupIngredient(bunny.carried.length);
+                  spawnFloatingText(otherTableX, otherTableY - 0.3, `🦊 Swiped ${stolenType.emoji}!`, '#c9597e');
+                  setTicker(`✨ Sneaky! You swiped an ingredient from ${other.name}'s table!`, 'gold');
+                } else if (other.isPlayer) {
+                  sound.stealAlert();
+                  spawnFloatingText(otherTableX, otherTableY - 0.3, `⚠️ ${bunny.name} stole 1!`, '#c94a4a');
+                  setTicker(`⚠️ Oh no! ${bunny.name} swiped an ingredient from your baking table!`, 'warn');
+                }
+                break;
+              }
+            }
+          }
+        }
+
+        // 5. Rival Bunny Falling Into Player's Dug Hole!
+        if (!bunny.isPlayer && bunny.stunTimer <= 0) {
+          for (let hIdx = holes.length - 1; hIdx >= 0; hIdx--) {
+            const hole = holes[hIdx];
+            if (Math.hypot(bunny.x - hole.x, bunny.y - hole.y) < 0.52) {
+              // Scatter any ingredients the rival was carrying back onto nearby open tiles
+              while (bunny.carried.length > 0) {
+                const droppedType = bunny.carried.pop();
+                const dropTile = getRandomOpenTile((c, r) => Math.hypot(c - hole.col, r - hole.row) <= 3 && !isHomeTile(c, r));
+                if (dropTile) {
+                  ingredients.push({
+                    col: dropTile.col,
+                    row: dropTile.row,
+                    x: dropTile.col + 0.5,
+                    y: dropTile.row + 0.5,
+                    type: droppedType,
+                    bobPhase: 0
+                  });
+                }
+              }
+
+              // Consume the hole & send rival bunny back to their baking table!
+              holes.splice(hIdx, 1);
+              rivalsTrappedCount += 1;
+
+              spawnParticles(hole.x, hole.y, ['#c8a68a', '#ffb7ce', '#ffffff'], 20, 1.3);
+              spawnFloatingText(hole.x, hole.y - 0.3, `🕳️ ${bunny.name} fell in!`, '#39754e');
+
+              bunny.x = bunny.homeCol + 0.5;
+              bunny.y = bunny.homeRow + 0.5;
+              bunny.stunTimer = 1.6;
+              bunny.basketTimer = 0;
+              bunny.stuckTimer = 0;
+
+              spawnParticles(bunny.x, bunny.y, [bunny.accent, '#ffffff'], 14, 1.0);
+              sound.rivalFallInHole();
+              setTicker(`🕳️ Yay! ${bunny.name} tumbled into your hole and restarted at their table!`, 'green');
+              break;
+            }
+          }
+        }
+
+        // 6. Gentle Bunny Bump: If player bumps a rival carrying loot, drop 1 ingredient!
+        if (bunny.isPlayer) {
+          for (const rival of bunnies) {
+            if (rival.isPlayer || rival.stunTimer > 0) continue;
+            if (Math.hypot(bunny.x - rival.x, bunny.y - rival.y) < 0.65 && rival.carried.length > 0 && rival.stealCooldown <= 0) {
+              const dropped = rival.carried.pop();
+              rival.stealCooldown = 4.0;
+              const dropTile = getRandomOpenTile((c, r) => Math.hypot(c - Math.floor(rival.x), r - Math.floor(rival.y)) <= 2 && !isHomeTile(c, r));
+              if (dropTile) {
+                ingredients.push({
+                  col: dropTile.col,
+                  row: dropTile.row,
+                  x: dropTile.col + 0.5,
+                  y: dropTile.row + 0.5,
+                  type: dropped,
+                  bobPhase: 0
+                });
+              }
+              sound.digHole();
+              spawnFloatingText(rival.x, rival.y - 0.3, `💫 Bumped ${dropped.emoji}!`, '#634c9c');
+            }
+          }
+        }
+      }
+
+      // ------------------------------------------------------------------------
+      // 10. MAIN SIMULATION UPDATE
+      // ------------------------------------------------------------------------
+      function updateGame(dt) {
+        if (gamePhase !== 'playing') return;
+
+        elapsedTime += dt;
+        const cfg = DIFFICULTY_CONFIG[difficulty];
+
+        // Cooldowns & timers
+        if (digCooldownTimer > 0) {
+          digCooldownTimer = Math.max(0, digCooldownTimer - dt);
+        }
+
+        // Update active holes
+        for (let i = holes.length - 1; i >= 0; i--) {
+          holes[i].life -= dt;
+          if (holes[i].graceTimer > 0) holes[i].graceTimer -= dt;
+          if (holes[i].life <= 0) {
+            holes.splice(i, 1);
+          }
+        }
+
+        // Keep garden stocked with ingredients
+        ingredientSpawnTimer += dt;
+        if (ingredients.length < 18 || (ingredients.length < 28 && ingredientSpawnTimer >= cfg.respawnInterval)) {
+          spawnIngredient();
+          ingredientSpawnTimer = 0;
+        }
+
+        // Respawn special Picnic Basket periodically
+        if (!basketItem) {
+          basketRespawnTimer -= dt;
+          if (basketRespawnTimer <= 0) {
+            spawnBasket();
+          }
+        } else {
+          basketItem.bobPhase += dt * 4;
+        }
+
+        // Animate ingredient bobbing
+        for (const ing of ingredients) {
+          ing.bobPhase += dt * 3.5;
+        }
+
+        // Move & update all bunnies
+        for (const bunny of bunnies) {
+          if (bunny.basketTimer > 0) {
+            bunny.basketTimer = Math.max(0, bunny.basketTimer - dt);
+          }
+          if (bunny.stealCooldown > 0) {
+            bunny.stealCooldown = Math.max(0, bunny.stealCooldown - dt);
+          }
+          if (bunny.stunTimer > 0) {
+            bunny.stunTimer = Math.max(0, bunny.stunTimer - dt);
+            continue;
+          }
+
+          if (bunny.isPlayer) {
+            // Determine active player direction from held keys or touch swipe
+            let moveDir = desiredDir;
+            if (keysDown.has('ArrowUp') || keysDown.has('KeyW')) moveDir = 'UP';
+            else if (keysDown.has('ArrowDown') || keysDown.has('KeyS')) moveDir = 'DOWN';
+            else if (keysDown.has('ArrowLeft') || keysDown.has('KeyA')) moveDir = 'LEFT';
+            else if (keysDown.has('ArrowRight') || keysDown.has('KeyD')) moveDir = 'RIGHT';
+
+            if (moveDir) {
+              moveBunnySmooth(bunny, moveDir, 4.75, dt);
+            }
+          } else {
+            // Rival AI movement with anti-freeze corridor fallback
+            const prevX = bunny.x;
+            const prevY = bunny.y;
+            const aiDir = chooseRivalDirection(bunny);
+            const moved = moveBunnySmooth(bunny, aiDir, cfg.rivalSpeed, dt);
+
+            if (!moved || Math.hypot(bunny.x - prevX, bunny.y - prevY) < 0.001) {
+              bunny.stuckTimer += dt;
+              if (bunny.stuckTimer > 0.25) {
+                const col = Math.floor(bunny.x);
+                const row = Math.floor(bunny.y);
+                bunny.x = col + 0.5;
+                bunny.y = row + 0.5;
+                bunny.stuckTimer = 0;
+                for (const fallbackDir of ['UP', 'DOWN', 'LEFT', 'RIGHT']) {
+                  const v = DIR_VECTORS[fallbackDir];
+                  if (isWalkable(col + v.dx, row + v.dy)) {
+                    moveBunnySmooth(bunny, fallbackDir, cfg.rivalSpeed, dt);
+                    break;
+                  }
+                }
+              }
+            } else {
+              bunny.stuckTimer = 0;
+            }
+          }
+
+          handleBunnyInteractions(bunny);
+          if (gamePhase !== 'playing') break;
+        }
+
+        // Update particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.life -= dt;
+          if (p.life <= 0) particles.splice(i, 1);
+        }
+
+        // Update floating text popups
+        for (let i = floatingTexts.length - 1; i >= 0; i--) {
+          const ft = floatingTexts[i];
+          ft.y -= 0.75 * dt;
+          ft.life -= dt;
+          if (ft.life <= 0) floatingTexts.splice(i, 1);
+        }
+
+        updateHUD();
+      }
+
+      // ------------------------------------------------------------------------
+      // 11. LIVE HUD SYNCHRONIZATION
+      // ------------------------------------------------------------------------
+      function updateHUD() {
+        const player = bunnies[0];
+        if (!player) return;
+
+        const cap = getBunnyCapacity(player);
+        const hasBasket = player.basketTimer > 0;
+
+        carryIconBadge.textContent = hasBasket ? '🧺' : '🐾';
+        carryIconBadge.className = `w-10 h-10 rounded-2xl border-2 border-white flex items-center justify-center text-xl shadow-sm ${
+          hasBasket ? 'bg-[#fff2bd]' : 'bg-[#ffe6ef]'
+        }`;
+
+        carryModeLabel.textContent = hasBasket ? 'Picnic Basket (Max 5!)' : 'Bunny Paws (Max 3)';
+        carryModeLabel.className = `text-xs font-extrabold uppercase tracking-wider ${
+          hasBasket ? 'text-[#9c7216]' : 'text-[#b85678]'
+        }`;
+
+        if (hasBasket) {
+          basketTimerBadge.classList.remove('hidden');
+          basketTimerBadge.textContent = `🧺 ${Math.ceil(player.basketTimer)}s`;
+        } else {
+          basketTimerBadge.classList.add('hidden');
+        }
+
+        // Render carry slots
+        let slotsHTML = '';
+        for (let i = 0; i < cap; i++) {
+          const item = player.carried[i];
+          if (item) {
+            slotsHTML += `<span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-white border border-[#ffc8dd] shadow-xs text-sm" title="${item.name}">${item.emoji}</span>`;
+          } else {
+            slotsHTML += `<span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-[#fff5f9] border border-dashed border-[#e8bfd0] text-[10px] text-[#cba3b4]">•</span>`;
+          }
+        }
+        slotsHTML += `<span class="ml-1 text-xs font-extrabold text-[#856c66]">${player.carried.length}/${cap}</span>`;
+        carriedSlotsVisual.innerHTML = slotsHTML;
+
+        // Dig button cooldown status
+        if (digCooldownTimer > 0) {
+          digActionBtn.disabled = true;
+          mobileDigBtn.disabled = true;
+          digCooldownText.textContent = `Ready in ${digCooldownTimer.toFixed(1)}s`;
+        } else {
+          digActionBtn.disabled = false;
+          mobileDigBtn.disabled = false;
+          digCooldownText.textContent = '[Space] Ready!';
+        }
+
+        // Standings Grid
+        standingsGrid.innerHTML = bunnies.map(b => {
+          const pct = Math.min(100, Math.round((b.banked / TARGET_CAKE_INGREDIENTS) * 100));
+          return `
+            <div class="px-2 py-1 rounded-xl ${b.badgeBg} border border-white/80 flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[11px] font-extrabold ${b.badgeText}">
+                <span class="truncate">${b.isPlayer ? '🐰 You' : '🐇 ' + b.shortName}</span>
+                <span>${b.banked}/${TARGET_CAKE_INGREDIENTS}</span>
+              </div>
+              <div class="w-full h-1.5 bg-white/80 rounded-full overflow-hidden mt-1">
+                <div class="h-full ${b.barFill} rounded-full transition-all duration-200" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // ------------------------------------------------------------------------
+      // 12. CANVAS RENDERING (Pastel Garden, Hedges, Cakes, & Cute Bunnies)
+      // ------------------------------------------------------------------------
+      function resizeCanvas() {
+        const isFs = document.body.classList.contains('fullscreen-mode');
+        if (isFs && arenaViewport) {
+          const availW = Math.max(280, arenaViewport.clientWidth - 8);
+          const availH = Math.max(200, arenaViewport.clientHeight - 8);
+          const aspect = COLS / ROWS;
+          let targetW = availW;
+          let targetH = targetW / aspect;
+          if (targetH > availH) {
+            targetH = availH;
+            targetW = targetH * aspect;
+          }
+          canvasContainer.style.width = `${Math.floor(targetW)}px`;
+          canvasContainer.style.height = `${Math.floor(targetH)}px`;
+        } else {
+          canvasContainer.style.width = '';
+          canvasContainer.style.height = '';
+        }
+
+        const rect = canvasContainer.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(300, Math.floor(rect.width * dpr));
+        canvas.height = Math.max(214, Math.floor(rect.height * dpr));
+        tileSize = canvas.width / COLS;
+      }
+
+      function drawRoundedRect(x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + w, y, x + w, y + h, radius);
+        ctx.arcTo(x + w, y + h, x, y + h, radius);
+        ctx.arcTo(x, y + h, x, y, radius);
+        ctx.arcTo(x, y, x + w, y, radius);
+        ctx.closePath();
+      }
+
+      function renderGardenFloor() {
+        // Soft pastel meadow checkerboard
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            const x = c * tileSize;
+            const y = r * tileSize;
+            const isEven = (r + c) % 2 === 0;
+            ctx.fillStyle = isEven ? '#effaf1' : '#e5f5e8';
+            ctx.fillRect(x, y, tileSize + 0.6, tileSize + 0.6);
+
+            // Subtle clover speckles on open tiles
+            if (GARDEN_MAP[r][c] === 0 && (r * 7 + c * 13) % 5 === 0) {
+              ctx.fillStyle = '#cdebd3';
+              ctx.beginPath();
+              ctx.arc(x + tileSize * 0.32, y + tileSize * 0.68, tileSize * 0.055, 0, Math.PI * 2);
+              ctx.arc(x + tileSize * 0.42, y + tileSize * 0.64, tileSize * 0.055, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+
+        // Cozy center gazebo tile decoration where Picnic Basket spawns
+        const cx = 10.5 * tileSize;
+        const cy = 7.5 * tileSize;
+        ctx.save();
+        ctx.fillStyle = 'rgba(255, 243, 207, 0.72)';
+        ctx.beginPath();
+        ctx.arc(cx, cy, tileSize * 0.85, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#f5d98e';
+        ctx.lineWidth = Math.max(1.5, tileSize * 0.05);
+        ctx.setLineDash([4, 4]);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function renderHedges() {
+        const pad = tileSize * 0.06;
+        const radius = tileSize * 0.28;
+
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (GARDEN_MAP[r][c] !== 1) continue;
+            const x = c * tileSize;
+            const y = r * tileSize;
+
+            // Soft hedge drop shadow
+            ctx.fillStyle = '#b6dec0';
+            drawRoundedRect(x + pad, y + pad + tileSize * 0.08, tileSize - pad * 2, tileSize - pad * 2, radius);
+            ctx.fill();
+
+            // Main pastel sage hedge body
+            ctx.fillStyle = '#9dd9b1';
+            drawRoundedRect(x + pad, y + pad, tileSize - pad * 2, tileSize - pad * 2, radius);
+            ctx.fill();
+
+            // Fluffy top highlight
+            ctx.fillStyle = '#b6e8c6';
+            drawRoundedRect(x + pad * 1.6, y + pad * 1.4, tileSize - pad * 3.2, (tileSize - pad * 2) * 0.62, radius * 0.8);
+            ctx.fill();
+          }
+        }
+
+        // Render pastel blossoms on top of hedges
+        for (const fl of gardenFlowers) {
+          const fx = (fl.col + fl.ox) * tileSize;
+          const fy = (fl.row + fl.oy) * tileSize;
+          const r = (fl.size / 40) * tileSize;
+
+          ctx.fillStyle = fl.color;
+          for (let p = 0; p < 5; p++) {
+            const ang = (Math.PI * 2 * p) / 5;
+            ctx.beginPath();
+            ctx.arc(fx + Math.cos(ang) * r * 0.65, fy + Math.sin(ang) * r * 0.65, r * 0.55, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.fillStyle = '#ffe082';
+          ctx.beginPath();
+          ctx.arc(fx, fy, r * 0.42, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function renderBakingTables() {
+        for (const bunny of bunnies) {
+          const x = bunny.homeCol * tileSize;
+          const y = bunny.homeRow * tileSize;
+          const cx = x + tileSize * 0.5;
+          const cy = y + tileSize * 0.5;
+
+          // Cozy gingham picnic mat beneath table
+          ctx.fillStyle = bunny.tableFill;
+          drawRoundedRect(x - tileSize * 0.08, y - tileSize * 0.08, tileSize * 1.16, tileSize * 1.16, tileSize * 0.28);
+          ctx.fill();
+          ctx.strokeStyle = bunny.tableStroke;
+          ctx.lineWidth = Math.max(2, tileSize * 0.06);
+          ctx.stroke();
+
+          // White lace baking table surface
+          ctx.fillStyle = '#fffdf9';
+          ctx.beginPath();
+          ctx.arc(cx, cy, tileSize * 0.39, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = bunny.tableStroke;
+          ctx.lineWidth = Math.max(1.5, tileSize * 0.045);
+          ctx.stroke();
+
+          // Progressive Carrot Cake Tiers based on banked ingredients (0..15)
+          if (bunny.banked > 0) {
+            // Tier 1: Warm carrot sponge base (1+ ingredients)
+            ctx.fillStyle = '#f5b971';
+            ctx.beginPath();
+            ctx.ellipse(cx, cy + tileSize * 0.08, tileSize * 0.26, tileSize * 0.16, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Cream cheese frosting swirl (3+ ingredients)
+            if (bunny.banked >= 3) {
+              ctx.fillStyle = '#fff8f0';
+              ctx.beginPath();
+              ctx.ellipse(cx, cy + tileSize * 0.03, tileSize * 0.24, tileSize * 0.13, 0, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            // Tier 2: Pastel second cake layer (7+ ingredients)
+            if (bunny.banked >= 7) {
+              ctx.fillStyle = '#f7c588';
+              ctx.beginPath();
+              ctx.ellipse(cx, cy - tileSize * 0.04, tileSize * 0.18, tileSize * 0.11, 0, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.fillStyle = '#ffffff';
+              ctx.beginPath();
+              ctx.ellipse(cx, cy - tileSize * 0.07, tileSize * 0.17, tileSize * 0.09, 0, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            // Tier 3: Crown tier (11+ ingredients)
+            if (bunny.banked >= 11) {
+              ctx.fillStyle = '#ffd6e6';
+              ctx.beginPath();
+              ctx.ellipse(cx, cy - tileSize * 0.13, tileSize * 0.12, tileSize * 0.075, 0, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            // Cute marzipan carrot topper (15/15!)
+            if (bunny.banked >= TARGET_CAKE_INGREDIENTS) {
+              ctx.fillStyle = '#ff8c42';
+              ctx.beginPath();
+              ctx.ellipse(cx, cy - tileSize * 0.19, tileSize * 0.075, tileSize * 0.045, -0.3, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.fillStyle = '#6ec48d';
+              ctx.beginPath();
+              ctx.arc(cx + tileSize * 0.06, cy - tileSize * 0.22, tileSize * 0.035, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+
+          // Mini score pill below table
+          const pillW = tileSize * 0.92;
+          const pillH = tileSize * 0.34;
+          const pillY = bunny.homeRow > 7 ? y + tileSize * 0.84 : y - tileSize * 0.2;
+          ctx.fillStyle = '#ffffff';
+          drawRoundedRect(cx - pillW / 2, pillY, pillW, pillH, pillH / 2);
+          ctx.fill();
+          ctx.strokeStyle = bunny.tableStroke;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          ctx.fillStyle = '#5c4742';
+          ctx.font = `800 ${Math.max(10, Math.floor(tileSize * 0.23))}px Nunito, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(`${bunny.banked}/${TARGET_CAKE_INGREDIENTS}`, cx, pillY + pillH / 2 + 0.5);
+        }
+      }
+
+      function renderHoles() {
+        for (const hole of holes) {
+          const cx = hole.x * tileSize;
+          const cy = hole.y * tileSize;
+          const rx = tileSize * 0.36;
+          const ry = tileSize * 0.27;
+
+          // Freshly dug soil rim
+          ctx.fillStyle = '#d4b294';
+          ctx.beginPath();
+          ctx.ellipse(cx, cy + tileSize * 0.04, rx * 1.18, ry * 1.18, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Cozy dark burrow center
+          ctx.fillStyle = '#5e4538';
+          ctx.beginPath();
+          ctx.ellipse(cx, cy + tileSize * 0.04, rx, ry, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Inner shadow crescent
+          ctx.fillStyle = '#422f26';
+          ctx.beginPath();
+          ctx.ellipse(cx, cy + tileSize * 0.07, rx * 0.84, ry * 0.72, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function renderIngredientsAndBasket() {
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Render scattered ingredients
+        for (const ing of ingredients) {
+          const bob = Math.sin(ing.bobPhase) * (tileSize * 0.06);
+          const cx = ing.x * tileSize;
+          const cy = ing.y * tileSize + bob;
+          const r = tileSize * 0.31;
+
+          // Soft pastel bubble backdrop
+          ctx.fillStyle = ing.type.bg;
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = ing.type.ring;
+          ctx.lineWidth = Math.max(1.5, tileSize * 0.045);
+          ctx.stroke();
+
+          ctx.font = `${Math.floor(tileSize * 0.44)}px serif`;
+          ctx.fillText(ing.type.emoji, cx, cy + 1);
+        }
+
+        // Render special glowing Picnic Basket (5-capacity powerup)
+        if (basketItem) {
+          const bob = Math.sin(basketItem.bobPhase) * (tileSize * 0.08);
+          const cx = basketItem.x * tileSize;
+          const cy = basketItem.y * tileSize + bob;
+          const pulse = 1 + Math.sin(basketItem.bobPhase * 1.5) * 0.08;
+          const r = tileSize * 0.38 * pulse;
+
+          // Golden aura ring
+          ctx.save();
+          ctx.fillStyle = 'rgba(255, 232, 133, 0.55)';
+          ctx.beginPath();
+          ctx.arc(cx, cy, r * 1.25, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#fff8d6';
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = '#f0b835';
+          ctx.lineWidth = Math.max(2, tileSize * 0.06);
+          ctx.stroke();
+
+          ctx.font = `${Math.floor(tileSize * 0.52)}px serif`;
+          ctx.fillText('🧺', cx, cy + 1);
+          ctx.restore();
+        }
+      }
+
+      function renderBunny(bunny) {
+        const hopOffset = bunny.stunTimer > 0 ? 0 : Math.abs(Math.sin(bunny.hopPhase)) * (tileSize * 0.11);
+        const cx = bunny.x * tileSize;
+        const cy = bunny.y * tileSize - hopOffset;
+        const r = tileSize * 0.33;
+
+        ctx.save();
+        if (bunny.stunTimer > 0) {
+          ctx.globalAlpha = 0.65 + Math.sin(elapsedTime * 24) * 0.25;
+        }
+
+        // Ground shadow
+        ctx.fillStyle = 'rgba(92, 71, 66, 0.16)';
+        ctx.beginPath();
+        ctx.ellipse(bunny.x * tileSize, bunny.y * tileSize + r * 0.88, r * 0.82, r * 0.34, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Player beacon ring
+        if (bunny.isPlayer) {
+          ctx.strokeStyle = bunny.basketTimer > 0 ? '#f0b835' : '#ff8fb3';
+          ctx.lineWidth = Math.max(2, tileSize * 0.055);
+          ctx.beginPath();
+          ctx.ellipse(bunny.x * tileSize, bunny.y * tileSize + r * 0.85, r * 1.05, r * 0.48, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // Cute fluffy bunny tail
+        const tailOffsetX = bunny.dir === 'LEFT' ? r * 0.72 : bunny.dir === 'RIGHT' ? -r * 0.72 : 0;
+        const tailOffsetY = bunny.dir === 'UP' ? r * 0.65 : r * 0.28;
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(cx + tailOffsetX, cy + tailOffsetY, r * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Long Bunny Ears
+        const earW = r * 0.32;
+        const earH = r * 0.82;
+        const earY = cy - r * 0.92;
+
+        // Left Ear
+        ctx.fillStyle = bunny.fur;
+        ctx.strokeStyle = bunny.accent;
+        ctx.lineWidth = Math.max(1.5, tileSize * 0.04);
+        ctx.beginPath();
+        ctx.ellipse(cx - r * 0.36, earY, earW, earH, -0.14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = bunny.earInner;
+        ctx.beginPath();
+        ctx.ellipse(cx - r * 0.36, earY + r * 0.05, earW * 0.5, earH * 0.65, -0.14, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Right Ear
+        ctx.fillStyle = bunny.fur;
+        ctx.beginPath();
+        ctx.ellipse(cx + r * 0.36, earY, earW, earH, 0.14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = bunny.earInner;
+        ctx.beginPath();
+        ctx.ellipse(cx + r * 0.36, earY + r * 0.05, earW * 0.5, earH * 0.65, 0.14, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Bunny Head & Chubby Cheeks
+        ctx.fillStyle = bunny.fur;
+        ctx.strokeStyle = bunny.accent;
+        ctx.lineWidth = Math.max(1.8, tileSize * 0.045);
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, r * 0.98, r * 0.88, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // Rosy cheeks
+        ctx.fillStyle = bunny.earInner;
+        ctx.globalAlpha = (bunny.stunTimer > 0 ? 0.45 : 0.72);
+        ctx.beginPath();
+        ctx.ellipse(cx - r * 0.56, cy + r * 0.18, r * 0.22, r * 0.14, 0, 0, Math.PI * 2);
+        ctx.ellipse(cx + r * 0.56, cy + r * 0.18, r * 0.22, r * 0.14, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = bunny.stunTimer > 0 ? 0.65 : 1;
+
+        // Eyes & Nose (slightly shifted in facing direction)
+        const lookX = bunny.dir === 'LEFT' ? -r * 0.14 : bunny.dir === 'RIGHT' ? r * 0.14 : 0;
+        const lookY = bunny.dir === 'UP' ? -r * 0.12 : bunny.dir === 'DOWN' ? r * 0.1 : 0;
+
+        ctx.fillStyle = '#5c4742';
+        ctx.beginPath();
+        ctx.arc(cx - r * 0.34 + lookX, cy - r * 0.05 + lookY, r * 0.13, 0, Math.PI * 2);
+        ctx.arc(cx + r * 0.34 + lookX, cy - r * 0.05 + lookY, r * 0.13, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Eye sparkles
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(cx - r * 0.31 + lookX, cy - r * 0.09 + lookY, r * 0.045, 0, Math.PI * 2);
+        ctx.arc(cx + r * 0.37 + lookX, cy - r * 0.09 + lookY, r * 0.045, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pink twitchy bunny nose
+        ctx.fillStyle = '#ff8fb3';
+        ctx.beginPath();
+        ctx.ellipse(cx + lookX, cy + r * 0.15 + lookY, r * 0.12, r * 0.08, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Carried ingredients orbiting above bunny's ears!
+        if (bunny.carried.length > 0) {
+          const count = bunny.carried.length;
+          const spacing = tileSize * 0.28;
+          const startX = cx - ((count - 1) * spacing) / 2;
+          const badgeY = cy - r * 1.85;
+
+          ctx.font = `${Math.floor(tileSize * 0.32)}px serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          for (let i = 0; i < count; i++) {
+            const bx = startX + i * spacing;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+            ctx.beginPath();
+            ctx.arc(bx, badgeY, tileSize * 0.15, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillText(bunny.carried[i].emoji, bx, badgeY + 0.5);
+          }
+        }
+
+        ctx.restore();
+      }
+
+      function renderParticlesAndPopups() {
+        for (const p of particles) {
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x * tileSize, p.y * tileSize, (p.size / 40) * tileSize, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        for (const ft of floatingTexts) {
+          ctx.save();
+          ctx.globalAlpha = Math.min(1, (ft.life / ft.maxLife) * 1.4);
+          ctx.font = `800 ${Math.max(11, Math.floor(tileSize * 0.28))}px Fredoka, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          const px = ft.x * tileSize;
+          const py = ft.y * tileSize;
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 3.5;
+          ctx.strokeText(ft.text, px, py);
+          ctx.fillStyle = ft.color;
+          ctx.fillText(ft.text, px, py);
+          ctx.restore();
+        }
+      }
+
+      function renderScene() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        renderGardenFloor();
+        renderHedges();
+        renderBakingTables();
+        renderHoles();
+        renderIngredientsAndBasket();
+
+        // Draw bunnies sorted by Y for natural overlap
+        const sortedBunnies = [...bunnies].sort((a, b) => a.y - b.y);
+        for (const bunny of sortedBunnies) {
+          renderBunny(bunny);
+        }
+
+        renderParticlesAndPopups();
+      }
+
+      // ------------------------------------------------------------------------
+      // 13. MAIN ANIMATION LOOP & INPUT LISTENERS
+      // ------------------------------------------------------------------------
+      function gameLoop(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const dt = Math.min((timestamp - lastTimestamp) / 1000, 0.05);
+        lastTimestamp = timestamp;
+
+        updateGame(dt);
+        renderScene();
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      // Keyboard controls
+      window.addEventListener('keydown', e => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) {
+          e.preventDefault();
+        }
+        keysDown.add(e.code);
+
+        if (e.code === 'ArrowUp' || e.code === 'KeyW') desiredDir = 'UP';
+        if (e.code === 'ArrowDown' || e.code === 'KeyS') desiredDir = 'DOWN';
+        if (e.code === 'ArrowLeft' || e.code === 'KeyA') desiredDir = 'LEFT';
+        if (e.code === 'ArrowRight' || e.code === 'KeyD') desiredDir = 'RIGHT';
+
+        if (e.code === 'Space' && !e.repeat) {
+          attemptDigHole();
+        }
+        if (e.code === 'KeyF' && !e.repeat) {
+          toggleFullscreen();
+        }
+        if (e.code === 'Escape' && document.body.classList.contains('fullscreen-mode')) {
+          exitFullscreen();
+        }
+      });
+
+      window.addEventListener('keyup', e => {
+        keysDown.delete(e.code);
+      });
+
+      // Touch swipe controls on canvas
+      canvas.addEventListener('touchstart', e => {
+        if (e.touches.length > 0) {
+          touchStartPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+      }, { passive: true });
+
+      canvas.addEventListener('touchmove', e => {
+        if (!touchStartPos || e.touches.length === 0) return;
+        const dx = e.touches[0].clientX - touchStartPos.x;
+        const dy = e.touches[0].clientY - touchStartPos.y;
+        if (Math.hypot(dx, dy) > 18) {
+          if (Math.abs(dx) > Math.abs(dy)) {
+            desiredDir = dx > 0 ? 'RIGHT' : 'LEFT';
+          } else {
+            desiredDir = dy > 0 ? 'DOWN' : 'UP';
+          }
+          touchStartPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+      }, { passive: true });
+
+      canvas.addEventListener('touchend', () => {
+        touchStartPos = null;
+      });
+
+      // Mobile / On-Screen D-Pad buttons
+      document.querySelectorAll('.dpad-btn').forEach(btn => {
+        const dir = btn.dataset.dir;
+        const activate = e => {
+          e.preventDefault();
+          desiredDir = dir;
+          btn.classList.add('pressed');
+        };
+        const release = () => {
+          btn.classList.remove('pressed');
+        };
+        btn.addEventListener('touchstart', activate, { passive: false });
+        btn.addEventListener('mousedown', activate);
+        btn.addEventListener('touchend', release);
+        btn.addEventListener('mouseup', release);
+        btn.addEventListener('mouseleave', release);
+      });
+
+      // Difficulty pills
+      document.querySelectorAll('.diff-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          difficulty = pill.dataset.diff;
+          document.querySelectorAll('.diff-pill').forEach(p => {
+            p.className = 'diff-pill px-3 py-1.5 rounded-full text-xs font-extrabold border-2 border-[#ffc8dd] bg-[#fff0f6] text-[#856c66] transition';
+          });
+          pill.className = 'diff-pill px-3 py-1.5 rounded-full text-xs font-extrabold border-2 border-[#ff9ebb] bg-[#ffd6e5] text-[#5a2d3d] shadow-sm transition';
+        });
+      });
+
+      // UI Button listeners
+      startGameBtn.addEventListener('click', startNewMatch);
+      playAgainBtn.addEventListener('click', startNewMatch);
+      restartTopBtn.addEventListener('click', startNewMatch);
+
+      helpBtn.addEventListener('click', () => {
+        if (startOverlay) startOverlay.classList.remove('hidden');
+      });
+
+      digActionBtn.addEventListener('click', attemptDigHole);
+      mobileDigBtn.addEventListener('click', attemptDigHole);
+
+      soundToggleBtn.addEventListener('click', () => {
+        sound.muted = !sound.muted;
+        soundToggleBtn.textContent = sound.muted ? '🔇 Muted' : '🔊 Sound';
+      });
+
+      // Fullscreen Management (with viewport theater fallback for sandboxed iframes)
+      function updateFullscreenUI(isFs) {
+        document.body.classList.toggle('fullscreen-mode', isFs);
+        fullscreenBtn.textContent = isFs ? '🗗 Exit Full Screen' : '⛶ Full Screen';
+        resizeCanvas();
+      }
+
+      async function enterFullscreen() {
+        updateFullscreenUI(true);
+        try {
+          if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
+            await document.documentElement.requestFullscreen();
+          }
+        } catch (err) {
+          // Theater fullscreen mode remains active even if native Fullscreen API is restricted
+        }
+      }
+
+      async function exitFullscreen() {
+        updateFullscreenUI(false);
+        try {
+          if (document.fullscreenElement && document.exitFullscreen) {
+            await document.exitFullscreen();
+          }
+        } catch (err) {
+          // Ignore exit errors
+        }
+      }
+
+      function toggleFullscreen() {
+        if (document.body.classList.contains('fullscreen-mode')) {
+          exitFullscreen();
+        } else {
+          enterFullscreen();
+        }
+      }
+
+      fullscreenBtn.addEventListener('click', toggleFullscreen);
+      exitFullscreenHudBtn.addEventListener('click', exitFullscreen);
+
+      document.addEventListener('fullscreenchange', () => {
+        const nativeFs = Boolean(document.fullscreenElement);
+        if (!nativeFs && document.body.classList.contains('fullscreen-mode')) {
+          updateFullscreenUI(false);
+        } else if (nativeFs) {
+          updateFullscreenUI(true);
+        }
+      });
+
+      window.addEventListener('resize', resizeCanvas);
+
+      // Boot initial preview state
+      window.addEventListener('load', () => {
+        generateGardenDecor();
+        startNewMatch();
+        gamePhase = 'menu';
+        if (startOverlay) startOverlay.classList.remove('hidden');
+        resizeCanvas();
+        requestAnimationFrame(gameLoop);
+      });
+    })();
+  </script>
+</body>
+</html>
